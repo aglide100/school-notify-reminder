@@ -1,6 +1,8 @@
 ## android-sample
 
-This repo is toy-project
+study for based on android
+
+have fun
 
 ---
 
