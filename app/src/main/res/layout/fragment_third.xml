@@ -22,8 +22,18 @@
         android:layout_height="wrap_content"
         android:text="@string/next"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/button_previous"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_third" />
+
+    <Button
+        android:id="@+id/button_previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/previous"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/button_next"
         app:layout_constraintTop_toBottomOf="@id/textview_third" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

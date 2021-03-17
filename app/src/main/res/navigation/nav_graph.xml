@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_ThirdFragment_to_FirstFragment"
             app:destination="@+id/FirstFragment"></action>
+        <action
+            android:id="@+id/action_ThirdFragment_to_SecondFragment"
+            app:destination="@+id/SecondFragment"></action>
     </fragment>
 
 </navigation>
