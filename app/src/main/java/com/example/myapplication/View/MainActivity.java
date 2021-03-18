@@ -1,8 +1,9 @@
-package com.example.myapplication;
+package com.example.myapplication.View;
 
 import android.content.Context;
 import android.os.Bundle;
 
+import com.example.myapplication.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
