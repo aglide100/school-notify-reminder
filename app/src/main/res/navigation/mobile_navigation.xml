@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/nav_FirstFragment"
-        android:name="com.example.myapplication.FirstFragment"
+        android:name="com.example.myapplication.View.FirstFragment"
         android:label="FirstFragment"
         tools:layout="@layout/fragment_first" />
 
     <fragment
         android:id="@+id/nav_SecondFragment"
-        android:name="com.example.myapplication.SecondFragment"
+        android:name="com.example.myapplication.View.SecondFragment"
         android:label="SecondFragment"
         tools:layout="@layout/fragment_second" />
 
     <fragment
         android:id="@+id/nav_ThirdFragment"
-        android:name="com.example.myapplication.ThirdFragment"
+        android:name="com.example.myapplication.View.ThirdFragment"
         android:label="ThirdFragment"
         tools:layout="@layout/fragment_third" />
 </navigation>
