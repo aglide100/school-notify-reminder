@@ -2,11 +2,9 @@ package com.example.myapplication.View;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import com.example.myapplication.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -18,11 +16,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import android.view.View;
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
+import com.example.myapplication.R;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,12 +29,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
-
 
 
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -53,15 +48,15 @@ public class MainActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 String title = item.getTitle().toString();
 
-                if(id == R.id.nav_FirstFragment) {
+                if (id == R.id.nav_FirstFragment) {
                     Toast.makeText(context, title, Toast.LENGTH_SHORT).show();
                 }
 
-                if(id == R.id.nav_SecondFragment) {
+                if (id == R.id.nav_SecondFragment) {
                     Toast.makeText(context, title, Toast.LENGTH_SHORT).show();
                 }
 
-                if(id == R.id.nav_ThirdFragment) {
+                if (id == R.id.nav_ThirdFragment) {
                     Toast.makeText(context, title, Toast.LENGTH_SHORT).show();
                 }
                 return false;
