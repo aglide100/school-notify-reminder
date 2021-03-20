@@ -18,6 +18,18 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable true
+        }
+        debug {
+            applicationIdSuffix '.debug'
+        }
+    }
+    productFlavors {
+        user {
+            dimension 'user'
+        }
+        cm {
+            dimension 'user'
         }
     }
 }
