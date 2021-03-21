@@ -11,14 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
 
-public class SecondFragment extends BasicFragment implements View.OnClickListener{
+public class SecondFragment extends BasicFragment implements View.OnClickListener {
 
     private TextView answer;
     private EditText number1;
@@ -43,7 +42,6 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_second, container, false);
     }
-
 
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -76,18 +74,24 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
 
     @Override
     public void showResult(int answer) {
-        super.showResult(answer);
-        //Toast.makeText(mContext, answer, Toast.LENGTH_SHORT);
+//        super.showResult(answer);
+
+        String str = String.valueOf(answer);
+        Toast.makeText(mContext, str, Toast.LENGTH_SHORT).show();
     }
 
 
     @Override
     public void onClick(View v) {
         if (v.getId() == sumbtn.getId()) {
+
             int number_1 = Integer.parseInt(number1.getText().toString());
             int number_2 = Integer.parseInt(number2.getText().toString());
+//
+//            Log.d("value", number1.getText().toString());
+
             presenter.addNum(number_1, number_2);
-//                Toast.makeText(mContext, "asdaz", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(mContext, "asdaz", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -1,7 +1,5 @@
 package com.example.myapplication.Presenter;
 
-import android.util.Log;
-
 import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.View.BasicFragment;
 
@@ -19,6 +17,5 @@ public class MainPresenter implements Contract.Presenter {
     @Override
     public void addNum(int num1, int num2) {
         MainView.showResult(num1 + num2);
-        Log.e("!!", "!!!!!!!!!");
     }
 }

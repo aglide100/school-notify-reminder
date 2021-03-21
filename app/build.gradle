@@ -24,14 +24,14 @@ android {
             applicationIdSuffix '.debug'
         }
     }
-    productFlavors {
-        user {
-            dimension 'user'
-        }
-        cm {
-            dimension 'user'
-        }
-    }
+//    productFlavors {
+//        user {
+//            dimension 'user'
+//        }
+//        cm {
+//            dimension 'user'
+//        }
+//    }
 }
 
 dependencies {
