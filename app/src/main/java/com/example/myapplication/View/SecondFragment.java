@@ -2,6 +2,7 @@ package com.example.myapplication.View;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,12 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
     }
 
     @Override
+    public void showPost() {
+        Log.e("test", "called showPost()");
+    }
+
+    //   결과 출력
+    @Override
     public void showResult(int answer) {
 //        super.showResult(answer);
 
@@ -84,14 +91,11 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if (v.getId() == sumbtn.getId()) {
-
             int number_1 = Integer.parseInt(number1.getText().toString());
             int number_2 = Integer.parseInt(number2.getText().toString());
-//
-//            Log.d("value", number1.getText().toString());
 
+//          addNum 호출
             presenter.addNum(number_1, number_2);
-//            Toast.makeText(mContext, "asdaz", Toast.LENGTH_SHORT).show();
         }
     }
 }
