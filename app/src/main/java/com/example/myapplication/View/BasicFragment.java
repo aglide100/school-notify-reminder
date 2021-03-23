@@ -11,4 +11,14 @@ public class BasicFragment extends Fragment implements Contract.View {
 //        String str = String.valueOf(answer);
 //        Log.e("showResult", str);
     }
+
+    @Override
+    public void showPost() {
+
+    }
+
+    @Override
+    public void showCrawlerResult() {
+        
+    }
 }

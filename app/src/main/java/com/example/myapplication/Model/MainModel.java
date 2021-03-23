@@ -12,4 +12,16 @@ public class MainModel {
 //    public saveData(int data) {
 //        //
 //    }
+
+    // Post 뿌리는 역할
+    public Post GetPost(int ID) {
+        // 하드 코딩
+        Post newPost = new Post();
+        newPost.Status = "test";
+        newPost.title = "test";
+        newPost.uri = "www.example.com";
+
+        return newPost;
+    }
+
 }
