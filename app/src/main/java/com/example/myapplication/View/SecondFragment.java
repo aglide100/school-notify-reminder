@@ -40,7 +40,6 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_second, container, false);
     }
 
@@ -78,7 +77,7 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
         Log.e("test", "called showPost()");
     }
 
-    //   결과 출력
+    // 결과 출력
     @Override
     public void showResult(int answer) {
 //        super.showResult(answer);

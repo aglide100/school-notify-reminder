@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 String title = item.getTitle().toString();
 
+                // 아직 토스트 이벤트만 붙임
                 if (id == R.id.nav_FirstFragment) {
                     Toast.makeText(context, title, Toast.LENGTH_SHORT).show();
                 }
