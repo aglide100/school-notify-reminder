@@ -4,6 +4,8 @@ import com.example.myapplication.Presenter.Contract;
 
 public class MainModel {
     private Contract.Presenter presenter;
+    private Post post = new Post();
+    private Announce newPost;
 
     public MainModel(Contract.Presenter presenter) {
         this.presenter = presenter;
@@ -14,12 +16,9 @@ public class MainModel {
 //    }
 
     // Post 뿌리는 역할
-    public Post GetPost(int ID) {
+    public Announce GetPost(int ID) {
         // 하드 코딩
-        Post newPost = new Post();
-        newPost.Status = "test";
-        newPost.title = "test";
-        newPost.uri = "www.example.com";
+        newPost = post.GetAnnounce();
 
         return newPost;
     }
