@@ -1,80 +1,35 @@
 package com.example.myapplication.Model;
 
 public class Post {
-    public Academic GetAcademic() {
-        Academic newPost = null;
-        return newPost;
+
+    private String code;
+    private String title;
+    private String Status;
+    private String uri;
+    private String date;
+    private int num;
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public Announce GetAnnounce() {
-        Announce newPost = null;
-        return newPost;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Scholarship GetScholarship() {
-        Scholarship newPost = null;
-        return newPost;
+    public void setStatus(String status) {
+        this.Status = status;
     }
 
-    public Event GetEvent() {
-        Event newPost = null;
-        return newPost;
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
-    public Bid GetBid() {
-        Bid newPost = null;
-        return newPost;
+    public void setNum(int num) {
+        this.num = num;
     }
 
-    public Recruitment GetRecruitment() {
-        Recruitment newPost = null;
-        return newPost;
+    public void setDate(String date) {
+        this.date = date;
     }
-
-
-}
-
-class PostBone {
-    String title;
-    String Status;
-    String uri;
-    String date;
-    int num;
-}
-
-// 공지
-class Announce {
-    String code = "MN2000191";
-    PostBone content;
-}
-
-// 장학
-class Scholarship {
-    String code = "MN2000195";
-    PostBone content;
-}
-
-// 학사
-class Academic {
-    String code = "MN2000194";
-    PostBone content;
-}
-
-// 행사
-class Event {
-    String code = "MN2000198";
-    PostBone content;
-}
-
-// 입찰
-class Bid {
-    String code = "MN2000196";
-    PostBone content;
-}
-
-
-// 모집
-class Recruitment {
-    String code = "MN2000197";
-    PostBone content;
 }
