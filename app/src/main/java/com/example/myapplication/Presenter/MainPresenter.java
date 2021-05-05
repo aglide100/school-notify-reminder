@@ -14,8 +14,12 @@ public class MainPresenter implements Contract.Presenter {
     }
 
     @Override
+    public void startFetchData(String code) {
+        mainCrawler.GetData(code);
+    }
+
+    @Override
     public void crawler() {
-        mainCrawler.GetData();
 
 //        MainView.showCrawlerResult();
     }

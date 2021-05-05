@@ -10,4 +10,11 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="hello_third_fragment">Hello Third fragment</string>
+
+    <string name="MN2000197">모집/취업</string>
+    <string name="MN2000194">학사</string>
+    <string name="MN2000191">공지</string>
+    <string name="MN2000198">행사</string>
+    <string name="MN2000195">장학</string>
+    <string name="MN2000196">입찰</string>
 </resources>
