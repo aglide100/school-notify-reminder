@@ -2,10 +2,11 @@ package com.example.myapplication.View;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
@@ -14,16 +15,14 @@ import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-
 public class ThirdFragment extends BasicFragment {
 
     private Context mContext;
     private Contract.Presenter presenter;
+
+    private Button nextBtn;
+    private Button prevBtn;
+    private Button startCrawlerBtn;
 
     @Override
     public void onAttach(Context context) {
@@ -44,6 +43,9 @@ public class ThirdFragment extends BasicFragment {
 
         presenter = new MainPresenter(this);
 
+        nextBtn = view.findViewById(R.id.button_next);
+        prevBtn = view.findViewById(R.id.button_previous);
+
         view.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,14 +62,14 @@ public class ThirdFragment extends BasicFragment {
 
         view.findViewById(R.id.crawler_btn).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                Toast.makeText(mContext, "Clicked Crawler", Toast.LENGTH_SHORT).show();
                 presenter.crawler();
 
             }
-
-
         });
 
 
     }
+
 }

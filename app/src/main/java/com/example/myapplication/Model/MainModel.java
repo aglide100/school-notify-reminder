@@ -4,6 +4,7 @@ import com.example.myapplication.Presenter.Contract;
 
 public class MainModel {
     private Contract.Presenter presenter;
+    private Post newPost;
 
     public MainModel(Contract.Presenter presenter) {
         this.presenter = presenter;
@@ -16,12 +17,21 @@ public class MainModel {
     // Post 뿌리는 역할
     public Post GetPost(int ID) {
         // 하드 코딩
-        Post newPost = new Post();
-        newPost.Status = "test";
-        newPost.title = "test";
-        newPost.uri = "www.example.com";
+        newPost = new Post();
+        newPost.setTitle("Title");
+        newPost.setDate("1999-01-01");
+        newPost.setCode("MN0000123");
 
         return newPost;
+    }
+
+    public Post[] GetFromLocalData() {
+        Post[] posts = null;
+
+
+
+
+        return posts;
     }
 
 }

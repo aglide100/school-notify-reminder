@@ -13,11 +13,8 @@ public class MainPresenter implements Contract.Presenter {
         mainModel = new MainModel(this);
     }
 
-
     @Override
     public void crawler() {
-
-
         mainCrawler.GetData();
 
 //        MainView.showCrawlerResult();
