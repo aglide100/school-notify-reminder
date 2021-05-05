@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -23,6 +26,10 @@ public class ThirdFragment extends BasicFragment {
     private RadioButton rdbMN2000191, rdbMN2000194, rdbMN2000195, rdbMN2000196, rdbMN2000197, rdbMN2000198;
 
     private String code;
+
+    private Button nextBtn;
+    private Button prevBtn;
+    private Button startCrawlerBtn;
 
     @Override
     public void onAttach(Context context) {
@@ -42,6 +49,7 @@ public class ThirdFragment extends BasicFragment {
         super.onViewCreated(view, savedInstanceState);
 
         presenter = new MainPresenter(this);
+
 
 //        rdbMN2000191 = view.findViewById(R.id.MN2000191);
 //        rdbMN2000194 = view.findViewById(R.id.MN2000194);
@@ -84,6 +92,10 @@ public class ThirdFragment extends BasicFragment {
         });
 
 
+        nextBtn = view.findViewById(R.id.button_next);
+        prevBtn = view.findViewById(R.id.button_previous);
+
+
         view.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,11 +119,11 @@ public class ThirdFragment extends BasicFragment {
                     presenter.startFetchData(code);
                 }
 
+
             }
-
-
         });
 
 
     }
+
 }

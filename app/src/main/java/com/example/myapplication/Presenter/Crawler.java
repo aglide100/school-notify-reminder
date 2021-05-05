@@ -125,9 +125,8 @@ public class Crawler {
                         uri += code;
                         uri += "&pg=" + page;
 
-                        GetPost(uri);
+                        GetPostBone(uri);
                     }
-
 
                 }
 
@@ -136,7 +135,7 @@ public class Crawler {
         }
     }
 
-    public Post[] GetPost(final String uri) {
+    public Post[] GetPostBone(final String uri) {
         Post[] posts = null;
         if (CheckState(ctx)) {
             new Thread() {
@@ -146,6 +145,8 @@ public class Crawler {
 
                     try {
                         doc = Jsoup.connect(uri).get();
+                        Elements child1 = doc.select("tbody .child_1");
+                        Elements child2 = doc.select("tbody .child_2");
 
 
                     } catch (IOException e) {
