@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -31,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        final NavigationView navigationView = findViewById(R.id.nav_view);
+        final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -48,17 +49,16 @@ public class MainActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 String title = item.getTitle().toString();
 
-                // 아직 토스트 이벤트만 붙임
                 if (id == R.id.nav_FirstFragment) {
-                    Toast.makeText(context, title, Toast.LENGTH_SHORT).show();
+                    navController.navigate(R.id.FirstFragment);
                 }
 
                 if (id == R.id.nav_SecondFragment) {
-                    Toast.makeText(context, title, Toast.LENGTH_SHORT).show();
+                    navController.navigate(R.id.SecondFragment);
                 }
 
                 if (id == R.id.nav_ThirdFragment) {
-                    Toast.makeText(context, title, Toast.LENGTH_SHORT).show();
+                    navController.navigate(R.id.ThirdFragment);
                 }
                 return false;
             }

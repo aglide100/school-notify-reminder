@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.MyApplication;
@@ -158,8 +159,12 @@ public class Crawler {
         return posts;
     }
 
-    public void GetData() {
-        Log.e("Crawler", "Call GetData()");
+    public void GetData(String code) {
+
+        final String[] str = new String[1];
+        String page = "&pg=1";
+        final String uri = "https://www.dongseo.ac.kr/kr/index.php?pCode=" + code + page;
+
 
         if (CheckState(ctx)) {
             new Thread() {
@@ -168,11 +173,13 @@ public class Crawler {
                     Document doc = null;
 
                     try {
-                        doc = Jsoup.connect("https://www.dongseo.ac.kr/kr/index.php?pCode=MN2000197&pg=1").get();
+                        doc = Jsoup.connect(uri).get();
                         Elements contents = doc.select(".tot-num");
 
                         Log.e("get img", contents.toString());
                         Log.e("get doc", doc.toString());
+
+                        str[0] += contents.toString();
 
                     } catch (
                             IOException e) {
@@ -186,5 +193,7 @@ public class Crawler {
 
 
         }
+
+        Toast.makeText(ctx, str.toString(), Toast.LENGTH_SHORT).show();
     }
 }

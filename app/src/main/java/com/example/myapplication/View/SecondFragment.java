@@ -80,8 +80,6 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
     // 결과 출력
     @Override
     public void showResult(int answer) {
-//        super.showResult(answer);
-
         String str = String.valueOf(answer);
         Toast.makeText(mContext, str, Toast.LENGTH_SHORT).show();
     }
