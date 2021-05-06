@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,12 +17,18 @@ import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
+import java.util.Observable;
+
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class ThirdFragment extends BasicFragment {
 
     private Context mContext;
     private Contract.Presenter presenter;
     private CheckBox checkMN2000191, checkMN2000194, checkMN2000195, checkMN2000196, checkMN2000197, checkMN2000198;
+    private ProgressBar progressBar;
+    private Boolean ok = true;
+    private Observable observable;
 
     private String code;
 
@@ -44,13 +51,17 @@ public class ThirdFragment extends BasicFragment {
 
         presenter = new MainPresenter(this);
 
-
         checkMN2000191 = view.findViewById(R.id.MN2000191);
         checkMN2000194 = view.findViewById(R.id.MN2000194);
         checkMN2000195 = view.findViewById(R.id.MN2000195);
         checkMN2000196 = view.findViewById(R.id.MN2000196);
         checkMN2000197 = view.findViewById(R.id.MN2000197);
         checkMN2000198 = view.findViewById(R.id.MN2000198);
+        progressBar = view.findViewById(R.id.fetchData);
+
+        if (ok) {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
 
 
         view.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
@@ -99,14 +110,20 @@ public class ThirdFragment extends BasicFragment {
                 if (subjectList.size() == 0) {
                     Toast.makeText(mContext, "하나 이상 선택해주십시오", Toast.LENGTH_SHORT).show();
                 } else {
+                    ok = false;
+                    progressBar.setVisibility(View.VISIBLE);
                     presenter.startFetchData(subjectList);
-                }
-                
+                    int num = 0;
+                    // rxJava나 이벤트 버스 사용!!!
+                    PublishSubject<Integer> items = PublishSubject.create();
+                    items.onNext(1);
+                    items.onNext(2);
+                    items.onNext(3);
 
+
+                }
             }
         });
-
-
     }
 
 }

@@ -24,7 +24,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/button_previous"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rdoGroupCode" />
+        app:layout_constraintTop_toBottomOf="@id/checkboxGroup" />
 
     <Button
         android:id="@+id/button_previous"
@@ -34,10 +34,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/button_next"
-        app:layout_constraintTop_toBottomOf="@id/rdoGroupCode" />
+        app:layout_constraintTop_toBottomOf="@id/checkboxGroup" />
 
     <LinearLayout
-        android:id="@+id/rdoGroupCode"
+        android:id="@+id/checkboxGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -82,13 +82,20 @@
 
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/fetchData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/crawler_btn"/>
+
+
     <Button
         android:id="@+id/crawler_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="start"
-        app:layout_constraintStart_toStartOf="@+id/rdoGroupCode"
-        app:layout_constraintTop_toBottomOf="@+id/rdoGroupCode"
+        app:layout_constraintStart_toStartOf="@+id/checkboxGroup"
+        app:layout_constraintTop_toBottomOf="@+id/checkboxGroup"
         tools:layout_editor_absoluteX="161dp"
         tools:layout_editor_absoluteY="304dp" />
 

@@ -34,7 +34,6 @@ public class Crawler {
             new AlertDialog.Builder(ctx).setMessage("인터넷에 연결되어 있지 않습니다.").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //
                     dialog.dismiss();
                 }
             }).show();
@@ -84,7 +83,6 @@ public class Crawler {
     }
 
 
-
     public void FetchPost(ArrayList subjectList) {
 
         String code;
@@ -111,8 +109,6 @@ public class Crawler {
                     }
 
                 }
-
-
             }
         }
 
