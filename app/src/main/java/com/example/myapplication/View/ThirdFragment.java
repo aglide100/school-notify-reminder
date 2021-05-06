@@ -5,10 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-
-import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,18 +15,15 @@ import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
 
+import java.util.ArrayList;
+
 public class ThirdFragment extends BasicFragment {
 
     private Context mContext;
     private Contract.Presenter presenter;
-    private RadioGroup radioGroup;
-    private RadioButton rdbMN2000191, rdbMN2000194, rdbMN2000195, rdbMN2000196, rdbMN2000197, rdbMN2000198;
+    private CheckBox checkMN2000191, checkMN2000194, checkMN2000195, checkMN2000196, checkMN2000197, checkMN2000198;
 
     private String code;
-
-    private Button nextBtn;
-    private Button prevBtn;
-    private Button startCrawlerBtn;
 
     @Override
     public void onAttach(Context context) {
@@ -51,49 +45,12 @@ public class ThirdFragment extends BasicFragment {
         presenter = new MainPresenter(this);
 
 
-//        rdbMN2000191 = view.findViewById(R.id.MN2000191);
-//        rdbMN2000194 = view.findViewById(R.id.MN2000194);
-//        rdbMN2000195 = view.findViewById(R.id.MN2000195);
-//        rdbMN2000196 = view.findViewById(R.id.MN2000196);
-//        rdbMN2000197 = view.findViewById(R.id.MN2000197);
-//        rdbMN2000198 = view.findViewById(R.id.MN2000198);
-
-        radioGroup = view.findViewById(R.id.rdoGroupCode);
-
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.MN2000191) {
-                    code = "MN2000191";
-                }
-
-                if (checkedId == R.id.MN2000194) {
-                    code = "MN2000194";
-                }
-
-                if (checkedId == R.id.MN2000195) {
-                    code = "MN2000195";
-                }
-
-                if (checkedId == R.id.MN2000196) {
-                    code = "MN2000196";
-                }
-
-                if (checkedId == R.id.MN2000197) {
-                    code = "MN2000197";
-                }
-
-                if (checkedId == R.id.MN2000198) {
-                    code = "MN2000198";
-                }
-
-
-            }
-        });
-
-
-        nextBtn = view.findViewById(R.id.button_next);
-        prevBtn = view.findViewById(R.id.button_previous);
+        checkMN2000191 = view.findViewById(R.id.MN2000191);
+        checkMN2000194 = view.findViewById(R.id.MN2000194);
+        checkMN2000195 = view.findViewById(R.id.MN2000195);
+        checkMN2000196 = view.findViewById(R.id.MN2000196);
+        checkMN2000197 = view.findViewById(R.id.MN2000197);
+        checkMN2000198 = view.findViewById(R.id.MN2000198);
 
 
         view.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
@@ -113,12 +70,38 @@ public class ThirdFragment extends BasicFragment {
         view.findViewById(R.id.crawler_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (code == null) {
-                    presenter.startFetchData("all");
-                } else {
-                    presenter.startFetchData(code);
+                ArrayList<String> subjectList = new ArrayList<String>();
+
+                if (checkMN2000191.isChecked()) {
+                    subjectList.add("MN2000191");
                 }
 
+                if (checkMN2000194.isChecked()) {
+                    subjectList.add("MN2000194");
+                }
+
+                if (checkMN2000195.isChecked()) {
+                    subjectList.add("MN2000195");
+                }
+
+                if (checkMN2000196.isChecked()) {
+                    subjectList.add("MN2000196");
+                }
+
+                if (checkMN2000197.isChecked()) {
+                    subjectList.add("MN2000197");
+                }
+
+                if (checkMN2000198.isChecked()) {
+                    subjectList.add("MN2000198");
+                }
+
+                if (subjectList.size() == 0) {
+                    Toast.makeText(mContext, "하나 이상 선택해주십시오", Toast.LENGTH_SHORT).show();
+                } else {
+                    presenter.startFetchData(subjectList);
+                }
+                
 
             }
         });

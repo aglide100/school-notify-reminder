@@ -36,51 +36,51 @@
         app:layout_constraintStart_toStartOf="@id/button_next"
         app:layout_constraintTop_toBottomOf="@id/rdoGroupCode" />
 
-    <RadioGroup
+    <LinearLayout
         android:id="@+id/rdoGroupCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/MN2000191"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/MN2000191" />
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/MN2000194"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/MN2000194" />
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/MN2000195"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/MN2000195" />
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/MN2000196"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/MN2000196" />
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/MN2000197"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/MN2000197" />
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/MN2000198"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/MN2000198" />
 
 
-    </RadioGroup>
+    </LinearLayout>
 
     <Button
         android:id="@+id/crawler_btn"

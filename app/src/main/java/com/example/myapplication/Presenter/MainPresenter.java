@@ -1,7 +1,11 @@
 package com.example.myapplication.Presenter;
 
+import android.util.Log;
+
 import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.View.BasicFragment;
+
+import java.util.ArrayList;
 
 public class MainPresenter implements Contract.Presenter {
     BasicFragment MainView;
@@ -14,8 +18,9 @@ public class MainPresenter implements Contract.Presenter {
     }
 
     @Override
-    public void startFetchData(String code) {
-        mainCrawler.GetData(code);
+    public void startFetchData(ArrayList subjectList) {
+        Log.e("Start", "start fetch data" + subjectList);
+        mainCrawler.FetchPost(subjectList);
     }
 
     @Override

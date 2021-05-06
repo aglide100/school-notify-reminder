@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.MyApplication;
@@ -16,6 +15,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
@@ -46,13 +46,13 @@ public class Crawler {
         return ok;
     }
 
-    public int GetTotalNum(String subject) {
-        final String totalNum;
+    public int GetTotalNum(String code) {
+        String page = "&pg=1";
+        String uri = "https://www.dongseo.ac.kr/kr/index.php?pCode=";
+        uri += code + page;
 
+        final int[] num = new int[1];
         if (CheckState(ctx)) {
-            String code = TranslatorSubjectToCode(subject);
-            String uri = "https://www.dongseo.ac.kr/kr/index.php?pCode=";
-            uri += code;
 
             final String finalUri = uri;
             new Thread() {
@@ -62,9 +62,11 @@ public class Crawler {
 
                     try {
                         doc = Jsoup.connect(finalUri).get();
-                        Elements contents = doc.select(".tot-num span");
+                        Elements totalNum = doc.select("div[class=board-tot-wrap]").select("span[class=tot-num]").select("span:first-child");
+                        String str = totalNum.text().replaceAll("[^0-9]", "");
+                        num[0] = Integer.parseInt(str);
+                        Log.e("Result", String.valueOf(num[0]));
 
-//                        totalNum = contents.toString();
 
                     } catch (
                             IOException e) {
@@ -78,42 +80,22 @@ public class Crawler {
 
         }
 
-        return 0;
-    }
-
-    public String TranslatorSubjectToCode(String subject) {
-
-        switch (subject) {
-            case "모집/취업":
-                return "MN2000197";
-            case "학사":
-                return "MN2000194";
-            case "공지":
-                return "MN2000191";
-            case "행사":
-                return "MN2000198";
-            case "장학":
-                return "MN2000195";
-            case "입찰":
-                return "MN2000196";
-        }
-
-        return "error";
+        return num[0];
     }
 
 
-    public void FetchPost(String[] subject) {
+
+    public void FetchPost(ArrayList subjectList) {
 
         String code;
         String uri = "https://www.dongseo.ac.kr/kr/index.php?pCode=";
-        int totalNum;
+        int postTotalNum = 0;
 
         if (CheckState(ctx)) {
-            for (int i = 0; i < subject.length; i++) {
-                code = null;
-                code = TranslatorSubjectToCode(subject[i]);
+            for (int i = 0; i < subjectList.size(); i++) {
 
-                totalNum = GetTotalNum(subject[i]);
+                int totalNum = GetTotalNum((String) subjectList.get(i));
+                postTotalNum += totalNum;
                 // 기존의 데이터 비교 하는 코드
 
                 // 없으면 처음부터
@@ -122,10 +104,10 @@ public class Crawler {
                     int page = totalNum / 15;
 
                     for (int j = 1; j < page; j++) {
-                        uri += code;
-                        uri += "&pg=" + page;
-
-                        GetPostBone(uri);
+//                        uri += code;
+//                        uri += "&pg=" + page;
+//
+//                        GetPostBone(uri);
                     }
 
                 }
@@ -133,6 +115,8 @@ public class Crawler {
 
             }
         }
+
+        Log.e("Result", "Total:" + postTotalNum);
     }
 
     public Post[] GetPostBone(final String uri) {
@@ -160,41 +144,60 @@ public class Crawler {
         return posts;
     }
 
-    public void GetData(String code) {
+//    public void GetData(String code) {
+//        final int[] num = new int[1];
+//        String page = "&pg=1";
+//
+//        final String uri = "https://www.dongseo.ac.kr/kr/index.php?pCode=" + code + page;
+//
+//
+//        if (CheckState(ctx)) {
+//            new Thread() {
+//                @Override
+//                public void run() {
+//                    Document doc = null;
+//
+//                    try {
+//                        doc = Jsoup.connect(uri).get();
+//                        Elements totalNum = doc.select("div[class=board-tot-wrap]").select("span[class=tot-num]").select("span:first-child");
+//                        String str = totalNum.text().replaceAll("[^0-9]", "");
+//                        num[0] = Integer.parseInt(str);
+//                        Log.e("Result", String.valueOf(num[0]));
+//
+//
+//                    } catch (
+//                            IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }.start();
+//
+//
+//        } else {
+//
+//
+//        }
+//
+//    }
 
-        final String[] str = new String[1];
-        String page = "&pg=1";
-        final String uri = "https://www.dongseo.ac.kr/kr/index.php?pCode=" + code + page;
+    //    public String TranslatorSubjectToCode(String subject) {
+//
+//        switch (subject) {
+//            case "모집/취업":
+//                return "MN2000197";
+//            case "학사":
+//                return "MN2000194";
+//            case "공지":
+//                return "MN2000191";
+//            case "행사":
+//                return "MN2000198";
+//            case "장학":
+//                return "MN2000195";
+//            case "입찰":
+//                return "MN2000196";
+//        }
+//
+//        return "error";
+//    }
 
-
-        if (CheckState(ctx)) {
-            new Thread() {
-                @Override
-                public void run() {
-                    Document doc = null;
-
-                    try {
-                        doc = Jsoup.connect(uri).get();
-                        Elements contents = doc.select(".tot-num");
-
-                        Log.e("get img", contents.toString());
-                        Log.e("get doc", doc.toString());
-
-                        str[0] += contents.toString();
-
-                    } catch (
-                            IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }.start();
-
-
-        } else {
-
-
-        }
-
-        Toast.makeText(ctx, str.toString(), Toast.LENGTH_SHORT).show();
-    }
 }
