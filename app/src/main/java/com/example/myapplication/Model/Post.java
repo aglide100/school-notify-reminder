@@ -32,4 +32,25 @@ public class Post {
     public void setDate(String date) {
         this.date = date;
     }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public String getStatus() {
+        return this.Status;
+    }
+
+    public String getUri() {
+        return this.uri;
+    }
+
+    public String getDate() {
+        return this.date;
+    }
+
 }

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.myapplication.MyApplication;
 
@@ -91,6 +92,7 @@ public class FetchData extends AsyncTask<ArrayList, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
+        Toast.makeText(ctx, String.valueOf(postTotalNum), Toast.LENGTH_SHORT).show();
 //        이벤트 버스로 값 전달
     }
 }

@@ -18,12 +18,14 @@ import com.example.myapplication.EventBus.BusProvider;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
+import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Observable;
 
 public class ThirdFragment extends BasicFragment {
+    Bus bus = BusProvider.getInstance();
 
     private Context mContext;
     private Contract.Presenter presenter;
@@ -44,14 +46,12 @@ public class ThirdFragment extends BasicFragment {
     public void onDestroyView() {
         super.onDestroyView();
 
-        BusProvider.getInstance().unregister(this);
+        bus.unregister(this);
     }
 
     @Subscribe
     public void busStop(BusEvent busEvent) {
         Log.e("EVENTBUS", "receive Bus");
-
-
     }
 
     @Override
@@ -59,6 +59,7 @@ public class ThirdFragment extends BasicFragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
+        bus.register(this);
         return inflater.inflate(R.layout.fragment_third, container, false);
     }
 
@@ -75,7 +76,7 @@ public class ThirdFragment extends BasicFragment {
         checkMN2000198 = view.findViewById(R.id.MN2000198);
         progressBar = view.findViewById(R.id.fetchData);
 
-        BusProvider.getInstance().register(this);
+//        BusProvider.getInstance().register(this);
 
         if (ok) {
             progressBar.setVisibility(View.INVISIBLE);
@@ -131,6 +132,7 @@ public class ThirdFragment extends BasicFragment {
                     ok = false;
                     progressBar.setVisibility(View.VISIBLE);
                     presenter.startFetchData(subjectList);
+
 //                    int num = 0;
 //                    // rxJava나 이벤트 버스 사용!!!
 //                    PublishSubject<Integer> items = PublishSubject.create();
@@ -142,6 +144,11 @@ public class ThirdFragment extends BasicFragment {
                 }
             }
         });
+
     }
+//    @Subscribe
+//    public void updateProgress(ProgressEvent progressEvent) {
+//
+//    }
 
 }

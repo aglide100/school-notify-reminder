@@ -23,8 +23,8 @@ public class MainPresenter implements Contract.Presenter {
         boolean flag = false;
 
         Log.e("Start", "start fetch data" + subjectList);
-        new Crawler.FetchPost().execute(subjectList);
-        //        mainCrawler.FetchPost(subjectList);
+
+        new FetchData().execute(subjectList);
 
         return flag;
     }
