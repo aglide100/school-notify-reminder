@@ -2,6 +2,7 @@ package com.example.myapplication.View;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +13,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.myapplication.EventBus.BusEvent;
+import com.example.myapplication.EventBus.BusProvider;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Observable;
-
-import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class ThirdFragment extends BasicFragment {
 
@@ -36,6 +38,20 @@ public class ThirdFragment extends BasicFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        BusProvider.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void busStop(BusEvent busEvent) {
+        Log.e("EVENTBUS", "receive Bus");
+
+
     }
 
     @Override
@@ -58,6 +74,8 @@ public class ThirdFragment extends BasicFragment {
         checkMN2000197 = view.findViewById(R.id.MN2000197);
         checkMN2000198 = view.findViewById(R.id.MN2000198);
         progressBar = view.findViewById(R.id.fetchData);
+
+        BusProvider.getInstance().register(this);
 
         if (ok) {
             progressBar.setVisibility(View.INVISIBLE);
@@ -113,13 +131,13 @@ public class ThirdFragment extends BasicFragment {
                     ok = false;
                     progressBar.setVisibility(View.VISIBLE);
                     presenter.startFetchData(subjectList);
-                    int num = 0;
-                    // rxJava나 이벤트 버스 사용!!!
-                    PublishSubject<Integer> items = PublishSubject.create();
-                    items.onNext(1);
-                    items.onNext(2);
-                    items.onNext(3);
-
+//                    int num = 0;
+//                    // rxJava나 이벤트 버스 사용!!!
+//                    PublishSubject<Integer> items = PublishSubject.create();
+//                    items.onNext(1);
+//                    items.onNext(2);
+//                    items.onNext(3);
+//                    BehaviorSubject<String> subject = BehaviorSubject.createDefault("0");
 
                 }
             }

@@ -17,9 +17,9 @@ public interface Contract {
     interface Presenter {
         void addNum(int num1, int num2);
 
-        void startFetchData(ArrayList subject);
+        boolean startFetchData(ArrayList subject);
 
-        void crawler();
+//        void crawler();
 
         void requestPost();
     }

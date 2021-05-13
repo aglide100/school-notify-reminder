@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.myapplication.Model.Post;
@@ -45,41 +46,70 @@ public class Crawler {
         return ok;
     }
 
-    public int GetTotalNum(String code) {
-        String page = "&pg=1";
+    public static class FetchPost extends AsyncTask<ArrayList, Void, Integer> {
+        private String page = "&pg=1";
+        private int postTotalNum = 0;
         String uri = "https://www.dongseo.ac.kr/kr/index.php?pCode=";
-        uri += code + page;
-
         final int[] num = new int[1];
-        if (CheckState(ctx)) {
-
-            final String finalUri = uri;
-            new Thread() {
-                @Override
-                public void run() {
-                    Document doc = null;
-
-                    try {
-                        doc = Jsoup.connect(finalUri).get();
-                        Elements totalNum = doc.select("div[class=board-tot-wrap]").select("span[class=tot-num]").select("span:first-child");
-                        String str = totalNum.text().replaceAll("[^0-9]", "");
-                        num[0] = Integer.parseInt(str);
-                        Log.e("Result", String.valueOf(num[0]));
 
 
-                    } catch (
-                            IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }.start();
+        public Integer GetTotalNum(String code) {
 
+            String finalUri1 = uri + code + page;
 
-        } else {
+            Document doc = null;
+            try {
+                doc = Jsoup.connect(finalUri1).get();
+                Elements totalNum = doc.select("div[class=board-tot-wrap]").select("span[class=tot-num]").select("span:first-child");
+                String str = totalNum.text().replaceAll("[^0-9]", "");
+                num[0] = Integer.parseInt(str);
+                Log.e("Result", String.valueOf(num[0]));
+
+                return num[0];
+
+            } catch (
+                    IOException e) {
+                e.printStackTrace();
+            }
+
+            return 0;
+        }
+
+        @Override
+        protected Integer doInBackground(ArrayList... params) {
+
+//            if (CheckState(ctx)) {
+//                for (int i = 0; i < params[0].size(); i++) {
+//
+//                    int totalNum = GetTotalNum((String) params[0].get(i));
+//                    postTotalNum += totalNum;
+//                    // 기존의 데이터 비교 하는 코드
+//
+//                    // 없으면 처음부터
+//                    for (int k = totalNum; k < 0; k++) {
+//                        // 페이지 갯수 (1페이지에 15개의 글이 들어감)
+//                        int page = totalNum / 15;
+//
+//                        for (int j = 1; j < page; j++) {
+////                        uri += code;
+////                        uri += "&pg=" + page;
+////
+////                        GetPostBone(uri);
+//                        }
+//
+//                    }
+//                }
+//            }
+
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
 
         }
 
-        return num[0];
+
     }
 
 
@@ -92,28 +122,28 @@ public class Crawler {
         if (CheckState(ctx)) {
             for (int i = 0; i < subjectList.size(); i++) {
 
-                int totalNum = GetTotalNum((String) subjectList.get(i));
-                postTotalNum += totalNum;
-                // 기존의 데이터 비교 하는 코드
-
-                // 없으면 처음부터
-                for (int k = totalNum; k < 0; k++) {
-                    // 페이지 갯수 (1페이지에 15개의 글이 들어감)
-                    int page = totalNum / 15;
-
-                    for (int j = 1; j < page; j++) {
-//                        uri += code;
-//                        uri += "&pg=" + page;
+//                int totalNum = GetTotalNum((String) subjectList.get(i));
+//                postTotalNum += totalNum;
+//                // 기존의 데이터 비교 하는 코드
 //
-//                        GetPostBone(uri);
-                    }
+//                // 없으면 처음부터
+//                for (int k = totalNum; k < 0; k++) {
+//                    // 페이지 갯수 (1페이지에 15개의 글이 들어감)
+//                    int page = totalNum / 15;
+//
+//                    for (int j = 1; j < page; j++) {
+////                        uri += code;
+////                        uri += "&pg=" + page;
+////
+////                        GetPostBone(uri);
+//                    }
 
-                }
             }
         }
-
-        Log.e("Result", "Total:" + postTotalNum);
     }
+
+//        Log.e("Result","Total:"+postTotalNum);
+
 
     public Post[] GetPostBone(final String uri) {
         Post[] posts = null;
