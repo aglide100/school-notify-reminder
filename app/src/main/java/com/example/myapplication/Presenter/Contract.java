@@ -1,5 +1,7 @@
 package com.example.myapplication.Presenter;
 
+import java.util.ArrayList;
+
 public interface Contract {
     // 뷰에서 쓸 함수
     interface View {
@@ -15,9 +17,9 @@ public interface Contract {
     interface Presenter {
         void addNum(int num1, int num2);
 
-        void startFetchData(String code);
+        boolean startFetchData(ArrayList subject);
 
-        void crawler();
+//        void crawler();
 
         void requestPost();
     }

@@ -5,8 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.MyApplication;
@@ -16,6 +16,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
@@ -34,7 +35,6 @@ public class Crawler {
             new AlertDialog.Builder(ctx).setMessage("인터넷에 연결되어 있지 않습니다.").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //
                     dialog.dismiss();
                 }
             }).show();
@@ -46,94 +46,104 @@ public class Crawler {
         return ok;
     }
 
-    public int GetTotalNum(String subject) {
-        final String totalNum;
-
-        if (CheckState(ctx)) {
-            String code = TranslatorSubjectToCode(subject);
-            String uri = "https://www.dongseo.ac.kr/kr/index.php?pCode=";
-            uri += code;
-
-            final String finalUri = uri;
-            new Thread() {
-                @Override
-                public void run() {
-                    Document doc = null;
-
-                    try {
-                        doc = Jsoup.connect(finalUri).get();
-                        Elements contents = doc.select(".tot-num span");
-
-//                        totalNum = contents.toString();
-
-                    } catch (
-                            IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }.start();
+    public static class FetchPost extends AsyncTask<ArrayList, Void, Integer> {
+        private String page = "&pg=1";
+        private int postTotalNum = 0;
+        String uri = "https://www.dongseo.ac.kr/kr/index.php?pCode=";
+        final int[] num = new int[1];
 
 
-        } else {
+        public Integer GetTotalNum(String code) {
+
+            String finalUri1 = uri + code + page;
+
+            Document doc = null;
+            try {
+                doc = Jsoup.connect(finalUri1).get();
+                Elements totalNum = doc.select("div[class=board-tot-wrap]").select("span[class=tot-num]").select("span:first-child");
+                String str = totalNum.text().replaceAll("[^0-9]", "");
+                num[0] = Integer.parseInt(str);
+                Log.e("Result", String.valueOf(num[0]));
+
+                return num[0];
+
+            } catch (
+                    IOException e) {
+                e.printStackTrace();
+            }
+
+            return 0;
+        }
+
+        @Override
+        protected Integer doInBackground(ArrayList... params) {
+
+//            if (CheckState(ctx)) {
+//                for (int i = 0; i < params[0].size(); i++) {
+//
+//                    int totalNum = GetTotalNum((String) params[0].get(i));
+//                    postTotalNum += totalNum;
+//                    // 기존의 데이터 비교 하는 코드
+//
+//                    // 없으면 처음부터
+//                    for (int k = totalNum; k < 0; k++) {
+//                        // 페이지 갯수 (1페이지에 15개의 글이 들어감)
+//                        int page = totalNum / 15;
+//
+//                        for (int j = 1; j < page; j++) {
+////                        uri += code;
+////                        uri += "&pg=" + page;
+////
+////                        GetPostBone(uri);
+//                        }
+//
+//                    }
+//                }
+//            }
+
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
 
         }
 
-        return 0;
-    }
 
-    public String TranslatorSubjectToCode(String subject) {
-
-        switch (subject) {
-            case "모집/취업":
-                return "MN2000197";
-            case "학사":
-                return "MN2000194";
-            case "공지":
-                return "MN2000191";
-            case "행사":
-                return "MN2000198";
-            case "장학":
-                return "MN2000195";
-            case "입찰":
-                return "MN2000196";
-        }
-
-        return "error";
     }
 
 
-    public void FetchPost(String[] subject) {
+    public void FetchPost(ArrayList subjectList) {
 
         String code;
         String uri = "https://www.dongseo.ac.kr/kr/index.php?pCode=";
-        int totalNum;
+        int postTotalNum = 0;
 
         if (CheckState(ctx)) {
-            for (int i = 0; i < subject.length; i++) {
-                code = null;
-                code = TranslatorSubjectToCode(subject[i]);
+            for (int i = 0; i < subjectList.size(); i++) {
 
-                totalNum = GetTotalNum(subject[i]);
-                // 기존의 데이터 비교 하는 코드
-
-                // 없으면 처음부터
-                for (int k = totalNum; k < 0; k++) {
-                    // 페이지 갯수 (1페이지에 15개의 글이 들어감)
-                    int page = totalNum / 15;
-
-                    for (int j = 1; j < page; j++) {
-                        uri += code;
-                        uri += "&pg=" + page;
-
-                        GetPostBone(uri);
-                    }
-
-                }
-
+//                int totalNum = GetTotalNum((String) subjectList.get(i));
+//                postTotalNum += totalNum;
+//                // 기존의 데이터 비교 하는 코드
+//
+//                // 없으면 처음부터
+//                for (int k = totalNum; k < 0; k++) {
+//                    // 페이지 갯수 (1페이지에 15개의 글이 들어감)
+//                    int page = totalNum / 15;
+//
+//                    for (int j = 1; j < page; j++) {
+////                        uri += code;
+////                        uri += "&pg=" + page;
+////
+////                        GetPostBone(uri);
+//                    }
 
             }
         }
     }
+
+//        Log.e("Result","Total:"+postTotalNum);
+
 
     public Post[] GetPostBone(final String uri) {
         Post[] posts = null;
@@ -160,41 +170,60 @@ public class Crawler {
         return posts;
     }
 
-    public void GetData(String code) {
+//    public void GetData(String code) {
+//        final int[] num = new int[1];
+//        String page = "&pg=1";
+//
+//        final String uri = "https://www.dongseo.ac.kr/kr/index.php?pCode=" + code + page;
+//
+//
+//        if (CheckState(ctx)) {
+//            new Thread() {
+//                @Override
+//                public void run() {
+//                    Document doc = null;
+//
+//                    try {
+//                        doc = Jsoup.connect(uri).get();
+//                        Elements totalNum = doc.select("div[class=board-tot-wrap]").select("span[class=tot-num]").select("span:first-child");
+//                        String str = totalNum.text().replaceAll("[^0-9]", "");
+//                        num[0] = Integer.parseInt(str);
+//                        Log.e("Result", String.valueOf(num[0]));
+//
+//
+//                    } catch (
+//                            IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }.start();
+//
+//
+//        } else {
+//
+//
+//        }
+//
+//    }
 
-        final String[] str = new String[1];
-        String page = "&pg=1";
-        final String uri = "https://www.dongseo.ac.kr/kr/index.php?pCode=" + code + page;
+    //    public String TranslatorSubjectToCode(String subject) {
+//
+//        switch (subject) {
+//            case "모집/취업":
+//                return "MN2000197";
+//            case "학사":
+//                return "MN2000194";
+//            case "공지":
+//                return "MN2000191";
+//            case "행사":
+//                return "MN2000198";
+//            case "장학":
+//                return "MN2000195";
+//            case "입찰":
+//                return "MN2000196";
+//        }
+//
+//        return "error";
+//    }
 
-
-        if (CheckState(ctx)) {
-            new Thread() {
-                @Override
-                public void run() {
-                    Document doc = null;
-
-                    try {
-                        doc = Jsoup.connect(uri).get();
-                        Elements contents = doc.select(".tot-num");
-
-                        Log.e("get img", contents.toString());
-                        Log.e("get doc", doc.toString());
-
-                        str[0] += contents.toString();
-
-                    } catch (
-                            IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }.start();
-
-
-        } else {
-
-
-        }
-
-        Toast.makeText(ctx, str.toString(), Toast.LENGTH_SHORT).show();
-    }
 }

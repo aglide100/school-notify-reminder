@@ -1,4 +1,4 @@
-package com.example.myapplication.View;
+package com.example.myapplication.Main;
 
 import android.content.Context;
 import android.os.Bundle;
