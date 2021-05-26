@@ -28,9 +28,6 @@ public class MainModel {
     public Post[] GetFromLocalData() {
         Post[] posts = null;
 
-
-
-
         return posts;
     }
 

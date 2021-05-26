@@ -51,7 +51,6 @@ public class FetchData extends AsyncTask<ArrayList, Void, String> {
     @Override
     protected String doInBackground(ArrayList... arrayLists) {
 
-
         Document doc = null;
         try {
             if (CheckState(ctx)) {

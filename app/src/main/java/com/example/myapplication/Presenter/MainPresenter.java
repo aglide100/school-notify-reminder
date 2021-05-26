@@ -3,6 +3,7 @@ package com.example.myapplication.Presenter;
 import android.util.Log;
 
 import com.example.myapplication.Model.MainModel;
+import com.example.myapplication.Model.Post;
 import com.example.myapplication.View.BasicFragment;
 
 import java.util.ArrayList;
@@ -27,6 +28,13 @@ public class MainPresenter implements Contract.Presenter {
         new FetchData().execute(subjectList);
 
         return flag;
+    }
+
+    @Override
+    public Post[] getPostList(String planID) {
+
+
+        return null;
     }
 
 
