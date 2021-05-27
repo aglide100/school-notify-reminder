@@ -3,6 +3,7 @@ package com.example.myapplication.Presenter;
 import android.util.Log;
 
 import com.example.myapplication.Model.MainModel;
+import com.example.myapplication.Model.Post;
 import com.example.myapplication.View.BasicFragment;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class MainPresenter implements Contract.Presenter {
 
 
     public MainPresenter(BasicFragment view) {
-        MainView = view;
+        MainView = view; 
         mainModel = new MainModel(this);
     }
 
@@ -23,10 +24,17 @@ public class MainPresenter implements Contract.Presenter {
         boolean flag = false;
 
         Log.e("Start", "start fetch data" + subjectList);
-        new Crawler.FetchPost().execute(subjectList);
-        //        mainCrawler.FetchPost(subjectList);
+
+        new FetchData().execute(subjectList);
 
         return flag;
+    }
+
+    @Override
+    public Post[] getPostList(String planID) {
+
+
+        return null;
     }
 
 

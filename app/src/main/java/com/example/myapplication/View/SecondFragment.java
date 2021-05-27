@@ -47,6 +47,7 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+//      presenter 객체 생성(현재 뷰를 매개변수로 받음 -> presenter에서 view로 함수 호출할 경우 필요하기에 view를 받는다.)
         presenter = new MainPresenter(this);
 
         answer = view.findViewById(R.id.textview_second);
@@ -77,7 +78,7 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
         Log.e("test", "called showPost()");
     }
 
-    // 결과 출력
+    // presenter에서 뷰로 호출하는 함수
     @Override
     public void showResult(int answer) {
         String str = String.valueOf(answer);
@@ -91,7 +92,7 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
             int number_1 = Integer.parseInt(number1.getText().toString());
             int number_2 = Integer.parseInt(number2.getText().toString());
 
-//          addNum 호출
+//          presenter의(정확하게는 Main presenter에 구현)addNum 호출
             presenter.addNum(number_1, number_2);
         }
     }

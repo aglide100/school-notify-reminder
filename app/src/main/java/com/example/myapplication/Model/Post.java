@@ -7,6 +7,7 @@ public class Post {
     private String Status;
     private String uri;
     private String date;
+    private String content;
     private int num;
 
     public void setCode(String code) {
@@ -32,4 +33,33 @@ public class Post {
     public void setDate(String date) {
         this.date = date;
     }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public String getStatus() {
+        return this.Status;
+    }
+
+    public String getUri() {
+        return this.uri;
+    }
+
+    public String getDate() {
+        return this.date;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
 }

@@ -3,7 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/PlanListFragment">
+
+    <fragment
+        android:id="@+id/PlanListFragment"
+        android:name="com.example.myapplication.View.PlanListFragment"
+        android:label="PlanList Fragment"
+        tools:layout="@layout/fragment_planlist">
+
+    </fragment>
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -41,5 +49,6 @@
             android:id="@+id/action_ThirdFragment_to_SecondFragment"
             app:destination="@+id/SecondFragment"></action>
     </fragment>
+
 
 </navigation>
