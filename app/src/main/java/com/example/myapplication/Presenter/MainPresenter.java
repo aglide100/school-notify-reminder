@@ -15,7 +15,7 @@ public class MainPresenter implements Contract.Presenter {
 
 
     public MainPresenter(BasicFragment view) {
-        MainView = view;
+        MainView = view; 
         mainModel = new MainModel(this);
     }
 

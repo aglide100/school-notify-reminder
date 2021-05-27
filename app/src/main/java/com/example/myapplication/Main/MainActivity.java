@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         DBHelper helper;
         SQLiteDatabase db;
-        helper = new DBHelper(MainActivity.this, "newdb.db", null, 1);
+        helper = new DBHelper(MainActivity.this, "newdb", null, 1);
         db = helper.getWritableDatabase();
         helper.onCreate(db);
 
@@ -66,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if (id == R.id.nav_ThirdFragment) {
                     navController.navigate(R.id.ThirdFragment);
+                }
+
+                if (id == R.id.nav_PlanListFragment) {
+                    navController.navigate(R.id.PlanListFragment);
                 }
                 return false;
             }

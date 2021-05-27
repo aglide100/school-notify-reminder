@@ -22,4 +22,10 @@
         android:name="com.example.myapplication.View.ThirdFragment"
         android:label="ThirdFragment"
         tools:layout="@layout/fragment_third" />
+
+    <fragment
+        android:id="@+id/nav_PlanListFragment"
+        android:name="com.example.myapplication.View.PlanListFragment"
+        android:label="PlanListFragment"
+        tools:layout="@layout/fragment_planlist" />
 </navigation>
