@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Post;
-import com.example.myapplication.View.BasicFragment;
+import com.example.myapplication.View.Basic.BasicFragment;
 
 import java.util.ArrayList;
 

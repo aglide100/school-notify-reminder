@@ -19,13 +19,12 @@ import java.util.ArrayList;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
-public class FetchData extends AsyncTask<ArrayList, Void, String> {
+public class CustomFetchData extends AsyncTask<ArrayList, Void, String> {
     private ConnectivityManager connectivityManager;
     private Context ctx = MyApplication.ApplicationContext();
 
     private boolean ok = false;
-    private int postTotalNum;
-    String uri = "https://www.dongseo.ac.kr/kr/index.php?pCode=";
+    String content;
     private String page = "&pg=1";
 
     private boolean CheckState(Context ctx) {
@@ -46,6 +45,7 @@ public class FetchData extends AsyncTask<ArrayList, Void, String> {
         return ok;
     }
 
+
     @Override
     protected String doInBackground(ArrayList... arrayLists) {
 
@@ -55,43 +55,25 @@ public class FetchData extends AsyncTask<ArrayList, Void, String> {
                 for (int i = 0; i < arrayLists[0].size(); i++) {
                     String code = (String) arrayLists[0].get(i);
 
-                    doc = Jsoup.connect(uri + code + page).get();
-                    Elements totalNum = doc.select("div[class=board-tot-wrap]").select("span[class=tot-num]").select("span:first-child");
-                    String str = totalNum.text().replaceAll("[^0-9]", "");
-                    int num = Integer.parseInt(str);
-                    Log.e("Result " + code, String.valueOf(num));
+                    doc = Jsoup.connect( code ).get();
+                    content = doc.toString();
 
-                    postTotalNum += num;
-                    // 기존의 데이터 비교 하는 코드
 
-                    // 없으면 처음부터
-                    for (int k = num; k < 0; k++) {
-                        // 페이지 갯수 (1페이지에 15개의 글이 들어감)
-                        int page = num / 15;
-
-                        for (int j = 1; j < page; j++) {
-//                        uri += code;
-//                        uri += "&pg=" + page;
-
-//                        GetPostBone(uri);
-                        }
-
-                    }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+
         return "";
     }
-
 
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-
-        Toast.makeText(ctx, String.valueOf(postTotalNum), Toast.LENGTH_SHORT).show();
+        Toast.makeText(ctx, content, Toast.LENGTH_SHORT).show();
 //        이벤트 버스로 값 전달
     }
+
 }

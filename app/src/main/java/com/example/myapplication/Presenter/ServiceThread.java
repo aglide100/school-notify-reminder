@@ -1,14 +1,12 @@
 package com.example.myapplication.Presenter;
 
+import android.provider.Telephony;
+import android.util.Log;
+
 import java.util.logging.Handler;
 
 public class ServiceThread extends Thread {
-    Handler handler;
     boolean isRun = true;
-
-    public ServiceThread(Handler handler) {
-        this.handler = handler;
-    }
 
     public void stopForever() {
         synchronized (this) {
@@ -16,9 +14,14 @@ public class ServiceThread extends Thread {
         }
     }
 
+    public boolean isRun(){return this.isRun;}
+
     public void run() {
         while (isRun) {
-//                handler.se
+            Log.d("Thread", "백그라운드에서 실행");
+            try{
+                Thread.sleep(10000);
+            }catch (Exception e) {}
         }
     }
     

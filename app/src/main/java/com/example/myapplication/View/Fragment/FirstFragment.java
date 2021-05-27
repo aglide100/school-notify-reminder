@@ -1,4 +1,4 @@
-package com.example.myapplication.View;
+package com.example.myapplication.View.Fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.myapplication.R;
+import com.example.myapplication.View.Basic.BasicFragment;
 
 public class FirstFragment extends BasicFragment {
 

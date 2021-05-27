@@ -1,4 +1,4 @@
-package com.example.myapplication.View;
+package com.example.myapplication.View.Activity;
 
 import com.example.myapplication.View.Basic.BasicActivity;
 
