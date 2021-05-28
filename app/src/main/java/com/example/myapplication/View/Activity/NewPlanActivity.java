@@ -18,6 +18,9 @@ public class NewPlanActivity extends BasicActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        newPlan.setPlanID();
+        newPlan.setPlanName("플랜이름");
 
+        mainModel.makeNewPlan(newPlan);
     }
 }

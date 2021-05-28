@@ -2,12 +2,15 @@ package com.example.myapplication.Model;
 
 public class Post {
 
+//    Plan의 ID
+    private String parent;
     private String code;
     private String title;
     private String Status;
-    private String uri;
+    private String url;
     private String date;
     private String content;
+    private String writer;
     private int num;
 
     public void setCode(String code) {
@@ -22,8 +25,8 @@ public class Post {
         this.Status = status;
     }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public void setNum(int num) {
@@ -38,6 +41,10 @@ public class Post {
         this.content = content;
     }
 
+    public void setWriter(String writer) {
+        this.writer = writer;
+    }
+
     public String getCode() {
         return this.code;
     }
@@ -50,8 +57,8 @@ public class Post {
         return this.Status;
     }
 
-    public String getUri() {
-        return this.uri;
+    public String getUrl() {
+        return this.url;
     }
 
     public String getDate() {
@@ -60,6 +67,10 @@ public class Post {
 
     public String getContent() {
         return this.content;
+    }
+
+    public String getWriter() {
+        return this.writer;
     }
 
 }

@@ -127,6 +127,7 @@ public class ThirdFragment extends BasicFragment {
                     subjectList.add("MN2000198");
                 }
 
+
                 if (subjectList.size() == 0) {
                     Toast.makeText(mContext, "하나 이상 선택해주십시오", Toast.LENGTH_SHORT).show();
                 } else {

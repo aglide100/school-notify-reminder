@@ -1,5 +1,7 @@
 package com.example.myapplication.Model;
 
+import android.util.Log;
+
 import com.example.myapplication.Presenter.Contract;
 
 import java.util.ArrayList;
@@ -23,11 +25,15 @@ public class MainModel {
 
 //    !!!!!지금 아직 작업중이라 하드 코딩으로 결과값을 뱉습니다. 이러한 점 유의 바랍니다.
 
+    public void makeNewPlan(Plan plan) {
+        Log.e("New", "Receive new Plan!");
+    }
+
     //   현재 작업 중인 plan 리스트를 가지고 온다.
     public ArrayList<Plan> getPlans() {
         newPlan = new Plan();
         newPlan.setPlanID();
-        newPlan.setPlanName("하드 코딩!");
+        newPlan.setPlanName("더미 플랜!");
         planList = new ArrayList<Plan>();
         planList.add(newPlan);
         planList.add(newPlan);

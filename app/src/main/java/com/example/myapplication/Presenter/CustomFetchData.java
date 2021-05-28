@@ -58,7 +58,6 @@ public class CustomFetchData extends AsyncTask<ArrayList, Void, String> {
                     doc = Jsoup.connect( code ).get();
                     content = doc.toString();
 
-
                 }
             }
         } catch (IOException e) {

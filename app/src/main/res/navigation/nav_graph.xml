@@ -36,6 +36,15 @@
             android:id="@+id/action_SecondFragment_to_ThirdFragment"
             app:destination="@id/ThirdFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/SettingFragment"
+        android:name="com.example.myapplication.View.Fragment.SettingFragment"
+        android:label="Setting Fragment"
+        tools:layout="@layout/fragment_setting">
+
+    </fragment>
+
     <fragment
         android:id="@+id/ThirdFragment"
         android:name="com.example.myapplication.View.Fragment.ThirdFragment"

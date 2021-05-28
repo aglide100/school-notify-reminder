@@ -33,7 +33,6 @@ public class MainPresenter implements Contract.Presenter {
     @Override
     public Post[] getPostList(String planID) {
 
-
         return null;
     }
 
