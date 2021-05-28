@@ -1,4 +1,4 @@
-package com.example.myapplication.View;
+package com.example.myapplication.View.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import com.example.myapplication.EventBus.BusProvider;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
+import com.example.myapplication.View.Basic.BasicFragment;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -125,6 +126,7 @@ public class ThirdFragment extends BasicFragment {
                 if (checkMN2000198.isChecked()) {
                     subjectList.add("MN2000198");
                 }
+
 
                 if (subjectList.size() == 0) {
                     Toast.makeText(mContext, "하나 이상 선택해주십시오", Toast.LENGTH_SHORT).show();

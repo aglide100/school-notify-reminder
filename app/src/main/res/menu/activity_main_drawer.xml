@@ -6,15 +6,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_PlanListFragment"
-            android:title="PlanListFragment" />
+            android:title="플랜리스트" />
+        <item
+            android:id="@+id/nav_newPlanActivity"
+            android:title="새로운 플랜 생성" />
+        <item
+            android:id="@+id/nav_SettingFragment"
+            android:title="설정" />
         <item
             android:id="@+id/nav_FirstFragment"
             android:title="FirstFragment" />
-        <item
-            android:id="@+id/nav_SecondFragment"
-            android:title="SecondFragment" />
-        <item
-            android:id="@+id/nav_ThirdFragment"
-            android:title="ThirdFragment" />
     </group>
 </menu>

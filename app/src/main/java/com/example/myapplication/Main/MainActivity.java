@@ -7,9 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private Context context = this;
     private Contract.Presenter mainPresenter;
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+//        ActionBar actionBar = getSupportActionBar();
+//        toolbar.setDisplayShowTitleEnabled(false);
 
         DBHelper helper;
         SQLiteDatabase db;
@@ -44,9 +44,12 @@ public class MainActivity extends AppCompatActivity {
         db = helper.getWritableDatabase();
         helper.onCreate(db);
 
-        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         final NavigationView navigationView = findViewById(R.id.nav_view);
         final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        mAppBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).setDrawerLayout(drawer).build();
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -60,12 +63,12 @@ public class MainActivity extends AppCompatActivity {
                     navController.navigate(R.id.FirstFragment);
                 }
 
-                if (id == R.id.nav_SecondFragment) {
-                    navController.navigate(R.id.SecondFragment);
+                if (id == R.id.nav_newPlanActivity) {
+//                  플랜 생성 액티비티 첨부
                 }
 
-                if (id == R.id.nav_ThirdFragment) {
-                    navController.navigate(R.id.ThirdFragment);
+                if (id == R.id.nav_SettingFragment) {
+                    navController.navigate(R.id.SettingFragment);
                 }
 
                 if (id == R.id.nav_PlanListFragment) {
@@ -91,6 +94,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.nav_home) {
+            drawer.openDrawer(GravityCompat.START);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -100,4 +107,5 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
 }

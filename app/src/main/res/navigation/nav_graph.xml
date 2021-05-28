@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/PlanListFragment"
-        android:name="com.example.myapplication.View.PlanListFragment"
+        android:name="com.example.myapplication.View.Fragment.PlanListFragment"
         android:label="PlanList Fragment"
         tools:layout="@layout/fragment_planlist">
 
@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.myapplication.View.FirstFragment"
+        android:name="com.example.myapplication.View.Fragment.FirstFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
 
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.myapplication.View.SecondFragment"
+        android:name="com.example.myapplication.View.Fragment.SecondFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
 
@@ -36,9 +36,18 @@
             android:id="@+id/action_SecondFragment_to_ThirdFragment"
             app:destination="@id/ThirdFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/SettingFragment"
+        android:name="com.example.myapplication.View.Fragment.SettingFragment"
+        android:label="Setting Fragment"
+        tools:layout="@layout/fragment_setting">
+
+    </fragment>
+
     <fragment
         android:id="@+id/ThirdFragment"
-        android:name="com.example.myapplication.View.ThirdFragment"
+        android:name="com.example.myapplication.View.Fragment.ThirdFragment"
         android:label="Third Fragment"
         tools:layout="@layout/fragment_third">
 

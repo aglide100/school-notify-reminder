@@ -1,4 +1,4 @@
-package com.example.myapplication.View;
+package com.example.myapplication.View.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
+import com.example.myapplication.View.Basic.BasicFragment;
 
 public class SecondFragment extends BasicFragment implements View.OnClickListener {
 

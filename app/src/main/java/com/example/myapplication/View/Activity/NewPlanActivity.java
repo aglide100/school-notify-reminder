@@ -1,4 +1,4 @@
-package com.example.myapplication.View;
+package com.example.myapplication.View.Activity;
 
 import android.os.Bundle;
 
@@ -18,6 +18,9 @@ public class NewPlanActivity extends BasicActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        newPlan.setPlanID();
+        newPlan.setPlanName("플랜이름");
 
+        mainModel.makeNewPlan(newPlan);
     }
 }
