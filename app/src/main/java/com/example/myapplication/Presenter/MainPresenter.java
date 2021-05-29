@@ -20,7 +20,7 @@ public class MainPresenter implements Contract.Presenter {
     }
 
     @Override
-    public boolean startFetchData(ArrayList subjectList) {
+    public boolean startFetchData(ArrayList<String> subjectList) {
         boolean flag = false;
 
         Log.e("Start", "start fetch data" + subjectList);

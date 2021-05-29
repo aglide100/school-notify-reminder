@@ -19,7 +19,7 @@ public interface Contract {
     interface Presenter {
         void addNum(int num1, int num2);
 
-        boolean startFetchData(ArrayList subject);
+        boolean startFetchData(ArrayList<String> subject);
 
         Post[] getPostList(String planID);
 
