@@ -5,14 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.example.myapplication.MyApplication;
+import com.example.myapplication.App;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +19,7 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class CustomFetchData extends AsyncTask<ArrayList, Void, String> {
     private ConnectivityManager connectivityManager;
-    private Context ctx = MyApplication.ApplicationContext();
+    private Context ctx = App.ApplicationContext();
 
     private boolean ok = false;
     String content;

@@ -3,6 +3,7 @@ package com.example.myapplication.Presenter;
 import android.util.Log;
 
 import com.example.myapplication.Model.MainModel;
+import com.example.myapplication.Model.Plan;
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.View.Basic.BasicFragment;
 
@@ -20,12 +21,15 @@ public class MainPresenter implements Contract.Presenter {
     }
 
     @Override
-    public boolean startFetchData(ArrayList subjectList) {
+    public boolean startFetchData(Plan plan) {
         boolean flag = false;
+        ArrayList<String> subjectList = plan.getSubjects();
+        ArrayList<String> planDetail = new ArrayList<String>();
+        planDetail.add(plan.getPlanName());
 
         Log.e("Start", "start fetch data" + subjectList);
 
-        new FetchData().execute(subjectList);
+        new FetchData().execute(subjectList, planDetail);
 
         return flag;
     }

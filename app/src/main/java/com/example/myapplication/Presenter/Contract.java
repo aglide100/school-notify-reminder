@@ -1,5 +1,6 @@
 package com.example.myapplication.Presenter;
 
+import com.example.myapplication.Model.Plan;
 import com.example.myapplication.Model.Post;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public interface Contract {
     interface Presenter {
         void addNum(int num1, int num2);
 
-        boolean startFetchData(ArrayList subject);
+        boolean startFetchData(Plan plan);
 
         Post[] getPostList(String planID);
 

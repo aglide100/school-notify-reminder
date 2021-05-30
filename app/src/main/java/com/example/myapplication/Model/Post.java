@@ -1,17 +1,35 @@
 package com.example.myapplication.Model;
 
+import com.example.myapplication.DB.PostRealmObject;
+
+import java.util.UUID;
+
 public class Post {
 
 //    Plan의 ID
     private String parent;
     private String code;
     private String title;
-    private String Status;
+    private String status;
     private String url;
     private String date;
     private String content;
     private String writer;
+    private String ID;
     private int num;
+
+    public void RealmObjectToPost(PostRealmObject obj) {
+        this.parent = obj.getParent();
+        this.code = obj.getCode();
+        this.content = obj.getContent();
+        this.title = obj.getTitle();
+        this.status = obj.getStatus();
+        this.url = obj.getUrl();
+        this.date = obj.getDate();
+        this.writer = obj.getWriter();
+        this.ID = obj.getID();
+        this.num = obj.getNum();
+    }
 
     public void setCode(String code) {
         this.code = code;
@@ -22,7 +40,7 @@ public class Post {
     }
 
     public void setStatus(String status) {
-        this.Status = status;
+        this.status = status;
     }
 
     public void setUrl(String url) {
@@ -32,6 +50,8 @@ public class Post {
     public void setNum(int num) {
         this.num = num;
     }
+
+    public void setID(){this.ID = UUID.randomUUID().toString();}
 
     public void setDate(String date) {
         this.date = date;
@@ -45,6 +65,8 @@ public class Post {
         this.writer = writer;
     }
 
+    public void setParent(String parentID) { this.parent = parentID; }
+
     public String getCode() {
         return this.code;
     }
@@ -54,7 +76,7 @@ public class Post {
     }
 
     public String getStatus() {
-        return this.Status;
+        return this.status;
     }
 
     public String getUrl() {
@@ -72,5 +94,11 @@ public class Post {
     public String getWriter() {
         return this.writer;
     }
+
+    public String getID(){ return this.ID; }
+
+    public int getNum() { return this.num; }
+
+    public String getParent() { return this.parent; }
 
 }
