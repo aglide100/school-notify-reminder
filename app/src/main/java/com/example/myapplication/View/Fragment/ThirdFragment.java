@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.myapplication.DB.DBmanager;
 import com.example.myapplication.EventBus.BusEvent;
 import com.example.myapplication.EventBus.BusProvider;
 import com.example.myapplication.Model.MainModel;
@@ -28,16 +29,12 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 public class ThirdFragment extends BasicFragment {
-    Bus bus = BusProvider.getInstance();
-
     private Context mContext;
     private Contract.Presenter presenter;
     private CheckBox checkMN2000191, checkMN2000194, checkMN2000195, checkMN2000196, checkMN2000197, checkMN2000198;
     private ProgressBar progressBar;
     private Boolean ok = true;
-    private Observable observable;
 
-    private String code;
 
     @Override
     public void onAttach(Context context) {
@@ -48,13 +45,6 @@ public class ThirdFragment extends BasicFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
-        bus.unregister(this);
-    }
-
-    @Subscribe
-    public void busStop(BusEvent busEvent) {
-        Log.e("EVENTBUS", "receive Bus");
     }
 
     @Override
@@ -62,7 +52,6 @@ public class ThirdFragment extends BasicFragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        bus.register(this);
         return inflater.inflate(R.layout.fragment_third, container, false);
     }
 
@@ -78,8 +67,6 @@ public class ThirdFragment extends BasicFragment {
         checkMN2000197 = view.findViewById(R.id.MN2000197);
         checkMN2000198 = view.findViewById(R.id.MN2000198);
         progressBar = view.findViewById(R.id.fetchData);
-
-//        BusProvider.getInstance().register(this);
 
         if (ok) {
             progressBar.setVisibility(View.INVISIBLE);
@@ -133,10 +120,19 @@ public class ThirdFragment extends BasicFragment {
                 } else {
                     ok = false;
                     progressBar.setVisibility(View.VISIBLE);
-                    MainModel mainModel = new MainModel(presenter);
-                    ArrayList<Plan> planList =  mainModel.getPlans();
 
-                    presenter.startFetchData(planList.get(0));
+                    MainModel mainModel = new MainModel(presenter);
+                    DBmanager dbManager = new DBmanager();
+
+                    Plan newPlan = new Plan();
+                    newPlan.setSubjects(subjectList);
+                    newPlan.setPlanName("플랜 테스트");
+                    newPlan.setPlanID();
+
+                    dbManager.addPlan(newPlan);
+//                    ArrayList<Plan> planList =  mainModel.getPlans();
+
+                    presenter.startFetchData(newPlan);
                 }
             }
         });
