@@ -1,20 +1,20 @@
 package com.example.myapplication;
 
-import android.app.Application;
 import android.content.Context;
+
+import androidx.multidex.MultiDexApplication;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-public class App extends Application {
+public class MyApplication extends MultiDexApplication {
 
     private static Context context;
 
     public void onCreate() {
         super.onCreate();
-        App.context = getApplicationContext();
+        MyApplication.context = this;
 
-        Realm.init(App.ApplicationContext());
         Realm.init(context);
         RealmConfiguration config = new RealmConfiguration.Builder().name("InternalDB1.realm").schemaVersion(0).build();
 
@@ -22,6 +22,6 @@ public class App extends Application {
     }
     
     public static Context ApplicationContext() {
-        return App.context;
+        return MyApplication.context;
     }
 }

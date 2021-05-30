@@ -20,7 +20,7 @@ import com.example.myapplication.Model.AsyncResult;
 import com.example.myapplication.Model.ErrorModel;
 import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Post;
-import com.example.myapplication.App;
+import com.example.myapplication.MyApplication;
 import com.example.myapplication.R;
 
 import org.jsoup.Jsoup;
@@ -47,7 +47,7 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
     private DBmanager dbManager;
 
     private void CheckState() {
-        Context ctx = App.ApplicationContext();
+        Context ctx = MyApplication.ApplicationContext();
         connectivityManager = (ConnectivityManager) ctx.getSystemService(CONNECTIVITY_SERVICE);
 
         if (connectivityManager != null) {
@@ -84,7 +84,7 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void CreateNotification() {
-        Context ctx = App.ApplicationContext();
+        Context ctx = MyApplication.ApplicationContext();
 
         this.mNotifyBuilder = new NotificationCompat.Builder(ctx, "default");
         this.mNotifyBuilder.setContentTitle("데이터를 가져오고 있습니다!");
@@ -101,7 +101,7 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
     }
 
     private void removeNotification() {
-        NotificationManagerCompat.from(App.ApplicationContext()).cancel(this.mNotifyID);
+        NotificationManagerCompat.from(MyApplication.ApplicationContext()).cancel(this.mNotifyID);
     }
 
 
@@ -206,7 +206,7 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
         Log.e("End", "항목 끝!!! "+ postTotalNum +"의 포스트를 찾았으며 " + result.getSuccessItem() + "갯수의 포스트 생성");
 
         dbManager.addPost(result.getSuccessItem());
-        Toast.makeText(App.ApplicationContext(), String.valueOf(postTotalNum), Toast.LENGTH_SHORT).show();
+        Toast.makeText(MyApplication.ApplicationContext(), String.valueOf(postTotalNum), Toast.LENGTH_SHORT).show();
 //        이벤트 버스로 값 전달
     }
 }

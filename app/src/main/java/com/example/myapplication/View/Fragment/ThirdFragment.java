@@ -85,7 +85,6 @@ public class ThirdFragment extends BasicFragment {
             progressBar.setVisibility(View.INVISIBLE);
         }
 
-
         view.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,7 +128,6 @@ public class ThirdFragment extends BasicFragment {
                     subjectList.add("MN2000198");
                 }
 
-
                 if (subjectList.size() == 0) {
                     Toast.makeText(mContext, "하나 이상 선택해주십시오", Toast.LENGTH_SHORT).show();
                 } else {
@@ -139,23 +137,9 @@ public class ThirdFragment extends BasicFragment {
                     ArrayList<Plan> planList =  mainModel.getPlans();
 
                     presenter.startFetchData(planList.get(0));
-
-//                    int num = 0;
-//                    // rxJava나 이벤트 버스 사용!!!
-//                    PublishSubject<Integer> items = PublishSubject.create();
-//                    items.onNext(1);
-//                    items.onNext(2);
-//                    items.onNext(3);
-//                    BehaviorSubject<String> subject = BehaviorSubject.createDefault("0");
-
                 }
             }
         });
 
     }
-//    @Subscribe
-//    public void updateProgress(ProgressEvent progressEvent) {
-//
-//    }
-
 }

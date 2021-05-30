@@ -7,7 +7,7 @@ import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.example.myapplication.App;
+import com.example.myapplication.MyApplication;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,7 +19,7 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class CustomFetchData extends AsyncTask<ArrayList, Void, String> {
     private ConnectivityManager connectivityManager;
-    private Context ctx = App.ApplicationContext();
+    private Context ctx = MyApplication.ApplicationContext();
 
     private boolean ok = false;
     String content;

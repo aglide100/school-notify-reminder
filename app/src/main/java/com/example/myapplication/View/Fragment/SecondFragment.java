@@ -14,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.myapplication.DB.DBmanager;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
@@ -26,7 +25,6 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
     private EditText number1;
     private EditText number2;
     private Button sumbtn;
-    private Button getBtn;
     private Contract.Presenter presenter;
 
     private Context mContext;
@@ -59,14 +57,6 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
 
         sumbtn = view.findViewById(R.id.sumBtn);
         sumbtn.setOnClickListener(this);
-
-        view.findViewById(R.id.getPost).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DBmanager dBmanager = new DBmanager();
-                dBmanager.getPost();
-            }
-        });
 
         view.findViewById(R.id.button_previous).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,10 +93,8 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
             int number_1 = Integer.parseInt(number1.getText().toString());
             int number_2 = Integer.parseInt(number2.getText().toString());
 
-
 //          presenter의(정확하게는 Main presenter에 구현)addNum 호출
             presenter.addNum(number_1, number_2);
         }
-
     }
 }

@@ -2,17 +2,27 @@ apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "30.0.1"
+    signingConfigs {
+        key {
+            storeFile file('keystore/key.keystore')
+            storePassword '123456'
+            keyPassword '123456'
+            keyAlias 'key'
+        }
+    }
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.example.myapplication"
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.key
+        multiDexEnabled true
     }
 
     compileOptions {
@@ -24,10 +34,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            debuggable true
+            signingConfig signingConfigs.key
         }
         debug {
             applicationIdSuffix '.debug'
+            signingConfig signingConfigs.key
             resValue("string", "newdb_PASSWORD_PERSON", "password")
             resValue("string", "PORT_NUMBER", "8081")
         }
@@ -43,16 +54,44 @@ android {
 }
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+
+    // multidex
+    implementation 'com.android.support:multidex:1.0.3'
+
+
+    // 안드로이드 기본 디자인
+    implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
+
+    // Jsoup
     implementation 'org.jsoup:jsoup:1.13.1'
+
+    // Event bus
+    implementation 'com.squareup:otto:1.3.8'
+
+    // Google Auth
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    // Google API Client
+    implementation('com.google.api-client:google-api-client-android:1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    // Google API Calendar
+    implementation('com.google.apis:google-api-services-calendar:v3-rev235-1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    // permission
+    implementation 'gun0912.ted:tedpermission:2.2.2'
+    implementation 'org.jetbrains:annotations:15.0'
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.7'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation 'com.squareup:otto:1.3.8'
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+
+    //debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 }

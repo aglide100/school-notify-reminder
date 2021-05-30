@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class Post {
 
-//    Plan의 ID
+    //    Plan의 ID
     private String parent;
     private String code;
     private String title;
