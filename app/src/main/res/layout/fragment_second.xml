@@ -45,12 +45,6 @@
             android:layout_marginTop="60dp"
             android:text="sum" />
 
-        <Button
-            android:id="@+id/getPost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="getPost"/>
-
     </RelativeLayout>
 
 

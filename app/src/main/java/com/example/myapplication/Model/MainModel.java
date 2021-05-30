@@ -18,6 +18,11 @@ public class MainModel {
         this.presenter = presenter;
     }
 
+//    public saveData(int data) {
+//        //
+//    }
+
+
 //    !!!!!지금 아직 작업중이라 하드 코딩으로 결과값을 뱉습니다. 이러한 점 유의 바랍니다.
 
     public void makeNewPlan(Plan plan) {
@@ -29,9 +34,7 @@ public class MainModel {
         newPlan = new Plan();
         newPlan.setPlanID();
         newPlan.setPlanName("더미 플랜!");
-
         ArrayList<String> subjects = new ArrayList<String>();
-
         subjects.add("MN2000191");
         subjects.add("MN2000194");
         newPlan.setSubjects(subjects);
