@@ -15,6 +15,8 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.myapplication.EventBus.BusEvent;
 import com.example.myapplication.EventBus.BusProvider;
+import com.example.myapplication.Model.MainModel;
+import com.example.myapplication.Model.Plan;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
@@ -133,7 +135,10 @@ public class ThirdFragment extends BasicFragment {
                 } else {
                     ok = false;
                     progressBar.setVisibility(View.VISIBLE);
-                    presenter.startFetchData(subjectList);
+                    MainModel mainModel = new MainModel(presenter);
+                    ArrayList<Plan> planList =  mainModel.getPlans();
+
+                    presenter.startFetchData(planList.get(0));
 
 //                    int num = 0;
 //                    // rxJava나 이벤트 버스 사용!!!

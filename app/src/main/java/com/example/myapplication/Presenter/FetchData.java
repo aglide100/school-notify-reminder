@@ -1,17 +1,27 @@
 package com.example.myapplication.Presenter;
 
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import com.example.myapplication.DB.DBmanager;
 import com.example.myapplication.Model.AsyncResult;
 import com.example.myapplication.Model.ErrorModel;
+import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.App;
+import com.example.myapplication.R;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,10 +36,15 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
 public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
     private ConnectivityManager connectivityManager;
 
+    private NotificationManager mNotificationManager;
+    private NotificationCompat.Builder mNotifyBuilder;
+    private int mNotifyID = 10;
+
     private boolean ok = false;
     private int postTotalNum;
     String uri = "https://www.dongseo.ac.kr/kr/index.php?pCode=";
-    //    private String page = "&pg=1";
+
+    private DBmanager dbManager;
 
     private void CheckState() {
         Context ctx = App.ApplicationContext();
@@ -49,16 +64,47 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
         CheckState();
+        CreateNotification();
+        dbManager = new DBmanager();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
+//        this.mNotifyBuilder.setContentText(currentPostNum+"만큼 찾았습니다.");
+//        this.mNotifyBuilder.setProgress(postTotalNum,currentPostNum, false );
+//        this.mNotificationManager.notify(this.mNotifyID, this.mNotifyBuilder.build());
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void CreateNotification() {
+        Context ctx = App.ApplicationContext();
+
+        this.mNotifyBuilder = new NotificationCompat.Builder(ctx, "default");
+        this.mNotifyBuilder.setContentTitle("데이터를 가져오고 있습니다!");
+        this.mNotifyBuilder.setContentText("잠시만 기다려주세요.");
+        this.mNotifyBuilder.setSmallIcon(R.mipmap.ic_launcher);
+
+        this.mNotificationManager = (NotificationManager) ctx.getSystemService(ctx.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            this.mNotificationManager.createNotificationChannel(new NotificationChannel("default", "기본 채널", NotificationManager.IMPORTANCE_DEFAULT));
+        }
+
+        this.mNotificationManager.notify(mNotifyID, this.mNotifyBuilder.build());
+    }
+
+    private void removeNotification() {
+        NotificationManagerCompat.from(App.ApplicationContext()).cancel(this.mNotifyID);
+    }
+
+
 
     @SafeVarargs
     @Override
@@ -71,6 +117,7 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
         ArrayList<Post> newPostList = new ArrayList<>();
         Document doc = null;
         int num;
+        int currentPost=0;
 
         for (int i = 0; i < arrayLists[0].size(); i++) {
             num = 0;
@@ -136,8 +183,11 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
                     newPost.setDate(date);
                     newPost.setWriter(writer);
                     newPost.setUrl(postURL);
+                    newPost.setID();
+                    newPost.setParent(arrayLists[1].get(0));
 
                     newPostList.add(newPost);
+                    currentPost++;
                 }
 
                 nowpage++;
@@ -151,8 +201,11 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
     @Override
     protected void onPostExecute(AsyncResult result) {
         super.onPostExecute(result);
+
+        removeNotification();
         Log.e("End", "항목 끝!!! "+ postTotalNum +"의 포스트를 찾았으며 " + result.getSuccessItem() + "갯수의 포스트 생성");
 
+        dbManager.addPost(result.getSuccessItem());
         Toast.makeText(App.ApplicationContext(), String.valueOf(postTotalNum), Toast.LENGTH_SHORT).show();
 //        이벤트 버스로 값 전달
     }

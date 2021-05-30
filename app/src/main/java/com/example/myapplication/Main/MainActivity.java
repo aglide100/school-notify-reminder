@@ -16,10 +16,15 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.myapplication.DB.DBHelper;
+import com.example.myapplication.App;
+import com.example.myapplication.DB.DBmanager;
+import com.example.myapplication.DB.PostRealmObject;
+import com.example.myapplication.Model.Post;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.R;
 import com.google.android.material.navigation.NavigationView;
+
+import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,11 +43,8 @@ public class MainActivity extends AppCompatActivity {
 //        ActionBar actionBar = getSupportActionBar();
 //        toolbar.setDisplayShowTitleEnabled(false);
 
-        DBHelper helper;
-        SQLiteDatabase db;
-        helper = new DBHelper(MainActivity.this, "newdb", null, 1);
-        db = helper.getWritableDatabase();
-        helper.onCreate(db);
+//        Realm realm = Realm.getDefaultInstance();
+//        realm.init(App.ApplicationContext());
 
         drawer = findViewById(R.id.drawer_layout);
         final NavigationView navigationView = findViewById(R.id.nav_view);
@@ -65,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
 
                 if (id == R.id.nav_newPlanActivity) {
 //                  플랜 생성 액티비티 첨부
+                    Post newPost = new Post();
+                    newPost.setTitle("Hello");
+                    DBmanager dbManager = new DBmanager();
+                    dbManager.addPost(newPost);
+                    dbManager.getPost();
+
                 }
 
                 if (id == R.id.nav_SettingFragment) {

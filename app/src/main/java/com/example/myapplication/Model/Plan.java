@@ -31,5 +31,7 @@ public class Plan {
         return this.planName;
     }
 
+    public ArrayList<String> getSubjects() { return this.subjects;}
+
 
 }

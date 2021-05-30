@@ -15,8 +15,8 @@ public class App extends Application {
         App.context = getApplicationContext();
 
         Realm.init(App.ApplicationContext());
-        Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration.Builder().name("InternalDB.realm").schemaVersion(0).build();
+        Realm.init(context);
+        RealmConfiguration config = new RealmConfiguration.Builder().name("InternalDB1.realm").schemaVersion(0).build();
 
         Realm.setDefaultConfiguration(config);
     }
