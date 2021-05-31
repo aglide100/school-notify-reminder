@@ -33,6 +33,7 @@ public class PlanListFragment extends BasicFragment {
 
     //    프래그먼트가 아직 첨부되기 전이라 액티비티를 받아오기 위해서 onAttach를 오버라이딩 해야됨
     //    프래그먼트가 onAttch되는 과정에서 context를 받아옴
+    //    context를 안전하게 사용하기 위한 방법?
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
