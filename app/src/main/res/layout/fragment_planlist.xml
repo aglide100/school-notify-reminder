@@ -57,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="컴퓨터공학부"
+                android:layout_margin="10dp"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@+id/check"
@@ -66,13 +67,12 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:layout_margin="10dp"
                 android:text="확인할 알람 아이템이 없습니다."
                 app:layout_constraintLeft_toRightOf="@id/check"
                 app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
     </androidx.cardview.widget.CardView>
@@ -96,23 +96,40 @@
         app:layout_constraintVertical_bias="0.473"
         tools:ignore="InvalidId,MissingConstraints">
 
-        <ImageView
-            android:id="@+id/list"
-            android:layout_width="83dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/list" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/innerLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/list"
+                android:layout_width="83dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/list"
+                app:layout_constraintLeft_toLeftOf="@+id/innerLayout2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/innerLayout2" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="소프트웨어융합" />
+            android:text="소프트웨어융합"
+            android:layout_margin="10dp"
+            app:layout_constraintLeft_toRightOf="@+id/list"
+            app:layout_constraintTop_toTopOf="@+id/innerLayout2" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5개의 알림이 있습니다." />
+            android:text="5개의 알림이 있습니다."
+            android:layout_margin="10dp"
+            app:layout_constraintLeft_toRightOf="@id/list"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+       </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
 
