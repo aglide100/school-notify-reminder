@@ -78,12 +78,12 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
     // Google API Calendar
-    implementation('com.google.apis:google-api-services-calendar:v3-rev235-1.22.0') {
+    implementation('com.google.apis:google-api-services-calendar:v3-rev20210429-1.31.0') {
         exclude group: 'org.apache.httpcomponents'
     }
     // permission
     implementation 'gun0912.ted:tedpermission:2.2.2'
-    implementation 'org.jetbrains:annotations:15.0'
+    implementation 'org.jetbrains:annotations:21.0.1'
     // Gson
     implementation 'com.google.code.gson:gson:2.8.7'
 
