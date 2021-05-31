@@ -79,22 +79,11 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
         Log.e("test", "called showPost()");
     }
 
-    // presenter에서 뷰로 호출하는 함수
-    @Override
-    public void showResult(int answer) {
-        String str = String.valueOf(answer);
-        Toast.makeText(mContext, str, Toast.LENGTH_SHORT).show();
-    }
+
 
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == sumbtn.getId()) {
-            int number_1 = Integer.parseInt(number1.getText().toString());
-            int number_2 = Integer.parseInt(number2.getText().toString());
 
-//          presenter의(정확하게는 Main presenter에 구현)addNum 호출
-            presenter.addNum(number_1, number_2);
-        }
     }
 }
