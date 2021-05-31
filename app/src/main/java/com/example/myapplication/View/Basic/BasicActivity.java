@@ -7,12 +7,6 @@ import com.example.myapplication.Presenter.Contract;
 public class BasicActivity extends Activity implements Contract.View {
 
     @Override
-    public void showResult(int answer) {
-//        String str = String.valueOf(answer);
-//        Log.e("showResult", str);
-    }
-
-    @Override
     public void showPost() {
 
     }

@@ -8,9 +8,7 @@ import java.util.ArrayList;
 public interface Contract {
     // 뷰에서 쓸 함수
     interface View {
-        void showResult(int answer);
-
-        void showCrawlerResult();
+       void showCrawlerResult();
 
         void showPost();
 
@@ -18,8 +16,6 @@ public interface Contract {
 
     //   함수 인터페이스 선언
     interface Presenter {
-        void addNum(int num1, int num2);
-
         boolean startFetchData(Plan plan);
 
         Post[] getPostList(String planID);
