@@ -89,9 +89,9 @@ public class ThirdFragment extends BasicFragment {
             }
         });
 
-        view.findViewById(R.id.crawler_btn).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.create_testPlan_btn).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 ArrayList<String> subjectList = new ArrayList<String>();
 
                 if (checkMN2000191.isChecked()) {
@@ -122,10 +122,7 @@ public class ThirdFragment extends BasicFragment {
                     Toast.makeText(mContext, "하나 이상 선택해주십시오", Toast.LENGTH_SHORT).show();
                 } else {
                     ok = false;
-                    progressBar.setVisibility(View.VISIBLE);
-
                     MainModel mainModel = new MainModel(presenter);
-                    DBmanager dbManager = new DBmanager();
 
                     Plan newPlan = new Plan();
                     newPlan.setSubjects(subjectList);
@@ -134,9 +131,23 @@ public class ThirdFragment extends BasicFragment {
 
                     mainModel.makeNewPlan(newPlan);
 
-                    presenter.startFetchData(newPlan);
                 }
             }
+        });
+
+        view.findViewById(R.id.crawler_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    MainModel mainModel = new MainModel(presenter);
+                    Plan plan = new Plan();
+                    plan = mainModel.getPlan().get(0);
+
+                    progressBar.setVisibility(View.VISIBLE);
+
+                    presenter.startFetchData(plan);
+
+                }
+
         });
 
     }

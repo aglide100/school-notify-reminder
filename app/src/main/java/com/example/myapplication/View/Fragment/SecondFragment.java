@@ -24,8 +24,6 @@ import com.example.myapplication.View.Basic.BasicFragment;
 import java.util.ArrayList;
 
 public class SecondFragment extends BasicFragment{
-
-    private Button getPlan, getPost;
     private Contract.Presenter presenter;
 
     private Context mContext;

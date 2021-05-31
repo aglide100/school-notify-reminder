@@ -55,11 +55,11 @@ public class PlanListFragment extends BasicFragment {
         mainModel = new MainModel(presenter);
 
 //      planList를 가져옴. plan은 이름, ID를 가지고 있음
-        planList = mainModel.getPlan();
-        if (planList.size() != 0) {
-            textView = view.findViewById(R.id.planName);
-            textView.setText(planList.get(0).getPlanName());
-        }
+//        planList = mainModel.getPlan();
+//        if (planList.size() != 0) {
+//            textView = view.findViewById(R.id.planName);
+//            textView.setText(planList.get(0).getPlanName());
+//        }
 
 //       플랜 리스트중 특정 플랜 선택시 아이템 리스트 액티비티 호출!
 //        인탠트로 Plan객체를 itemListActivity로 전
