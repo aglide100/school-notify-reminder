@@ -10,16 +10,9 @@ public class Plan {
     //   uri을 저장
     private ArrayList<String> subjects;
     private String planName;
-    private boolean custom;
-
     public void RealmObjectToPlan(PlanRealmObject plan) {
         this.planID = plan.getPlanID();
         this.planName = plan.getPlanName();
-        this.custom = plan.isCustom();
-    }
-
-    public void setCustom() {
-        this.custom = true;
     }
 
     public void setPlanID() {
@@ -46,6 +39,5 @@ public class Plan {
 
     public ArrayList<String> getSubjects() { return this.subjects;}
 
-    public boolean isCustom() {return this.custom; }
 
 }

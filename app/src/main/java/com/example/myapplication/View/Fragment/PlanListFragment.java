@@ -50,16 +50,16 @@ public class PlanListFragment extends BasicFragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//      presenter 객체 생성달
         presenter = new MainPresenter(this);
 //      planList을 가져오기 위해 MainModel을 생성
         mainModel = new MainModel(presenter);
 
 //      planList를 가져옴. plan은 이름, ID를 가지고 있음
-        planList = mainModel.getPlans();
-
-        textView = view.findViewById(R.id.planName);
-        textView.setText(planList.get(1).getPlanName());
+        planList = mainModel.getPlan();
+        if (planList.size() != 0) {
+            textView = view.findViewById(R.id.planName);
+            textView.setText(planList.get(0).getPlanName());
+        }
 
 //       플랜 리스트중 특정 플랜 선택시 아이템 리스트 액티비티 호출!
 //        인탠트로 Plan객체를 itemListActivity로 전

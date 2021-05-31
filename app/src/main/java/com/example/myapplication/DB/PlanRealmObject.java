@@ -16,14 +16,11 @@ public class PlanRealmObject extends RealmObject {
     private RealmList<String> subjects;
     private String planName;
 
-    boolean custom;
-
     public PlanRealmObject() {}
 
     public void PlanToRealmObject(Plan plan) {
         this.ID = plan.getPlanID();
         this.planName = plan.getPlanName();
-        this.custom = plan.isCustom();
         for (int i = 0; i < plan.getSubjects().size(); i++){
             this.subjects.add(plan.getSubjects().get(i));
         }
@@ -61,8 +58,5 @@ public class PlanRealmObject extends RealmObject {
         return convertSubjects;
     }
 
-    public boolean isCustom() {
-        return this.custom;
-    }
 
 }

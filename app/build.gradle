@@ -39,8 +39,6 @@ android {
         debug {
             applicationIdSuffix '.debug'
             signingConfig signingConfigs.key
-            resValue("string", "newdb_PASSWORD_PERSON", "password")
-            resValue("string", "PORT_NUMBER", "8081")
         }
     }
 //    productFlavors {

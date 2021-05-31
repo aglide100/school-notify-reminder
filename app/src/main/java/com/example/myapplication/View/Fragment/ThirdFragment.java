@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class ThirdFragment extends BasicFragment {
     private CheckBox checkMN2000191, checkMN2000194, checkMN2000195, checkMN2000196, checkMN2000197, checkMN2000198;
     private ProgressBar progressBar;
     private Boolean ok = true;
+    private EditText planNameEdit;
 
 
     @Override
@@ -67,6 +69,7 @@ public class ThirdFragment extends BasicFragment {
         checkMN2000197 = view.findViewById(R.id.MN2000197);
         checkMN2000198 = view.findViewById(R.id.MN2000198);
         progressBar = view.findViewById(R.id.fetchData);
+        planNameEdit = view.findViewById(R.id.editPlanName);
 
         if (ok) {
             progressBar.setVisibility(View.INVISIBLE);
@@ -126,11 +129,10 @@ public class ThirdFragment extends BasicFragment {
 
                     Plan newPlan = new Plan();
                     newPlan.setSubjects(subjectList);
-                    newPlan.setPlanName("플랜 테스트");
+                    newPlan.setPlanName(planNameEdit.getText().toString());
                     newPlan.setPlanID();
 
-                    dbManager.addPlan(newPlan);
-//                    ArrayList<Plan> planList =  mainModel.getPlans();
+                    mainModel.makeNewPlan(newPlan);
 
                     presenter.startFetchData(newPlan);
                 }

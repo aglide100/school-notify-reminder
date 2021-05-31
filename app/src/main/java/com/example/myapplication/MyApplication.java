@@ -16,7 +16,7 @@ public class MyApplication extends MultiDexApplication {
         MyApplication.context = this;
 
         Realm.init(context);
-        RealmConfiguration config = new RealmConfiguration.Builder().name("InternalDB1.realm").schemaVersion(0).build();
+        RealmConfiguration config = new RealmConfiguration.Builder().name("InternalDB2.realm").schemaVersion(0).build();
 
         Realm.setDefaultConfiguration(config);
     }

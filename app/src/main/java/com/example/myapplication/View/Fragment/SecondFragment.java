@@ -14,17 +14,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.myapplication.Model.MainModel;
+import com.example.myapplication.Model.Plan;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
 import com.example.myapplication.View.Basic.BasicFragment;
 
-public class SecondFragment extends BasicFragment implements View.OnClickListener {
+import java.util.ArrayList;
 
-    private TextView answer;
-    private EditText number1;
-    private EditText number2;
-    private Button sumbtn;
+public class SecondFragment extends BasicFragment{
+
+    private Button getPlan, getPost;
     private Contract.Presenter presenter;
 
     private Context mContext;
@@ -50,13 +51,18 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
 
 //      presenter 객체 생성(현재 뷰를 매개변수로 받음 -> presenter에서 view로 함수 호출할 경우 필요하기에 view를 받는다.)
         presenter = new MainPresenter(this);
+        MainModel mainModel = new MainModel(presenter);
 
-        answer = view.findViewById(R.id.textview_second);
-        number1 = view.findViewById(R.id.number1);
-        number2 = view.findViewById(R.id.number2);
+        view.findViewById(R.id.getPlanListBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Plan> plans = new ArrayList<Plan>();
+                plans = mainModel.getPlan();
 
-        sumbtn = view.findViewById(R.id.sumBtn);
-        sumbtn.setOnClickListener(this);
+                Log.e("Get", plans.size()+ "갯수만큼 플랜이 있다.");
+
+            }
+        });
 
         view.findViewById(R.id.button_previous).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,16 +80,4 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
         });
     }
 
-    @Override
-    public void showPost() {
-        Log.e("test", "called showPost()");
-    }
-
-
-
-
-    @Override
-    public void onClick(View v) {
-
-    }
 }

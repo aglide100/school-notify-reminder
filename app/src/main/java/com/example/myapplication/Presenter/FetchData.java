@@ -151,6 +151,9 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
             // 없으면 처음부터
             Log.e("While", code + "중 페이지 수: " + finalPage);
 
+
+
+
             int nowpage = 1;
             do {
                 // 페이지 갯수 (1페이지에 15개의 글이 들어감)
@@ -179,6 +182,8 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
                     String writer = elements.select("td[class=f-nm writer]").select("p").text();
                     String date = elements.select("td[class=f-date date]").select("p").text();
 
+                    newPost.setParent(arrayLists[1].get(0));
+                    newPost.setCode(code);
                     newPost.setTitle(title);
                     newPost.setDate(date);
                     newPost.setWriter(writer);
