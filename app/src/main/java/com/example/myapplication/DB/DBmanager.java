@@ -15,7 +15,6 @@ public class DBmanager {
     Realm realm = Realm.getDefaultInstance();
 
     public void addNewPlan(Plan newPlan) {
-
         PlanRealmObject plan = new PlanRealmObject();
         plan.PlanToRealmObject(newPlan);
 
@@ -25,6 +24,7 @@ public class DBmanager {
                 realm.copyToRealm(plan);
             }
         });
+
         Log.e("Realm","플랜 생성완료!" + plan.getPlanName());
     }
 
@@ -32,12 +32,18 @@ public class DBmanager {
         PostRealmObject post = new PostRealmObject();
         post.PostToRealmObject(newPost);
 
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.copyToRealm(post);
-            }
-        });
+        final RealmResults<PostRealmObject> findSamePost = realm.where(PostRealmObject.class).equalTo("parent", newPost.getParent()).equalTo("code",newPost.getCode()).equalTo("num", newPost.getNum()).findAll();
+
+        if (findSamePost.size() > 0) {
+            Log.e("Realm", "이미 같은 포스트가 존재합니다." + newPost.getCode()+ "항목 " + newPost.getNum() + "번째 " + newPost.getTitle());
+        } else {
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.copyToRealm(post);
+                }
+            });
+        }
     }
 
     public void addPost(ArrayList<Post> postList) {
@@ -48,19 +54,7 @@ public class DBmanager {
         }
     }
 
-    public ArrayList<Post> getPost(Plan plan){
-        final RealmResults<PostRealmObject> postList = realm.where(PostRealmObject.class).equalTo("parent", plan.getPlanID()).findAll();
-        ArrayList<Post> postArrayList = new ArrayList<Post>();
-
-        for(int i = 0; i < postList.size(); i++){
-            Post newPost = new Post();
-            newPost.RealmObjectToPost(postList.get(i));
-            postArrayList.add(newPost);
-        }
-        return postArrayList;
-    }
-
-    public ArrayList<Post> getTotalPost(Plan plan) {
+    public ArrayList<Post> getPost(Plan plan) {
         String parent = plan.getPlanID();
         ArrayList<Post> postList = new ArrayList<Post>();
 
@@ -76,7 +70,6 @@ public class DBmanager {
     }
 
     public int getPostCount(String planID, String code) {
-
         final RealmResults<PlanRealmObject> planRealmObject = realm.where(PlanRealmObject.class).equalTo("ID", planID).findAll();
         int num = planRealmObject.where().equalTo("code", code).findAll().size();
 

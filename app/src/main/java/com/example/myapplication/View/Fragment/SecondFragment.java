@@ -16,6 +16,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Plan;
+import com.example.myapplication.Model.Post;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
@@ -51,13 +52,22 @@ public class SecondFragment extends BasicFragment{
         presenter = new MainPresenter(this);
         MainModel mainModel = new MainModel(presenter);
 
+        view.findViewById(R.id.getPostListBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Post> posts = new ArrayList<Post>();
+                posts = mainModel.getPost(mainModel.getPlan().get(0));
+                Log.e("Get", mainModel.getPlan().get(0).getPlanName()+ "안에 "+ posts.size() +"만큼의 포스트갯수가 있습니다.");
+            }
+        });
+
         view.findViewById(R.id.getPlanListBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<Plan> plans = new ArrayList<Plan>();
                 plans = mainModel.getPlan();
 
-                Log.e("Get", plans.size()+ "갯수만큼 플랜이 있다.");
+                Log.e("Get", plans.toString());
 
             }
         });

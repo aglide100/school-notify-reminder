@@ -13,6 +13,7 @@ public class Plan {
     public void RealmObjectToPlan(PlanRealmObject plan) {
         this.planID = plan.getPlanID();
         this.planName = plan.getPlanName();
+        this.subjects = plan.getSubjects();
     }
 
     public void setPlanID() {

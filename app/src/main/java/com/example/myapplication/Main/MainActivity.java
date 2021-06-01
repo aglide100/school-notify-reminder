@@ -1,5 +1,6 @@
 package com.example.myapplication.Main;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -29,8 +30,10 @@ import com.example.myapplication.CalendarAPI.Interfaces.CalenderResultInterface;
 import com.example.myapplication.CalendarAPI.Models.CalendarInputEvent;
 import com.example.myapplication.CalendarAPI.Models.CalendarResponseData;
 import com.example.myapplication.CalendarAPI.Utils.CalendarDataUtil;
+import com.example.myapplication.MyApplication;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.R;
+import com.example.myapplication.View.Activity.NewPlanActivity;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Date;
@@ -69,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
                 if (id == R.id.nav_newPlanActivity) {
 //                  플랜 생성 액티비티 첨부
+                    Intent intent = new Intent(MyApplication.ApplicationContext(), NewPlanActivity.class);
+                    startActivity(intent);
                 }
 
                 if (id == R.id.nav_SettingFragment) {

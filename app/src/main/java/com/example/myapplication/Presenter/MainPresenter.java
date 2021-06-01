@@ -25,7 +25,7 @@ public class MainPresenter implements Contract.Presenter {
         boolean flag = false;
         ArrayList<String> subjectList = plan.getSubjects();
         ArrayList<String> planDetail = new ArrayList<String>();
-        planDetail.add(plan.getPlanName());
+        planDetail.add(plan.getPlanID());
 
         Log.e("Start", "start fetch data" + subjectList);
 

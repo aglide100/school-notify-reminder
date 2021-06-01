@@ -40,6 +40,7 @@ public class MainModel {
         ArrayList<Plan> planList = new ArrayList<Plan>();
         planList = dbManager.getPlanList();
         if (planList == null){
+            Log.e("MainModel", "리스트가 없습니다.!!!");
             return null;
         }
 
