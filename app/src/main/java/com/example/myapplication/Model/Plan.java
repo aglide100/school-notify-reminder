@@ -10,10 +10,23 @@ public class Plan {
     //   uri을 저장
     private ArrayList<String> subjects;
     private String planName;
+    private boolean custom;
+    private String customURL;
+
     public void RealmObjectToPlan(PlanRealmObject plan) {
         this.planID = plan.getPlanID();
         this.planName = plan.getPlanName();
         this.subjects = plan.getSubjects();
+        this.custom = plan.isCustom();
+        this.customURL = plan.getCustomURL();
+    }
+
+    public void setCustom() {
+        this.custom = true;
+    }
+
+    public void setCustomURL(String url) {
+        this.customURL = url;
     }
 
     public void setPlanID() {
@@ -28,6 +41,11 @@ public class Plan {
         this.planName = name;
     }
 
+
+    public String getCustomURL() {
+        return this.customURL;
+    }
+
     //    플랜 아이디 리턴
     public String getPlanID() {
         return this.planID;
@@ -38,7 +56,15 @@ public class Plan {
         return this.planName;
     }
 
-    public ArrayList<String> getSubjects() { return this.subjects;}
+    public ArrayList<String> getSubjects() {
+        return this.subjects;
+    }
 
-
+    public boolean isCustom() {
+        if (this.custom == true) {
+            return this.custom;
+        } else {
+            return false;
+        }
+    }
 }

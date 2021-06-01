@@ -51,7 +51,9 @@ public class Post {
         this.num = num;
     }
 
-    public void setID(){this.ID = UUID.randomUUID().toString();}
+    public void setID() {
+        this.ID = UUID.randomUUID().toString();
+    }
 
     public void setDate(String date) {
         this.date = date;
@@ -65,7 +67,9 @@ public class Post {
         this.writer = writer;
     }
 
-    public void setParent(String parentID) { this.parent = parentID; }
+    public void setParent(String parentID) {
+        this.parent = parentID;
+    }
 
     public String getCode() {
         return this.code;
@@ -95,10 +99,16 @@ public class Post {
         return this.writer;
     }
 
-    public String getID(){ return this.ID; }
+    public String getID() {
+        return this.ID;
+    }
 
-    public int getNum() { return this.num; }
+    public int getNum() {
+        return this.num;
+    }
 
-    public String getParent() { return this.parent; }
+    public String getParent() {
+        return this.parent;
+    }
 
 }

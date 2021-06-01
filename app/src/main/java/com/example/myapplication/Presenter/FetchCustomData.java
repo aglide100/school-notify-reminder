@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
-public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
+public class FetchCustomData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
     private ConnectivityManager connectivityManager;
 
     private NotificationManager mNotificationManager;
@@ -41,8 +41,6 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
     private int mNotifyID = 10;
 
     private boolean ok = false;
-    private int postTotalNum;
-    String uri = "https://www.dongseo.ac.kr/kr/index.php?pCode=";
 
     private DBmanager dbManager;
 
@@ -77,9 +75,6 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
-//        this.mNotifyBuilder.setContentText(currentPostNum+"만큼 찾았습니다.");
-//        this.mNotifyBuilder.setProgress(postTotalNum,currentPostNum, false );
-//        this.mNotificationManager.notify(this.mNotifyID, this.mNotifyBuilder.build());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -90,7 +85,6 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
         this.mNotifyBuilder.setContentTitle("데이터를 가져오고 있습니다!");
         this.mNotifyBuilder.setContentText("잠시만 기다려주세요.");
         this.mNotifyBuilder.setSmallIcon(R.mipmap.ic_launcher);
-        this.mNotifyBuilder.setOngoing(true);
 
         this.mNotificationManager = (NotificationManager) ctx.getSystemService(ctx.NOTIFICATION_SERVICE);
 
@@ -105,7 +99,6 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
         NotificationManagerCompat.from(MyApplication.ApplicationContext()).cancel(this.mNotifyID);
     }
 
-
     @SafeVarargs
     @Override
     protected final AsyncResult doInBackground(ArrayList<String>... arrayLists) {
@@ -116,87 +109,35 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
 
         ArrayList<Post> newPostList = new ArrayList<>();
         Document doc = null;
-        int num;
-        int currentPost = 0;
+        String parent = arrayLists[0].get(0);
+        String url = arrayLists[0].get(1);
 
-        for (int i = 0; i < arrayLists[0].size(); i++) {
-            num = 0;
-
-            String code = arrayLists[0].get(i);
-            Log.e("Start", code + " 시작");
-
+        boolean ok = false;
+        do {
             try {
-                doc = Jsoup.connect(uri + code).get();
-            } catch (IOException e) {
+                doc = Jsoup.connect(url).get();
+            } catch (Exception e) {
                 e.printStackTrace();
-                Log.e("Get Total Page", code + "에서 문서 못가져옴");
-                ErrorModel model = new ErrorModel(code, 0);
+                Log.e("Get Items", url + "페이지에서 문서 못가져옴");
+                ErrorModel model = new ErrorModel(url, 0);
                 result.addFailedItem(model);
                 continue;
             }
+            String page = doc.text();
 
-            Elements pageInfo = doc.select("div[class=board-tot-wrap]");
-            Element totalNum = pageInfo.select("span[class=tot-num]").select("span").first().children().select("span").first();
-            String str = totalNum.text().replaceAll("[^0-9]", "");
-            num = Integer.parseInt(str);
-            Log.e("Result " + code, String.valueOf(num));
+            Post newPost = new Post();
 
-            Element pageNum = pageInfo.select("span[class=pg-num]").select("span").first().children().select("span").first();
-            String pageStr = pageNum.text().replaceAll("[^0-9]", "");
-            int finalPage = Integer.parseInt(pageStr);
+            newPost.setUrl(url);
+            newPost.setID();
+            newPost.setContent(page);
+            newPost.setParent(parent);
 
-            postTotalNum += num;
-            // 기존의 데이터 비교 하는 코드
+            newPostList.add(newPost);
 
-            // 없으면 처음부터
-            Log.e("While", code + "중 페이지 수: " + finalPage);
+            ok = true;
 
-            int nowpage = 1;
-            do {
-                // 페이지 갯수 (1페이지에 15개의 글이 들어감)
-                if (nowpage != 1) {
-                    String getUri = uri + code + "&pg=" + nowpage;
-                    try {
-                        doc = Jsoup.connect(getUri).get();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.e("Get Items", code + "의 " + nowpage + "페이지에서 문서 못가져옴");
-                        ErrorModel model = new ErrorModel(code, nowpage);
-                        result.addFailedItem(model);
-                        continue;
-                    }
-                }
+        } while (ok);
 
-                Elements child = doc.select("tbody").select("tr[class=child_1], tr[class=child_2]");
-                Log.e("While", nowpage + "페이지 안에 " + child.size() + "개 게시물");
-                for (int l = 0; l < child.size(); l++) {
-                    Element elements = child.get(l);
-                    Post newPost = new Post();
-
-                    Elements subjectItems = elements.select("td[class=f-tit subject]").select("p");
-                    String title = subjectItems.select("span").text();
-                    String postURL = subjectItems.select("a").attr("href");
-                    String writer = elements.select("td[class=f-nm writer]").select("p").text();
-                    String date = elements.select("td[class=f-date date]").select("p").text();
-                    int postNum = Integer.parseInt(elements.select("td[class=f-num num]").select("p").text().replaceAll("[^0-9]", ""));
-                    newPost.setParent(arrayLists[1].get(0));
-                    newPost.setCode(code);
-                    newPost.setTitle(title);
-                    newPost.setDate(date);
-                    newPost.setWriter(writer);
-                    newPost.setUrl(postURL);
-                    newPost.setID();
-                    newPost.setNum(postNum);
-                    newPost.setParent(arrayLists[1].get(0));
-
-                    newPostList.add(newPost);
-                    currentPost++;
-                }
-
-                nowpage++;
-            } while (nowpage <= finalPage);
-
-        }
         result.setSuccessItem(newPostList);
 
         return result;
@@ -207,9 +148,7 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
         super.onPostExecute(result);
 
         removeNotification();
-        Log.e("End", "항목 끝!!! " + postTotalNum + "의 포스트를 찾았으며 " + result.getSuccessItem() + "갯수의 포스트 생성");
 
         dbManager.addPost(result.getSuccessItem());
-        Toast.makeText(MyApplication.ApplicationContext(), String.valueOf(postTotalNum), Toast.LENGTH_SHORT).show();
     }
 }
