@@ -50,7 +50,7 @@ public class PlanListFragment extends BasicFragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter = new MainPresenter(this);
+        presenter = new MainPresenter(view);
 //      planList을 가져오기 위해 MainModel을 생성
         mainModel = new MainModel(presenter);
 

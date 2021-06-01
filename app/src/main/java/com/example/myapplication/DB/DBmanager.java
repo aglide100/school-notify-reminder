@@ -37,6 +37,7 @@ public class DBmanager {
         if (findSamePost.size() > 0) {
             Log.e("Realm", "이미 같은 포스트가 존재합니다." + newPost.getCode()+ "항목 " + newPost.getNum() + "번째 " + newPost.getTitle());
         } else {
+            Log.e("Realm", "새로운 포스트를 추가했습니다." + newPost.getCode()+ "항목 " + newPost.getNum() + "번째 " + newPost.getTitle());
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {

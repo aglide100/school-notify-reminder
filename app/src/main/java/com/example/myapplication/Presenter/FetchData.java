@@ -187,7 +187,6 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
                         newPost.setUrl(postURL);
                         newPost.setID();
                         newPost.setNum(postNum);
-                        // 플랜이름이 들어감???????????????????????????
                         newPost.setParent(arrayLists[1].get(0));
 
                         newPostList.add(newPost);
@@ -212,6 +211,5 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
 
         dbManager.addPost(result.getSuccessItem());
         Toast.makeText(MyApplication.ApplicationContext(), String.valueOf(postTotalNum), Toast.LENGTH_SHORT).show();
-//        이벤트 버스로 값 전달
     }
 }

@@ -49,7 +49,7 @@ public class SecondFragment extends BasicFragment{
         super.onViewCreated(view, savedInstanceState);
 
 //      presenter 객체 생성(현재 뷰를 매개변수로 받음 -> presenter에서 view로 함수 호출할 경우 필요하기에 view를 받는다.)
-        presenter = new MainPresenter(this);
+        presenter = new MainPresenter(view);
         MainModel mainModel = new MainModel(presenter);
 
         view.findViewById(R.id.getPostListBtn).setOnClickListener(new View.OnClickListener() {

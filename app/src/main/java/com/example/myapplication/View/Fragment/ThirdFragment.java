@@ -60,7 +60,7 @@ public class ThirdFragment extends BasicFragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter = new MainPresenter(this);
+        presenter = new MainPresenter(view);
 
         checkMN2000191 = view.findViewById(R.id.MN2000191);
         checkMN2000194 = view.findViewById(R.id.MN2000194);
