@@ -14,17 +14,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.myapplication.Model.MainModel;
+import com.example.myapplication.Model.Plan;
+import com.example.myapplication.Model.Post;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
 import com.example.myapplication.View.Basic.BasicFragment;
 
-public class SecondFragment extends BasicFragment implements View.OnClickListener {
+import java.util.ArrayList;
 
-    private TextView answer;
-    private EditText number1;
-    private EditText number2;
-    private Button sumbtn;
+public class SecondFragment extends BasicFragment{
     private Contract.Presenter presenter;
 
     private Context mContext;
@@ -49,14 +49,28 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
         super.onViewCreated(view, savedInstanceState);
 
 //      presenter 객체 생성(현재 뷰를 매개변수로 받음 -> presenter에서 view로 함수 호출할 경우 필요하기에 view를 받는다.)
-        presenter = new MainPresenter(this);
+        presenter = new MainPresenter(view);
+        MainModel mainModel = new MainModel(presenter);
 
-        answer = view.findViewById(R.id.textview_second);
-        number1 = view.findViewById(R.id.number1);
-        number2 = view.findViewById(R.id.number2);
+        view.findViewById(R.id.getPostListBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Post> posts = new ArrayList<Post>();
+                posts = mainModel.getPost(mainModel.getPlan().get(0));
+                Log.e("Get", mainModel.getPlan().get(0).getPlanName()+ "안에 "+ posts.size() +"만큼의 포스트갯수가 있습니다.");
+            }
+        });
 
-        sumbtn = view.findViewById(R.id.sumBtn);
-        sumbtn.setOnClickListener(this);
+        view.findViewById(R.id.getPlanListBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Plan> plans = new ArrayList<Plan>();
+                plans = mainModel.getPlan();
+
+                Log.e("Get", plans.toString());
+
+            }
+        });
 
         view.findViewById(R.id.button_previous).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,16 +88,4 @@ public class SecondFragment extends BasicFragment implements View.OnClickListene
         });
     }
 
-    @Override
-    public void showPost() {
-        Log.e("test", "called showPost()");
-    }
-
-
-
-
-    @Override
-    public void onClick(View v) {
-
-    }
 }

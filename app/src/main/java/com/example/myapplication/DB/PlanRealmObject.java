@@ -9,23 +9,24 @@ import java.util.UUID;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 public class PlanRealmObject extends RealmObject {
     @PrimaryKey
     String ID;
-    private RealmList<String> subjects;
+    @Required
+    private RealmList<String> subjectList = new RealmList<String>();
+    @Required
     private String planName;
-
-    boolean custom;
 
     public PlanRealmObject() {}
 
     public void PlanToRealmObject(Plan plan) {
         this.ID = plan.getPlanID();
         this.planName = plan.getPlanName();
-        this.custom = plan.isCustom();
         for (int i = 0; i < plan.getSubjects().size(); i++){
-            this.subjects.add(plan.getSubjects().get(i));
+
+            this.subjectList.add(plan.getSubjects().get(i));
         }
     }
 
@@ -54,15 +55,12 @@ public class PlanRealmObject extends RealmObject {
 
     public ArrayList<String> getSubjects() {
         ArrayList<String> convertSubjects = new ArrayList<String>();
-        for (int i = 0; i < this.subjects.size(); i++){
-            convertSubjects.add(this.subjects.get(i));
+        for (int i = 0; i < this.subjectList.size(); i++){
+            convertSubjects.add(this.subjectList.get(i));
         }
 
         return convertSubjects;
     }
 
-    public boolean isCustom() {
-        return this.custom;
-    }
 
 }

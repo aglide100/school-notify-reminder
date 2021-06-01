@@ -89,10 +89,20 @@
         app:layout_constraintTop_toBottomOf="@+id/crawler_btn"/>
 
 
+    <EditText
+        android:id="@+id/editPlanName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/checkboxGroup"
+        tools:layout_editor_absoluteX="0dp" />
+
     <Button
         android:id="@+id/crawler_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="152dp"
         android:text="start"
         app:layout_constraintStart_toStartOf="@+id/checkboxGroup"
         app:layout_constraintTop_toBottomOf="@+id/checkboxGroup" />
@@ -101,10 +111,9 @@
         android:id="@+id/create_testPlan_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
         android:text="플랜 생성"
         app:layout_constraintEnd_toEndOf="@+id/crawler_btn"
-        app:layout_constraintTop_toBottomOf="@+id/crawler_btn"></Button>
+        app:layout_constraintTop_toBottomOf="@+id/editPlanName"></Button>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

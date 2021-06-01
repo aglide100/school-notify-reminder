@@ -151,47 +151,51 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
             // 없으면 처음부터
             Log.e("While", code + "중 페이지 수: " + finalPage);
 
-            int nowpage = 1;
-            do {
-                // 페이지 갯수 (1페이지에 15개의 글이 들어감)
-                if (nowpage != 1) {
-                    String getUri = uri + code + "&pg=" + nowpage;
-                    try {
-                        doc = Jsoup.connect(getUri).get();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.e("Get Items", code + "의 " + nowpage + "페이지에서 문서 못가져옴");
-                        ErrorModel model = new ErrorModel(code, nowpage);
-                        result.addFailedItem(model);
-                        continue;
+                int nowpage = 1;
+                do {
+                    // 페이지 갯수 (1페이지에 15개의 글이 들어감)
+                    if (nowpage != 1) {
+                        String getUri = uri + code + "&pg=" + nowpage;
+                        try {
+                            doc = Jsoup.connect(getUri).get();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.e("Get Items", code + "의 " + nowpage + "페이지에서 문서 못가져옴");
+                            ErrorModel model = new ErrorModel(code, nowpage);
+                            result.addFailedItem(model);
+                            continue;
+                        }
                     }
-                }
 
-                Elements child = doc.select("tbody").select("tr[class=child_1], tr[class=child_2]");
-                Log.e("While", nowpage + "페이지 안에 " + child.size() + "개 게시물");
-                for (int l = 0; l < child.size(); l++) {
-                    Element elements = child.get(l);
-                    Post newPost = new Post();
+                    Elements child = doc.select("tbody").select("tr[class=child_1], tr[class=child_2]");
+                    Log.e("While", nowpage + "페이지 안에 " + child.size() + "개 게시물");
+                    for (int l = 0; l < child.size(); l++) {
+                        Element elements = child.get(l);
+                        Post newPost = new Post();
 
-                    Elements subjectItems = elements.select("td[class=f-tit subject]").select("p");
-                    String title = subjectItems.select("span").text();
-                    String postURL = subjectItems.select("a").attr("href");
-                    String writer = elements.select("td[class=f-nm writer]").select("p").text();
-                    String date = elements.select("td[class=f-date date]").select("p").text();
+                        Elements subjectItems = elements.select("td[class=f-tit subject]").select("p");
+                        String title = subjectItems.select("span").text();
+                        String postURL = subjectItems.select("a").attr("href");
+                        String writer = elements.select("td[class=f-nm writer]").select("p").text();
+                        String date = elements.select("td[class=f-date date]").select("p").text();
+                        int postNum = Integer.parseInt(elements.select("td[class=f-num num]").select("p").text().replaceAll("[^0-9]", ""));
+                        newPost.setParent(arrayLists[1].get(0));
+                        newPost.setCode(code);
+                        newPost.setTitle(title);
+                        newPost.setDate(date);
+                        newPost.setWriter(writer);
+                        newPost.setUrl(postURL);
+                        newPost.setID();
+                        newPost.setNum(postNum);
+                        newPost.setParent(arrayLists[1].get(0));
 
-                    newPost.setTitle(title);
-                    newPost.setDate(date);
-                    newPost.setWriter(writer);
-                    newPost.setUrl(postURL);
-                    newPost.setID();
-                    newPost.setParent(arrayLists[1].get(0));
+                        newPostList.add(newPost);
+                        currentPost++;
+                    }
 
-                    newPostList.add(newPost);
-                    currentPost++;
-                }
+                    nowpage++;
+                } while (nowpage <= finalPage);
 
-                nowpage++;
-            } while (nowpage <= finalPage);
         }
         result.setSuccessItem(newPostList);
 
@@ -207,6 +211,5 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
 
         dbManager.addPost(result.getSuccessItem());
         Toast.makeText(MyApplication.ApplicationContext(), String.valueOf(postTotalNum), Toast.LENGTH_SHORT).show();
-//        이벤트 버스로 값 전달
     }
 }

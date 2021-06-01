@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class ThirdFragment extends BasicFragment {
     private CheckBox checkMN2000191, checkMN2000194, checkMN2000195, checkMN2000196, checkMN2000197, checkMN2000198;
     private ProgressBar progressBar;
     private Boolean ok = true;
+    private EditText planNameEdit;
 
 
     @Override
@@ -58,7 +60,7 @@ public class ThirdFragment extends BasicFragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter = new MainPresenter(this);
+        presenter = new MainPresenter(view);
 
         checkMN2000191 = view.findViewById(R.id.MN2000191);
         checkMN2000194 = view.findViewById(R.id.MN2000194);
@@ -67,6 +69,7 @@ public class ThirdFragment extends BasicFragment {
         checkMN2000197 = view.findViewById(R.id.MN2000197);
         checkMN2000198 = view.findViewById(R.id.MN2000198);
         progressBar = view.findViewById(R.id.fetchData);
+        planNameEdit = view.findViewById(R.id.editPlanName);
 
         if (ok) {
             progressBar.setVisibility(View.INVISIBLE);
@@ -86,9 +89,9 @@ public class ThirdFragment extends BasicFragment {
             }
         });
 
-        view.findViewById(R.id.crawler_btn).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.create_testPlan_btn).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 ArrayList<String> subjectList = new ArrayList<String>();
 
                 if (checkMN2000191.isChecked()) {
@@ -119,22 +122,32 @@ public class ThirdFragment extends BasicFragment {
                     Toast.makeText(mContext, "하나 이상 선택해주십시오", Toast.LENGTH_SHORT).show();
                 } else {
                     ok = false;
-                    progressBar.setVisibility(View.VISIBLE);
-
                     MainModel mainModel = new MainModel(presenter);
-                    DBmanager dbManager = new DBmanager();
 
                     Plan newPlan = new Plan();
                     newPlan.setSubjects(subjectList);
-                    newPlan.setPlanName("플랜 테스트");
+                    newPlan.setPlanName(planNameEdit.getText().toString());
                     newPlan.setPlanID();
 
-                    dbManager.addPlan(newPlan);
-//                    ArrayList<Plan> planList =  mainModel.getPlans();
+                    mainModel.makeNewPlan(newPlan);
 
-                    presenter.startFetchData(newPlan);
                 }
             }
+        });
+
+        view.findViewById(R.id.crawler_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    MainModel mainModel = new MainModel(presenter);
+                    Plan plan = new Plan();
+                    plan = mainModel.getPlan().get(0);
+
+                    progressBar.setVisibility(View.VISIBLE);
+
+                    presenter.startFetchData(plan);
+
+                }
+
         });
 
     }
