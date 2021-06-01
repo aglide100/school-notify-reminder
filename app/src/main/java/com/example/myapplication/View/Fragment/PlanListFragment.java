@@ -1,13 +1,18 @@
 package com.example.myapplication.View.Fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Plan;
@@ -65,4 +70,84 @@ public class PlanListFragment extends BasicFragment {
 //       플랜 리스트중 특정 플랜 선택시 아이템 리스트 액티비티 호출!
 //        인탠트로 Plan객체를 itemListActivity로 전
     }
-}
+
+//  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 여기 리사이클러뷰
+   public class MyActivity extends Activity {
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private ArrayList<MyData> myDataset;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_planlist);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        mRecyclerView.setHasFixedSize(true);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        myDataset = new ArrayList<>();
+        mAdapter = new MyAdapter(myDataset);
+        mRecyclerView.setAdapter(mAdapter);
+
+        myDataset.add((new MyData("테스트용", R.mipmap.ic_launcher)));
+         }
+
+    }
+//  viewHolder는 사용된 뷰 객체를 기억하는 객체?
+//  어댑터는 여러 아이템을 리사이클러 뷰에 바인딩 시켜주는 작업?
+    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+        private ArrayList<MyData> mDataset;
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            public ImageView mImageView;
+            public TextView mTextView;
+
+            public ViewHolder(View view) {
+                super(view);
+                mImageView = (ImageView)view.findViewById(R.id.image);
+                mTextView = (TextView)view.findViewById(R.id.textView1);
+            }
+        }
+
+        public MyAdapter(ArrayList<MyData> myDataset) {
+            myDataset = myDataset;
+        }
+
+       @Override
+        public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                       int viewType) {
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.fragment_planlist, parent, false);
+
+            ViewHolder vh = new ViewHolder(v);
+            return vh;
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int postion) {
+            holder.mTextView.setText(mDataset.get(postion).text);
+            holder.mImageView.setImageResource(mDataset.get(postion).img);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mDataset.size();
+        }
+    }
+
+    class MyData{
+        public String text;
+        public int img;
+        public MyData(String text, int img){
+            this.text = text;
+            this.img = img;
+        }
+    }
+
+    }
+
+
