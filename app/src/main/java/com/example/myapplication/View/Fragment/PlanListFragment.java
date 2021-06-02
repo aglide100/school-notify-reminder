@@ -35,8 +35,6 @@ public class PlanListFragment extends BasicFragment {
     private MainModel mainModel;
 
     private TextView textView;
-    private Contract.Presenter presenter;
-    private MainModel mainModel;
 
     //    프래그먼트가 아직 첨부되기 전이라 액티비티를 받아오기 위해서 onAttach를 오버라이딩 해야됨
     //    프래그먼트가 onAttch되는 과정에서 context를 받아옴
@@ -73,7 +71,7 @@ public class PlanListFragment extends BasicFragment {
 //        인탠트로 Plan객체를 itemListActivity로 전
     }
 
-//  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 여기 리사이클러뷰
+//  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 여기 리사이클러뷰 ㅡㅡㅡ
    public class MyActivity extends Activity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
