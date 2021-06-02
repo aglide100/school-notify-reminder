@@ -8,7 +8,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     >
 
-    <!-- 깃 -->
+    <!-- 깃  -->
     <TextView
         android:id="@+id/planName"
         android:layout_width="match_parent"

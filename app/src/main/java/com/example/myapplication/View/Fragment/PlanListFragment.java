@@ -97,7 +97,7 @@ public class PlanListFragment extends BasicFragment {
          }
 
     }
-//  viewHolder는 사용된 뷰 객체를 기억하는 객체?
+//  viewHolder는 사용된 뷰 객체를 기억하는  객체?
 //  어댑터는 여러 아이템을 리사이클러 뷰에 바인딩 시켜주는 작업?
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         private ArrayList<MyData> mDataset;
