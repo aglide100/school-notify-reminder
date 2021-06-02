@@ -1,10 +1,6 @@
 package com.example.myapplication.CalendarAPI.Models;
 
-import androidx.annotation.NonNull;
-
 import com.google.gson.Gson;
-
-import org.jetbrains.annotations.NotNull;
 
 public class CalendarResponseData {
     private CalendarActivityRequestCode activityRequestCode;
@@ -44,8 +40,6 @@ public class CalendarResponseData {
         this.data = data;
     }
 
-    @NonNull
-    @NotNull
     @Override
     public String toString() {
         return new Gson().toJson(this);

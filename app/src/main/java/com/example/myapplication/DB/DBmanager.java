@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class DBmanager {
     Realm realm = Realm.getDefaultInstance();
@@ -92,7 +93,7 @@ public class DBmanager {
         String parent = plan.getPlanID();
         ArrayList<Post> postList = new ArrayList<Post>();
 
-        final RealmResults<PostRealmObject> post = realm.where(PostRealmObject.class).equalTo("parent", parent).findAll();
+        final RealmResults<PostRealmObject> post = realm.where(PostRealmObject.class).equalTo("parent", parent).sort("date", Sort.DESCENDING).findAll();
 
         for (int i = 0; i < post.size(); i++) {
             Post newPost = new Post();
