@@ -1,5 +1,7 @@
 package com.example.myapplication.Model;
 
+import com.example.myapplication.DB.PlanRealmObject;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -8,6 +10,11 @@ public class Plan {
     //   uri을 저장
     private ArrayList<String> subjects;
     private String planName;
+    public void RealmObjectToPlan(PlanRealmObject plan) {
+        this.planID = plan.getPlanID();
+        this.planName = plan.getPlanName();
+        this.subjects = plan.getSubjects();
+    }
 
     public void setPlanID() {
         this.planID = UUID.randomUUID().toString();
@@ -31,7 +38,7 @@ public class Plan {
         return this.planName;
     }
 
-    //여기 주석넣고 싶습니다.
+    public ArrayList<String> getSubjects() { return this.subjects;}
 
 
 }

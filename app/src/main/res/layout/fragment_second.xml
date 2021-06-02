@@ -12,38 +12,21 @@
         android:layout_height="400dp"
         tools:ignore="MissingConstraints">
 
-        <TextView
-            android:id="@+id/textview_second"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="30dp" />
-
-        <EditText
-            android:id="@+id/number1"
+        <Button
+            android:id="@+id/getPlanListBtn"
+            android:text="플랜 가져오기"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="100dp"
-            android:ems="10"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/number2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="100dp"
-            android:ems="10"
-            android:inputType="textPersonName" />
+            />
 
         <Button
-            android:id="@+id/sumBtn"
-            android:layout_width="match_parent"
+            android:id="@+id/getPostListBtn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/number1"
-            android:layout_marginTop="60dp"
-            android:text="sum" />
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="119dp"
+            android:text="포스트 가져오기" />
+
 
     </RelativeLayout>
 

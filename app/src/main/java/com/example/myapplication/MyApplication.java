@@ -1,20 +1,27 @@
 package com.example.myapplication;
 
-import android.app.Application;
 import android.content.Context;
 
-public class MyApplication extends Application {
+import androidx.multidex.MultiDexApplication;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
+public class MyApplication extends MultiDexApplication {
 
     private static Context context;
 
     public void onCreate() {
         super.onCreate();
-        MyApplication.context = getApplicationContext();
+        MyApplication.context = this;
+
+        Realm.init(context);
+        RealmConfiguration config = new RealmConfiguration.Builder().allowWritesOnUiThread(true).name("InternalDB6.realm").schemaVersion(0).build();
+
+        Realm.setDefaultConfiguration(config);
     }
     
     public static Context ApplicationContext() {
         return MyApplication.context;
     }
 }
-
-// 주석주석주석

@@ -7,14 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.myapplication.DB.DBmanager;
 import com.example.myapplication.EventBus.BusEvent;
 import com.example.myapplication.EventBus.BusProvider;
+import com.example.myapplication.Model.MainModel;
+import com.example.myapplication.Model.Plan;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
@@ -26,16 +30,13 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 public class ThirdFragment extends BasicFragment {
-    Bus bus = BusProvider.getInstance();
-
     private Context mContext;
     private Contract.Presenter presenter;
     private CheckBox checkMN2000191, checkMN2000194, checkMN2000195, checkMN2000196, checkMN2000197, checkMN2000198;
     private ProgressBar progressBar;
     private Boolean ok = true;
-    private Observable observable;
+    private EditText planNameEdit;
 
-    private String code;
 
     @Override
     public void onAttach(Context context) {
@@ -46,13 +47,6 @@ public class ThirdFragment extends BasicFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
-        bus.unregister(this);
-    }
-
-    @Subscribe
-    public void busStop(BusEvent busEvent) {
-        Log.e("EVENTBUS", "receive Bus");
     }
 
     @Override
@@ -60,14 +54,13 @@ public class ThirdFragment extends BasicFragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        bus.register(this);
         return inflater.inflate(R.layout.fragment_third, container, false);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter = new MainPresenter(this);
+        presenter = new MainPresenter(view);
 
         checkMN2000191 = view.findViewById(R.id.MN2000191);
         checkMN2000194 = view.findViewById(R.id.MN2000194);
@@ -76,13 +69,11 @@ public class ThirdFragment extends BasicFragment {
         checkMN2000197 = view.findViewById(R.id.MN2000197);
         checkMN2000198 = view.findViewById(R.id.MN2000198);
         progressBar = view.findViewById(R.id.fetchData);
-
-//        BusProvider.getInstance().register(this);
+        planNameEdit = view.findViewById(R.id.editPlanName);
 
         if (ok) {
             progressBar.setVisibility(View.INVISIBLE);
         }
-
 
         view.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,9 +89,9 @@ public class ThirdFragment extends BasicFragment {
             }
         });
 
-        view.findViewById(R.id.crawler_btn).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.create_testPlan_btn).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 ArrayList<String> subjectList = new ArrayList<String>();
 
                 if (checkMN2000191.isChecked()) {
@@ -127,30 +118,37 @@ public class ThirdFragment extends BasicFragment {
                     subjectList.add("MN2000198");
                 }
 
-
                 if (subjectList.size() == 0) {
                     Toast.makeText(mContext, "하나 이상 선택해주십시오", Toast.LENGTH_SHORT).show();
                 } else {
                     ok = false;
-                    progressBar.setVisibility(View.VISIBLE);
-                    presenter.startFetchData(subjectList);
+                    MainModel mainModel = new MainModel(presenter);
 
-//                    int num = 0;
-//                    // rxJava나 이벤트 버스 사용!!!
-//                    PublishSubject<Integer> items = PublishSubject.create();
-//                    items.onNext(1);
-//                    items.onNext(2);
-//                    items.onNext(3);
-//                    BehaviorSubject<String> subject = BehaviorSubject.createDefault("0");
+                    Plan newPlan = new Plan();
+                    newPlan.setSubjects(subjectList);
+                    newPlan.setPlanName(planNameEdit.getText().toString());
+                    newPlan.setPlanID();
+
+                    mainModel.makeNewPlan(newPlan);
 
                 }
             }
         });
 
-    }
-//    @Subscribe
-//    public void updateProgress(ProgressEvent progressEvent) {
-//
-//    }
+        view.findViewById(R.id.crawler_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    MainModel mainModel = new MainModel(presenter);
+                    Plan plan = new Plan();
+                    plan = mainModel.getPlan().get(0);
 
+                    progressBar.setVisibility(View.VISIBLE);
+
+                    presenter.startFetchData(plan);
+
+                }
+
+        });
+
+    }
 }
