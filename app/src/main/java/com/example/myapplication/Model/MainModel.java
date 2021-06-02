@@ -41,7 +41,6 @@ public class MainModel {
         planList = dbManager.getPlanList();
         if (planList == null){
             Log.e("MainModel", "리스트가 없습니다.!!!");
-            return null;
         }
 
         return planList;
