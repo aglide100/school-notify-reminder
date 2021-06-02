@@ -1,6 +1,7 @@
 package com.example.myapplication.View.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import com.example.myapplication.MyApplication;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
+import com.example.myapplication.View.Activity.ItemDetailActivity;
+import com.example.myapplication.View.Activity.ItemListActivity;
 import com.example.myapplication.View.Basic.BasicFragment;
 
 import java.util.ArrayList;
@@ -29,7 +32,6 @@ import java.util.ArrayList;
 public class PlanListFragment extends BasicFragment {
 
     private Contract.Presenter presenter;
-    private ArrayList<Plan> planList;
     private MainModel mainModel;
 
     private RecyclerView mRecyclerView;
@@ -78,6 +80,23 @@ public class PlanListFragment extends BasicFragment {
                 icon = (ImageView) view.findViewById(R.id.card_view_icon);
                 titleText = (TextView) view.findViewById(R.id.card_view_title);
                 commentText = (TextView) view.findViewById(R.id.card_view_text);
+
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Plan plan = new Plan();
+
+                        int position = getAdapterPosition();
+                        if (position != mRecyclerView.NO_POSITION) {
+                            plan = myDataset.get(position);
+                        }
+
+                        Intent intent = new Intent(MyApplication.ApplicationContext(), ItemListActivity.class);
+                        intent.putExtra("PlanID", plan.getPlanID());
+
+                        startActivity(intent);
+                    }
+                });
             }
         }
 

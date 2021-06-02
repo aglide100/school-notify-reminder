@@ -7,7 +7,6 @@
     tools:context=".View.Fragment.PlanListFragment"
     >
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:scrollbars="vertical"

@@ -7,19 +7,6 @@
     android:layout_marginBottom="10dp"
     app:ignore="NamespaceTypo">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/innerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/card_view_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="10dp"
-            android:src="@mipmap/ic_launcher_round"
-            app:layout_constraintLeft_toLeftOf="@+id/innerLayout"
-            app:layout_constraintTop_toTopOf="@+id/innerLayout" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -27,10 +14,10 @@
             android:padding="10dp"
 
             app:layout_constraintLeft_toRightOf="@+id/card_view_icon"
-            app:layout_constraintTop_toTopOf="@+id/innerLayout">
+            app:layout_constraintTop_toTopOf="@+id/postInnerLayout">
 
             <TextView
-                android:id="@+id/card_view_text"
+                android:id="@+id/post_card_view_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -40,15 +27,14 @@
                 card:layout_constraintLeft_toLeftOf="parent" />
 
             <TextView
-                android:id="@+id/card_view_title"
+                android:id="@+id/post_card_view_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 card:layout_constraintTop_toTopOf="parent"
-                card:layout_constraintTop_toBottomOf="@+id/card_view_text"
+                card:layout_constraintTop_toBottomOf="@+id/post_card_view_date"
                 card:layout_constraintLeft_toLeftOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.cardview.widget.CardView>
