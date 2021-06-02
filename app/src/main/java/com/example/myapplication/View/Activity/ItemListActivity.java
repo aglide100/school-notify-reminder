@@ -42,16 +42,17 @@ public class ItemListActivity extends BasicActivity {
         String planID = itemListIntent.getStringExtra("PlanID");
         Log.e("ItemList", planID);
 
+        mLayoutManager = new LinearLayoutManager(MyApplication.ApplicationContext(), LinearLayoutManager.VERTICAL, false);
+
         presenter = new MainPresenter(findViewById(R.layout.activity_itemlist));
         mainModel = new MainModel(presenter);
 
         postList = new ArrayList<>();
-
         postList = mainModel.getPost(planID);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.post_list_view);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(MyApplication.ApplicationContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         myDataset = new ArrayList<>();
         myDataset = postList;
@@ -87,7 +88,7 @@ class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public PostAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View v = LayoutInflater.from(MyApplication.ApplicationContext())
-                .inflate(R.layout.custom_post_view, parent, false);
+                .inflate(R.layout.custom_post_view, null, false);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
         return vh;

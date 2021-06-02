@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private Contract.Presenter presenter;
     private MainModel mainModel;
 
+
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {

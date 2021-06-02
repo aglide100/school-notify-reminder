@@ -105,10 +105,9 @@ public class PlanListFragment extends BasicFragment {
         }
 
         @Override
-        public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                       int viewType) {
+        public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(MyApplication.ApplicationContext())
-                    .inflate(R.layout.custom_card_view, parent, false);
+                    .inflate(R.layout.custom_card_view, null, false);
 
             ViewHolder vh = new ViewHolder(v);
             return vh;
