@@ -25,8 +25,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".View.Activity.NewPlanActivity">
-
         </activity>
+        <activity android:name=".View.Activity.ItemListActivity"/>
     </application>
 
 </manifest>
