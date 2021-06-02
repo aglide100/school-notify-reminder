@@ -121,7 +121,7 @@ public class PlanListFragment extends BasicFragment {
         public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                        int viewType) {
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.fragment_planlist, parent, false);
+                    .inflate(R.layout.fragment_planlist_cardview, parent, false);
 
             ViewHolder vh = new ViewHolder(v);
             return vh;
