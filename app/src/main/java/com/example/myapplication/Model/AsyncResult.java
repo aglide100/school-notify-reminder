@@ -29,6 +29,7 @@ public class AsyncResult {
         }
         successItem.add(item);
     }
+
     public void addSuccessItem(ArrayList<Post> item) {
         if (successItem == null) {
             successItem = new ArrayList<>();
@@ -54,6 +55,7 @@ public class AsyncResult {
         }
         failedItem.add(item);
     }
+
     public void addFailedItem(ArrayList<ErrorModel> item) {
         if (failedItem == null) {
             failedItem = new ArrayList<>();

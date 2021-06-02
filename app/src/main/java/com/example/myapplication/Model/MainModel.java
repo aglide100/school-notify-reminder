@@ -20,13 +20,6 @@ public class MainModel {
         this.presenter = presenter;
     }
 
-//    public saveData(int data) {
-//        //
-//    }
-
-
-//    !!!!!지금 아직 작업중이라 하드 코딩으로 결과값을 뱉습니다. 이러한 점 유의 바랍니다.
-
     public void makeNewPlan(Plan plan) {
         dbManager = new DBmanager();
         dbManager.addNewPlan(plan);
