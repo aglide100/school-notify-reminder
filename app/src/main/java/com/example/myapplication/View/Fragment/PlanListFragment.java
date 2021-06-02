@@ -35,6 +35,8 @@ public class PlanListFragment extends BasicFragment {
     private MainModel mainModel;
 
     private TextView textView;
+    private Contract.Presenter presenter;
+    private MainModel mainModel;
 
     //    프래그먼트가 아직 첨부되기 전이라 액티비티를 받아오기 위해서 onAttach를 오버라이딩 해야됨
     //    프래그먼트가 onAttch되는 과정에서 context를 받아옴
@@ -76,7 +78,7 @@ public class PlanListFragment extends BasicFragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<MyData> myDataset;
+    private ArrayList<Plan> myDataset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,15 +94,17 @@ public class PlanListFragment extends BasicFragment {
         myDataset = new ArrayList<>();
         mAdapter = new MyAdapter(myDataset);
         mRecyclerView.setAdapter(mAdapter);
+        presenter = new MainPresenter(this);
+        mainModel = new MainModel(presenter);
 
-        myDataset.add((new MyData("테스트용", R.mipmap.ic_launcher)));
+        myDataset = mainModel.getPlan();
          }
 
     }
 //  viewHolder는 사용된 뷰 객체를 기억하는  객체?
 //  어댑터는 여러 아이템을 리사이클러 뷰에 바인딩 시켜주는 작업?
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-        private ArrayList<MyData> mDataset;
+        private ArrayList<Plan> mDataset;
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             public ImageView mImageView;
@@ -113,7 +117,7 @@ public class PlanListFragment extends BasicFragment {
             }
         }
 
-        public MyAdapter(ArrayList<MyData> myDataset) {
+        public MyAdapter(ArrayList<Plan> myDataset) {
             myDataset = myDataset;
         }
 
@@ -129,22 +133,13 @@ public class PlanListFragment extends BasicFragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int postion) {
-            holder.mTextView.setText(mDataset.get(postion).text);
+            holder.mTextView.setText(mDataset.get(postion).getPlanName());
             holder.mImageView.setImageResource(mDataset.get(postion).img);
         }
 
         @Override
         public int getItemCount() {
             return mDataset.size();
-        }
-    }
-
-    class MyData{
-        public String text;
-        public int img;
-        public MyData(String text, int img){
-            this.text = text;
-            this.img = img;
         }
     }
 
