@@ -34,7 +34,6 @@ public class MainModel {
         planList = dbManager.getPlanList();
         if (planList == null){
             Log.e("MainModel", "리스트가 없습니다.!!!");
-            return null;
         }
 
         return planList;
@@ -46,16 +45,12 @@ public class MainModel {
     }
 
     //    id값으로 post를 가져온다.
-    public Post getPost(String ID) {
+    public ArrayList<Post> getPost(String parentID) {
         dbManager = new DBmanager();
-        // 하드 코딩
-        newPost = new Post();
-        newPost.setTitle("테스트 중!");
-        newPost.setDate("1999-01-01");
-        newPost.setCode("MN0000123");
-        newPost.setContent("해당 글의 내용 ~~~~~~~");
+        ArrayList<Post> postArrayList = new ArrayList<>();
 
-        return newPost;
+        postArrayList = dbManager.getPost(dbManager.getPlan(parentID));
+        return postArrayList;
     }
 
 

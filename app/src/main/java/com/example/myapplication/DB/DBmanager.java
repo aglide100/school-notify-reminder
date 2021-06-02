@@ -110,18 +110,19 @@ public class DBmanager {
         return num;
     }
 
-    public Plan getPlan(String planName) {
+    public Plan getPlan(String planID){
         Plan plan = new Plan();
 
-        final RealmResults<PlanRealmObject> PlanRealmObject = realm.where(com.example.myapplication.DB.PlanRealmObject.class).equalTo("planName", planName).findAll();
+        final PlanRealmObject planRealmObject = realm.where(com.example.myapplication.DB.PlanRealmObject.class).equalTo("ID", planID).findFirst();
 
 //      이러면 플랜이름을 유니크 속성을 줘야함
-        plan.RealmObjectToPlan(PlanRealmObject.get(0));
+        plan.RealmObjectToPlan(planRealmObject);
 
         return plan;
     }
 
-    public ArrayList<Plan> getPlanList() {
+
+    public ArrayList<Plan> getPlanList(){
         ArrayList<Plan> planList = new ArrayList<Plan>();
 
         final RealmResults<PlanRealmObject> getPlans = realm.where(PlanRealmObject.class).findAll();
