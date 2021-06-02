@@ -25,8 +25,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".View.Activity.NewPlanActivity">
-
         </activity>
+        
+        <service android:name=".Presenter.MyService"></service>
     </application>
 
 </manifest>

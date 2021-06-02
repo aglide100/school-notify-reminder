@@ -43,7 +43,7 @@ public class DBmanager {
 
         final RealmResults<PostRealmObject> findSamePost = realm.where(PostRealmObject.class).equalTo("parent", newPost.getParent()).equalTo("code", newPost.getCode()).equalTo("num", newPost.getNum()).findAll();
 
-        if (findSamePost.size() == 0) {
+        if (findSamePost.size() != 0) {
             Log.e("Realm", "이미 같은 포스트가 존재합니다." + newPost.getCode() + "항목 " + newPost.getNum() + "번째 " + newPost.getTitle());
         } else {
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(MyApplication.ApplicationContext(), "newPost");

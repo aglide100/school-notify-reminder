@@ -36,6 +36,7 @@ import com.example.myapplication.Model.Plan;
 import com.example.myapplication.MyApplication;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
+import com.example.myapplication.Presenter.MyService;
 import com.example.myapplication.R;
 import com.example.myapplication.View.Activity.NewPlanActivity;
 import com.google.android.material.navigation.NavigationView;
@@ -146,6 +147,16 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<Plan> plans = new ArrayList<>();
             plans = mainModel.getPlan();
             presenter.startFetchData(plans);
+        }
+
+        if (id == R.id.start_service) {
+            Intent intent = new Intent(MyApplication.ApplicationContext(), MyService.class);
+            startService(intent);
+        }
+
+        if (id == R.id.stop_service) {
+            Intent intent = new Intent(MyApplication.ApplicationContext(), MyService.class);
+            stopService(intent);
         }
 
         return super.onOptionsItemSelected(item);

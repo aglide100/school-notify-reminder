@@ -117,7 +117,6 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
         ArrayList<Post> newPostList = new ArrayList<>();
         Document doc = null;
         int num;
-        int currentPost = 0;
 
         for (int i = 0; i < arrayLists[0].size(); i++) {
             num = 0;
@@ -190,7 +189,6 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
                     newPost.setParent(arrayLists[1].get(0));
 
                     newPostList.add(newPost);
-                    currentPost++;
                 }
 
                 nowpage++;
