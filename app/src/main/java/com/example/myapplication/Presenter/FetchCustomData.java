@@ -9,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -18,17 +17,13 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.myapplication.DB.DBmanager;
 import com.example.myapplication.Model.AsyncResult;
 import com.example.myapplication.Model.ErrorModel;
-import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.MyApplication;
 import com.example.myapplication.R;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
@@ -112,31 +107,25 @@ public class FetchCustomData extends AsyncTask<ArrayList<String>, Void, AsyncRes
         String parent = arrayLists[0].get(0);
         String url = arrayLists[0].get(1);
 
-        boolean ok = false;
-        do {
-            try {
-                doc = Jsoup.connect(url).get();
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e("Get Items", url + "페이지에서 문서 못가져옴");
-                ErrorModel model = new ErrorModel(url, 0);
-                result.addFailedItem(model);
-                continue;
-            }
-            String page = doc.text();
+        try {
+            doc = Jsoup.connect(url).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("Get Items", url + "페이지에서 문서 못가져옴");
+            ErrorModel model = new ErrorModel(url, 0);
+            result.addFailedItem(model);
+        }
+        String page = doc.text();
 
-            Post newPost = new Post();
+        Post newPost = new Post();
 
-            newPost.setUrl(url);
-            newPost.setID();
-            newPost.setContent(page);
-            newPost.setParent(parent);
+        newPost.setUrl(url);
+        newPost.setID();
+        newPost.setContent(page);
+        newPost.setParent(parent);
+        newPost.setTitle(doc.title());
 
-            newPostList.add(newPost);
-
-            ok = true;
-
-        } while (ok);
+        newPostList.add(newPost);
 
         result.setSuccessItem(newPostList);
 

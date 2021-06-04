@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,14 +24,14 @@ import com.example.myapplication.View.Basic.BasicActivity;
 import java.util.ArrayList;
 
 public class ItemListActivity extends BasicActivity {
-    private Contract.Presenter presenter;
-    private MainModel mainModel;
-    private ArrayList<Post> postList;
+    Contract.Presenter presenter;
+    MainModel mainModel;
+    ArrayList<Post> postList;
 
-    private RecyclerView mPostRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<Post> myDataset;
+    RecyclerView mPostRecyclerView;
+    RecyclerView.Adapter mAdapter;
+    RecyclerView.LayoutManager mLayoutManager;
+    ArrayList<Post> myDataset;
 
     @SuppressLint("ResourceType")
     @Override
@@ -50,7 +51,7 @@ public class ItemListActivity extends BasicActivity {
         postList = new ArrayList<>();
         postList = mainModel.getPostList(planID);
 
-        mPostRecyclerView = (RecyclerView) findViewById(R.id.post_list_view);
+        mPostRecyclerView = findViewById(R.id.post_list_view);
         mPostRecyclerView.setHasFixedSize(true);
         mPostRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -73,8 +74,8 @@ public class ItemListActivity extends BasicActivity {
 
             public ViewHolder(View view) {
                 super(view);
-                postTitleView = (TextView) view.findViewById(R.id.post_card_view_title);
-                postDateView = (TextView) view.findViewById(R.id.post_card_view_date);
+                postTitleView = view.findViewById(R.id.post_card_view_title);
+                postDateView = view.findViewById(R.id.post_card_view_date);
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -101,6 +102,7 @@ public class ItemListActivity extends BasicActivity {
         }
 
         // Create new views (invoked by the layout manager)
+        @NonNull
         @Override
         public PostAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             // create a new view

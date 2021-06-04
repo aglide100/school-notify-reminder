@@ -17,10 +17,10 @@ public class PostRealmObject extends RealmObject {
     private String date;
     private String content;
     private String writer;
+    private Boolean custom;
     private int num;
 
-    public PostRealmObject() {
-    }
+    public PostRealmObject() {}
 
     public void PostToRealmObject(Post newPost) {
         this.code = newPost.getCode();
@@ -33,6 +33,7 @@ public class PostRealmObject extends RealmObject {
         this.title = newPost.getTitle();
         this.url = newPost.getUrl();
         this.parent = newPost.getParent();
+        this.custom = newPost.isCustom();
     }
 
     public String getCode() {
@@ -73,6 +74,14 @@ public class PostRealmObject extends RealmObject {
 
     public String getParent() {
         return this.parent;
+    }
+
+    public Boolean isCustom() {
+        if (this.custom == null) {
+            return false;
+        }
+
+        return this.custom;
     }
 
     public void setContent(String content) {

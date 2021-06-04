@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -19,8 +18,8 @@ import com.example.myapplication.View.Basic.BasicActivity;
 
 
 public class ItemDetailActivity extends BasicActivity {
-    private Contract.Presenter presenter;
-    private MainModel mainModel;
+    Contract.Presenter presenter;
+    MainModel mainModel;
     private Post post;
     private TextView titleView, dateView, contentView;
 
@@ -35,7 +34,6 @@ public class ItemDetailActivity extends BasicActivity {
         Intent postIntent = getIntent();
         String postID = postIntent.getStringExtra("postID");
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
 
         presenter = new MainPresenter(findViewById(R.layout.activity_itemdetail));
         mainModel = new MainModel(presenter);
@@ -52,7 +50,7 @@ public class ItemDetailActivity extends BasicActivity {
 
     private class getPostAsyncTask extends AsyncTask<Post, Void, Post> {
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             postInnerLayout.setVisibility(View.INVISIBLE);
             progressLayout.setVisibility(View.VISIBLE);
             titleView.setText(post.getTitle());
@@ -66,7 +64,7 @@ public class ItemDetailActivity extends BasicActivity {
         }
 
         @Override
-        protected void onPostExecute(Post post){
+        protected void onPostExecute(Post post) {
             progressLayout.setVisibility(View.INVISIBLE);
             postInnerLayout.setVisibility(View.VISIBLE);
         }

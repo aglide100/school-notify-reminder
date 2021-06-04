@@ -1,7 +1,5 @@
 package com.example.myapplication.Model;
 
-import com.example.myapplication.Model.ErrorModel;
-import com.example.myapplication.Model.Post;
 
 import java.util.ArrayList;
 

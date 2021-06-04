@@ -16,6 +16,7 @@ public class Post {
     private String content;
     private String writer;
     private String ID;
+    private Boolean custom;
     private int num;
 
     public void RealmObjectToPost(PostRealmObject obj) {
@@ -29,6 +30,7 @@ public class Post {
         this.writer = obj.getWriter();
         this.ID = obj.getID();
         this.num = obj.getNum();
+        this.custom = obj.isCustom();
     }
 
     public void setCode(String code) {
@@ -109,6 +111,14 @@ public class Post {
 
     public String getParent() {
         return this.parent;
+    }
+
+    public Boolean isCustom() {
+        if (this.custom == null) {
+            return false;
+        }
+
+        return this.custom;
     }
 
 }

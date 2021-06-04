@@ -17,7 +17,7 @@ public class MyApplication extends MultiDexApplication {
 
         Realm.init(context);
 
-        RealmConfiguration config = new RealmConfiguration.Builder().allowWritesOnUiThread(true).name("InternalDB15.realm").schemaVersion(0).build();
+        RealmConfiguration config = new RealmConfiguration.Builder().allowWritesOnUiThread(true).name("InternalDB17.realm").schemaVersion(0).build();
 
         Realm.setDefaultConfiguration(config);
     }
