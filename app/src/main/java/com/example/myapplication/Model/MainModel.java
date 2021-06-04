@@ -39,13 +39,19 @@ public class MainModel {
         return planList;
     }
 
+    public Post getPost(String ID) {
+        dbManager = new DBmanager();
+
+        return dbManager.getPost(ID);
+    }
+
     public ArrayList<Post> getPost(Plan plan) {
         dbManager = new DBmanager();
         return dbManager.getPost(plan);
     }
 
     //    id값으로 post를 가져온다.
-    public ArrayList<Post> getPost(String parentID) {
+    public ArrayList<Post> getPostList(String parentID) {
         dbManager = new DBmanager();
         ArrayList<Post> postArrayList = new ArrayList<>();
 

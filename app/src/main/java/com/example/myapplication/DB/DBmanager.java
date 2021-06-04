@@ -89,6 +89,14 @@ public class DBmanager {
         }
     }
 
+    public Post getPost(String ID) {
+        Post post = new Post();
+        final PostRealmObject realmPost = realm.where(PostRealmObject.class).equalTo("ID", ID).findFirst();
+        post.RealmObjectToPost(realmPost);
+
+        return post;
+    }
+
     public ArrayList<Post> getPost(Plan plan) {
         String parent = plan.getPlanID();
         ArrayList<Post> postList = new ArrayList<Post>();
@@ -142,7 +150,6 @@ public class DBmanager {
     }
 
     public void deletePlan(Plan plan) {
-
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -155,7 +162,6 @@ public class DBmanager {
     }
 
     public void updatePlan(Plan plan) {
-
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -171,7 +177,6 @@ public class DBmanager {
     }
 
     public void updateContentInPost(Post post) {
-
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

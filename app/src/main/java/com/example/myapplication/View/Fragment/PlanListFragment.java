@@ -86,6 +86,7 @@ public class PlanListFragment extends BasicFragment {
                     public void onClick(View v) {
                         Plan plan = new Plan();
 
+
                         int position = getAdapterPosition();
                         if (position != mRecyclerView.NO_POSITION) {
                             plan = myDataset.get(position);

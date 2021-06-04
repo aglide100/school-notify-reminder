@@ -18,8 +18,6 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.myapplication.DB.DBmanager;
 import com.example.myapplication.Model.AsyncResult;
 import com.example.myapplication.Model.ErrorModel;
-import com.example.myapplication.Model.MainModel;
-import com.example.myapplication.Model.Plan;
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.MyApplication;
 import com.example.myapplication.R;
@@ -35,10 +33,10 @@ import java.util.ArrayList;
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
-    private ConnectivityManager connectivityManager;
+    ConnectivityManager connectivityManager;
 
-    private NotificationManager mNotificationManager;
-    private NotificationCompat.Builder mNotifyBuilder;
+    NotificationManager mNotificationManager;
+    NotificationCompat.Builder mNotifyBuilder;
     private int mNotifyID = 10;
 
     private boolean ok = false;
@@ -119,24 +117,6 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
         Document doc = null;
         int num;
 
-        if (arrayLists[1].get(2) != null) {
-            String customUrl = arrayLists[1].get(2);
-            try {
-                doc = Jsoup.connect(customUrl).get();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e("Get Total Page", customUrl + "에서 문서 못가져옴");
-                ErrorModel model = new ErrorModel(customUrl, 0);
-                result.addFailedItem(model);
-            }
-
-            Post newPost = new Post();
-            newPost.setContent(doc.text());
-
-
-            return result;
-        }
-
         for (int i = 0; i < arrayLists[0].size(); i++) {
             num = 0;
 
@@ -202,7 +182,7 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
                     newPost.setTitle(title);
                     newPost.setDate(date);
                     newPost.setWriter(writer);
-                    newPost.setUrl(postURL);
+                    newPost.setUrl(uri + code + "&pg=" + nowpage+postURL);
                     newPost.setID();
                     newPost.setNum(postNum);
 

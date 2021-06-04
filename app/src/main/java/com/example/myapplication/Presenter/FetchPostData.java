@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
-public class FetchPostData extends AsyncTask<ArrayList<String>, Void, String> {
+public class FetchPostData extends AsyncTask<Post, Void, Post> {
     private ConnectivityManager connectivityManager;
 
     private boolean ok = false;
@@ -58,6 +58,24 @@ public class FetchPostData extends AsyncTask<ArrayList<String>, Void, String> {
     }
 
     @Override
+    protected Post doInBackground(Post... post) {
+        String url = post[0].getUrl();
+        Document doc = null;
+
+
+        try {
+            doc = Jsoup.connect(url).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+
+        return null;
+    }
+
+    @Override
     protected void onPreExecute() {
         super.onPreExecute();
         CheckState();
@@ -70,22 +88,4 @@ public class FetchPostData extends AsyncTask<ArrayList<String>, Void, String> {
     }
 
 
-    @SafeVarargs
-    @Override
-    protected final String doInBackground(ArrayList<String>... arrayLists) {
-        if (!ok) {
-            return "";
-        }
-        Document doc = null;
-       String result = "";
-
-        return result;
     }
-
-    @Override
-    protected void onPostExecute(String result) {
-        super.onPostExecute(result);
-
-
-    }
-}

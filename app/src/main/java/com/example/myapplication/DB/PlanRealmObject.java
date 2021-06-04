@@ -61,7 +61,13 @@ public class PlanRealmObject extends RealmObject {
         }
         return convertSubjects;
     }
-    public String getCustomURL() { return this.customURL; }
+    public String getCustomURL() {
+        if (this.customURL == null){
+            return "";
+        }
+
+        return this.customURL;
+    }
 
     public boolean isCustom() {
         if (this.custom == true) {

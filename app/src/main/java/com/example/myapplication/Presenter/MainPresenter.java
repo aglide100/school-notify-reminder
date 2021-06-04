@@ -7,7 +7,6 @@ import com.example.myapplication.Main.MainActivity;
 import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Plan;
 import com.example.myapplication.Model.Post;
-import com.example.myapplication.View.Basic.BasicFragment;
 
 import java.util.ArrayList;
 
@@ -25,6 +24,11 @@ public class MainPresenter implements Contract.Presenter {
     }
 
     @Override
+    public void startFetchPostData(Post post){
+        new FetchPostData().execute(post);
+    }
+
+    @Override
     public void startFetchData(ArrayList<Plan> plans) {
         for (int i = 0; i < plans.size(); i++) {
             startFetchData(plans.get(i));
@@ -35,13 +39,22 @@ public class MainPresenter implements Contract.Presenter {
     @Override
     public boolean startFetchData(Plan plan) {
         boolean flag = false;
-        ArrayList<String> subjectList = plan.getSubjects();
+
         ArrayList<String> planDetail = new ArrayList<>();
         planDetail.add(plan.getPlanID());
         planDetail.add(plan.getCustomURL());
 
+        if (plan.isCustom()) {
+            new FetchCustomData().execute(planDetail);
+
+            return true;
+        }
+
+        ArrayList<String> subjectList = plan.getSubjects();
+
         Log.e("Start", "start fetch data");
-        new FetchCustomData().execute(plan, subjectList, planDetail);
+        new FetchData().execute(subjectList, planDetail);
+
 
         return flag;
     }

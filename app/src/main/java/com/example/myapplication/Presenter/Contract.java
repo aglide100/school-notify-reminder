@@ -19,6 +19,8 @@ public interface Contract {
 
         void startFetchData(ArrayList<Plan> plans);
 
+        void startFetchPostData(Post post);
+
 //      Post[] getPostList(String planID);
     }
 
