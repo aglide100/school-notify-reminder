@@ -59,7 +59,6 @@ public class PlanRealmObject extends RealmObject {
         for (int i = 0; i < this.subjectList.size(); i++){
             convertSubjects.add(this.subjectList.get(i));
         }
-
         return convertSubjects;
     }
     public String getCustomURL() { return this.customURL; }
@@ -71,6 +70,4 @@ public class PlanRealmObject extends RealmObject {
             return false;
         }
     }
-
-
 }

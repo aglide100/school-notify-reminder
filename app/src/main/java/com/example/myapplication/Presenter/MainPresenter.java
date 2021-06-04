@@ -35,21 +35,14 @@ public class MainPresenter implements Contract.Presenter {
     @Override
     public boolean startFetchData(Plan plan) {
         boolean flag = false;
-        if (plan.isCustom()) {
-            ArrayList<String> planDetail = new ArrayList<>();
-            planDetail.add(plan.getPlanID());
-            planDetail.add(plan.getCustomURL());
+        ArrayList<String> subjectList = plan.getSubjects();
+        ArrayList<String> planDetail = new ArrayList<>();
+        planDetail.add(plan.getPlanID());
+        planDetail.add(plan.getCustomURL());
 
-            new FetchCustomData().execute(planDetail);
-        } else {
-            ArrayList<String> subjectList = plan.getSubjects();
-            ArrayList<String> planDetail = new ArrayList<String>();
-            planDetail.add(plan.getPlanID());
+        Log.e("Start", "start fetch data");
+        new FetchCustomData().execute(plan, subjectList, planDetail);
 
-            Log.e("Start", "start fetch data" + subjectList);
-
-            new FetchData().execute(subjectList, planDetail);
-        }
         return flag;
     }
 

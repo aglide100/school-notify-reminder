@@ -47,37 +47,37 @@ public class DBmanager {
         if (findSamePost.size() != 0) {
             Log.e("Realm", "이미 같은 포스트가 존재합니다." + newPost.getCode() + "항목 " + newPost.getNum() + "번째 " + newPost.getTitle());
         } else {
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(MyApplication.ApplicationContext(), "newPost");
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(MyApplication.ApplicationContext(), "newPost");
 
-                Intent notificationIntent = new Intent(MyApplication.ApplicationContext(), MainActivity.class);
-                PendingIntent pIntent = PendingIntent.getActivity(MyApplication.ApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent notificationIntent = new Intent(MyApplication.ApplicationContext(), MainActivity.class);
+            PendingIntent pIntent = PendingIntent.getActivity(MyApplication.ApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                builder.setSmallIcon(R.mipmap.ic_launcher);
-                builder.setContentTitle("새로운 알림이 있습니다.");
-                builder.setContentText(newPost.getTitle());
-                builder.setShowWhen(true);
-                builder.setGroup("PostNotifyGroup");
-                builder.setContentIntent(pIntent);
-                builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-                builder.setGroupSummary(true);
+            builder.setSmallIcon(R.mipmap.ic_launcher);
+            builder.setContentTitle("새로운 알림이 있습니다.");
+            builder.setContentText(newPost.getTitle());
+            builder.setShowWhen(true);
+            builder.setGroup("PostNotifyGroup");
+            builder.setContentIntent(pIntent);
+            builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+            builder.setGroupSummary(true);
 
-                builder.setAutoCancel(true);
+            builder.setAutoCancel(true);
 
-                NotificationManager notificationManager = (NotificationManager) MyApplication.ApplicationContext().getSystemService(MyApplication.ApplicationContext().NOTIFICATION_SERVICE);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    notificationManager.createNotificationChannel(new NotificationChannel("newPost", "새로운 포스트", NotificationManager.IMPORTANCE_DEFAULT));
-                }
-
-                notificationManager.notify(20, builder.build());
+            NotificationManager notificationManager = (NotificationManager) MyApplication.ApplicationContext().getSystemService(MyApplication.ApplicationContext().NOTIFICATION_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                notificationManager.createNotificationChannel(new NotificationChannel("newPost", "새로운 포스트", NotificationManager.IMPORTANCE_DEFAULT));
             }
 
-            Log.e("Realm", "새로운 포스트를 추가했습니다." + newPost.getCode() + "항목 " + newPost.getNum() + "번째 " + newPost.getTitle());
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    realm.copyToRealm(post);
-                }
-            });
+            notificationManager.notify(20, builder.build());
+        }
+
+        Log.e("Realm", "새로운 포스트를 추가했습니다." + newPost.getCode() + "항목 " + newPost.getNum() + "번째 " + newPost.getTitle());
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealm(post);
+            }
+        });
 
     }
 
@@ -111,7 +111,7 @@ public class DBmanager {
         return num;
     }
 
-    public Plan getPlan(String planID){
+    public Plan getPlan(String planID) {
         Plan plan = new Plan();
 
         final PlanRealmObject planRealmObject = realm.where(com.example.myapplication.DB.PlanRealmObject.class).equalTo("ID", planID).findFirst();
@@ -123,7 +123,7 @@ public class DBmanager {
     }
 
 
-    public ArrayList<Plan> getPlanList(){
+    public ArrayList<Plan> getPlanList() {
         ArrayList<Plan> planList = new ArrayList<Plan>();
 
         final RealmResults<PlanRealmObject> getPlans = realm.where(PlanRealmObject.class).findAll();
@@ -164,6 +164,22 @@ public class DBmanager {
                 planRealmObject.setPlanName(plan.getPlanName());
                 planRealmObject.setSubjects(plan.getSubjects());
                 Log.e("Realm", planRealmObject.toString() + "업데이트를 완료했습니다.");
+
+                realm.commitTransaction();
+            }
+        });
+    }
+
+    public void updateContentInPost(Post post) {
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                final PostRealmObject postRealmObject = realm.where(PostRealmObject.class).equalTo("ID", post.getID()).findFirst();
+
+                postRealmObject.setContent(post.getContent());
+
+                realm.commitTransaction();
             }
         });
     }

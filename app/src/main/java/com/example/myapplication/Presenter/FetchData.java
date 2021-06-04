@@ -19,6 +19,7 @@ import com.example.myapplication.DB.DBmanager;
 import com.example.myapplication.Model.AsyncResult;
 import com.example.myapplication.Model.ErrorModel;
 import com.example.myapplication.Model.MainModel;
+import com.example.myapplication.Model.Plan;
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.MyApplication;
 import com.example.myapplication.R;
@@ -118,6 +119,24 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
         Document doc = null;
         int num;
 
+        if (arrayLists[1].get(2) != null) {
+            String customUrl = arrayLists[1].get(2);
+            try {
+                doc = Jsoup.connect(customUrl).get();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("Get Total Page", customUrl + "에서 문서 못가져옴");
+                ErrorModel model = new ErrorModel(customUrl, 0);
+                result.addFailedItem(model);
+            }
+
+            Post newPost = new Post();
+            newPost.setContent(doc.text());
+
+
+            return result;
+        }
+
         for (int i = 0; i < arrayLists[0].size(); i++) {
             num = 0;
 
@@ -186,7 +205,6 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
                     newPost.setUrl(postURL);
                     newPost.setID();
                     newPost.setNum(postNum);
-                    newPost.setParent(arrayLists[1].get(0));
 
                     newPostList.add(newPost);
                 }

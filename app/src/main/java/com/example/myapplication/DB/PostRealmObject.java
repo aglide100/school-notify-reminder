@@ -19,7 +19,8 @@ public class PostRealmObject extends RealmObject {
     private String writer;
     private int num;
 
-    public PostRealmObject() {}
+    public PostRealmObject() {
+    }
 
     public void PostToRealmObject(Post newPost) {
         this.code = newPost.getCode();
@@ -62,9 +63,19 @@ public class PostRealmObject extends RealmObject {
         return this.writer;
     }
 
-    public String getID(){ return this.ID; }
+    public String getID() {
+        return this.ID;
+    }
 
-    public int getNum() { return this.num; }
+    public int getNum() {
+        return this.num;
+    }
 
-    public String getParent() { return this.parent; }
+    public String getParent() {
+        return this.parent;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

@@ -37,7 +37,6 @@ public class ThirdFragment extends BasicFragment {
     private Boolean ok = true;
     private EditText planNameEdit;
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -130,7 +129,6 @@ public class ThirdFragment extends BasicFragment {
                     newPlan.setPlanID();
 
                     mainModel.makeNewPlan(newPlan);
-
                 }
             }
         });
@@ -145,10 +143,7 @@ public class ThirdFragment extends BasicFragment {
                     progressBar.setVisibility(View.VISIBLE);
 
                     presenter.startFetchData(plan);
-
                 }
-
         });
-
     }
 }
