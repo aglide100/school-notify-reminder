@@ -40,4 +40,6 @@ public class MyService extends Service {
 
         Log.e("Service", "Service onDestroy");
     }
+
+
 }

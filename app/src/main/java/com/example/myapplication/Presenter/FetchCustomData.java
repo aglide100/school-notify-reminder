@@ -24,7 +24,9 @@ import com.example.myapplication.R;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
@@ -124,6 +126,12 @@ public class FetchCustomData extends AsyncTask<ArrayList<String>, Void, AsyncRes
         newPost.setContent(page);
         newPost.setParent(parent);
         newPost.setTitle(doc.title());
+
+        long now = System.currentTimeMillis();
+        Date mDate = new Date(now);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String getTime = simpleDateFormat.format(mDate);
+        newPost.setDate(getTime);
 
         newPostList.add(newPost);
 

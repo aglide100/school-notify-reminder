@@ -50,6 +50,12 @@
             app:layout_constraintTop_toTopOf="@+id/postTitleView"
             app:layout_constraintRight_toRightOf="parent"/>
 
+        <TextView
+            android:id="@+id/postContentView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/postDateView"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

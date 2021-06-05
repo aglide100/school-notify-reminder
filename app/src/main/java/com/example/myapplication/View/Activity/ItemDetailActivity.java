@@ -44,8 +44,19 @@ public class ItemDetailActivity extends BasicActivity {
         dateView = findViewById(R.id.postDateView);
         progressLayout = findViewById(R.id.gettingData);
         postInnerLayout = findViewById(R.id.postDetailInnerLayout);
+        contentView = findViewById(R.id.postContentView);
 
-        new getPostAsyncTask().execute(post);
+        if (post.isCustom()) {
+            progressLayout.setVisibility(View.INVISIBLE);
+            postInnerLayout.setVisibility(View.VISIBLE);
+
+            titleView.setText(post.getTitle());
+            dateView.setText(post.getDate());
+            contentView.setText(post.getContent());
+        } else {
+            new getPostAsyncTask().execute(post);
+        }
+
     }
 
     private class getPostAsyncTask extends AsyncTask<Post, Void, Post> {
