@@ -1,35 +1,20 @@
 package com.example.myapplication.Presenter;
 
 import android.app.AlertDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.util.Log;
-import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import com.example.myapplication.DB.DBmanager;
-import com.example.myapplication.Model.AsyncResult;
-import com.example.myapplication.Model.ErrorModel;
-import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.MyApplication;
-import com.example.myapplication.R;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
@@ -38,6 +23,7 @@ public class FetchPostData extends AsyncTask<Post, Void, Post> {
 
     private boolean ok = false;
     private DBmanager dbManager;
+
 
     private void CheckState() {
         Context ctx = MyApplication.ApplicationContext();
@@ -59,9 +45,9 @@ public class FetchPostData extends AsyncTask<Post, Void, Post> {
 
     @Override
     protected Post doInBackground(Post... post) {
-        String url = post[0].getUrl();
+        Post updatePost = post[0];
+        String url = updatePost.getUrl();
         Document doc = null;
-
 
         try {
             doc = Jsoup.connect(url).get();
@@ -70,9 +56,11 @@ public class FetchPostData extends AsyncTask<Post, Void, Post> {
             return null;
         }
 
+        Elements content = doc.select("div[class=board-view-contents]");
 
+        updatePost.setContent(content.text());
 
-        return null;
+        return updatePost;
     }
 
     @Override
@@ -87,5 +75,10 @@ public class FetchPostData extends AsyncTask<Post, Void, Post> {
         super.onProgressUpdate(values);
     }
 
+    @Override
+    protected void onPostExecute(Post post) {
+        super.onPostExecute(post);
 
+        dbManager.updateContentInPost(post);
     }
+}

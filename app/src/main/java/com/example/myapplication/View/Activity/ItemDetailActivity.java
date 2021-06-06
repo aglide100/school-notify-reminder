@@ -9,13 +9,13 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.example.myapplication.DB.DBmanager;
 import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
 import com.example.myapplication.View.Basic.BasicActivity;
-
 
 public class ItemDetailActivity extends BasicActivity {
     Contract.Presenter presenter;
@@ -33,7 +33,6 @@ public class ItemDetailActivity extends BasicActivity {
 
         Intent postIntent = getIntent();
         String postID = postIntent.getStringExtra("postID");
-
 
         presenter = new MainPresenter(findViewById(R.layout.activity_itemdetail));
         mainModel = new MainModel(presenter);
@@ -60,6 +59,9 @@ public class ItemDetailActivity extends BasicActivity {
     }
 
     private class getPostAsyncTask extends AsyncTask<Post, Void, Post> {
+        Post updatedPost = new Post();
+        DBmanager dBmanager = new DBmanager();
+
         @Override
         protected void onPreExecute() {
             postInnerLayout.setVisibility(View.INVISIBLE);
@@ -70,6 +72,7 @@ public class ItemDetailActivity extends BasicActivity {
 
         @Override
         protected Post doInBackground(Post... posts) {
+            updatedPost = post;
             presenter.startFetchPostData(post);
             return null;
         }
@@ -78,6 +81,8 @@ public class ItemDetailActivity extends BasicActivity {
         protected void onPostExecute(Post post) {
             progressLayout.setVisibility(View.INVISIBLE);
             postInnerLayout.setVisibility(View.VISIBLE);
+            String content = dBmanager.getPost(updatedPost.getID()).getContent();
+            contentView.setText(content);
         }
     }
 

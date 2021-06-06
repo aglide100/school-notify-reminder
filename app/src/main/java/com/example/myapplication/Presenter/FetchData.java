@@ -206,6 +206,5 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
         Log.e("End", "항목 끝!!! " + postTotalNum + "의 포스트를 찾았으며 " + result.getSuccessItem() + "갯수의 포스트 생성");
 
         dbManager.addPost(result.getSuccessItem());
-        Toast.makeText(MyApplication.ApplicationContext(), String.valueOf(postTotalNum), Toast.LENGTH_SHORT).show();
     }
 }
