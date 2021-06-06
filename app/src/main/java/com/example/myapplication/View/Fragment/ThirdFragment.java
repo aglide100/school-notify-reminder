@@ -2,7 +2,6 @@ package com.example.myapplication.View.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,20 +13,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.myapplication.DB.DBmanager;
-import com.example.myapplication.EventBus.BusEvent;
-import com.example.myapplication.EventBus.BusProvider;
 import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Plan;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
 import com.example.myapplication.View.Basic.BasicFragment;
-import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 public class ThirdFragment extends BasicFragment {
     private Context mContext;
@@ -119,7 +112,7 @@ public class ThirdFragment extends BasicFragment {
                 }
 
                 if (subjectList.size() == 0) {
-                    Toast.makeText(mContext, "하나 이상 선택해주십시오", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "하나 이상 선택해주십시오", Toast.LENGTH_SHORT).show();
                 } else {
                     ok = false;
                     MainModel mainModel = new MainModel(presenter);

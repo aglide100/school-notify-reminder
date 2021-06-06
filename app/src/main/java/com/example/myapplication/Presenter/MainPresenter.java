@@ -6,7 +6,7 @@ import android.view.View;
 import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Plan;
 import com.example.myapplication.Model.Post;
-import com.example.myapplication.View.Basic.BasicFragment;
+import com.example.myapplication.View.Activity.NewPlanActivity;
 
 import java.util.ArrayList;
 
@@ -18,6 +18,10 @@ public class MainPresenter implements Contract.Presenter {
 
     public MainPresenter(View view) {
         MainView = view;
+        mainModel = new MainModel(this);
+    }
+
+    public MainPresenter(NewPlanActivity newPlanActivity) {
         mainModel = new MainModel(this);
     }
 

@@ -31,7 +31,7 @@ public class MainModel {
         dbManager = new DBmanager();
         dbManager.addNewPlan(plan);
 
-        Log.e("New", "Receive new Plan!");
+        Log.e("New", "Receive new Plan!"+ plan.getPlanName());
     }
 
     //   현재 작업 중인 plan 리스트를 가지고 온다.
