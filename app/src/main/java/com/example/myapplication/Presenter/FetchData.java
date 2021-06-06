@@ -182,9 +182,25 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
                     newPost.setTitle(title);
                     newPost.setDate(date);
                     newPost.setWriter(writer);
-                    newPost.setUrl(uri + code + "&pg=" + nowpage+postURL);
+                    newPost.setUrl("https://www.dongseo.ac.kr/" + postURL);
                     newPost.setID();
                     newPost.setNum(postNum);
+
+//                    boolean contentOk = true;
+//                    Log.e("While","content내용 파싱");
+//                    do {
+//                        try {
+//                            doc = Jsoup.connect(uri + code + "&pg=" + nowpage + postURL).get();
+//                            if (doc != null) {
+//                                Elements content = doc.select("div[class=board-view-contents]");
+//                                newPost.setContent(content.text());
+//                                contentOk = false;
+//                            }
+//                        }catch (Exception e) {
+//                            Log.e("While", "content내용 못가져왔음!");
+//                        }
+//                    } while (contentOk);
+
 
                     newPostList.add(newPost);
                 }
