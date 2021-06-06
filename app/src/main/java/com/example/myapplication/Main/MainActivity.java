@@ -1,12 +1,16 @@
 package com.example.myapplication.Main;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -16,11 +20,23 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.myapplication.CalendarAPI.CalendarAPI;
+import com.example.myapplication.CalendarAPI.Models.CalendarActivityRequestCode;
+import com.example.myapplication.CalendarAPI.Exceptions.CalendarCantNotUseException;
+import com.example.myapplication.CalendarAPI.Exceptions.CalendarNeedUpdateGoogleServiceException;
+import com.example.myapplication.CalendarAPI.Exceptions.CalendarNetworkException;
+import com.example.myapplication.CalendarAPI.Exceptions.CalendarNotYetFinishBringDataException;
+import com.example.myapplication.CalendarAPI.Interfaces.CalenderResultInterface;
+import com.example.myapplication.CalendarAPI.Models.CalendarInputEvent;
+import com.example.myapplication.CalendarAPI.Models.CalendarResponseData;
+import com.example.myapplication.CalendarAPI.Utils.CalendarDataUtil;
 import com.example.myapplication.MyApplication;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.R;
 import com.example.myapplication.View.Activity.NewPlanActivity;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,8 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (id == R.id.nav_newPlanActivity) {
 //                  플랜 생성 액티비티 첨부
-                    Intent intent;
-                    intent = new Intent(MyApplication.ApplicationContext(), NewPlanActivity.class);
+                    Intent intent = new Intent(MyApplication.ApplicationContext(), NewPlanActivity.class);
                     startActivity(intent);
                 }
 
@@ -76,6 +91,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//        try {
+//            long hour1 = 3600 * 1000;
+//            CalendarAPI.getInstance().addEvent(this, new CalenderResultInterface() {
+//                @Override
+//                public void getResult(CalendarResponseData responseData) {
+//                    Toast.makeText(MainActivity.this, responseData.toString(), Toast.LENGTH_SHORT).show();
+//                }
+//
+//                @Override
+//                public void failedWithActivityResult(CalendarActivityRequestCode reason) {
+//                    Toast.makeText(MainActivity.this, "error : "+reason.getCode(), Toast.LENGTH_SHORT).show();
+//                }
+//
+//                @Override
+//                public void permissionRevoked() {
+//                    Toast.makeText(MainActivity.this, "권한 없음", Toast.LENGTH_SHORT).show();
+//                }
+//            }, new CalendarInputEvent("제목", "집", "설명", new Date(), new Date(new Date().getTime() + hour1)), new CalendarInputEvent("제목2", "집", "설명", new Date(new Date().getTime() + (hour1 * 2)), new Date(new Date().getTime() + (hour1 * 3))));
+//        } catch (CalendarNeedUpdateGoogleServiceException e) {
+//            e.printStackTrace();
+//        } catch (CalendarCantNotUseException e) {
+//            e.printStackTrace();
+//        } catch (CalendarNetworkException e) {
+//            e.printStackTrace();
+//        } catch (CalendarNotYetFinishBringDataException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -106,4 +148,12 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        if (CalendarAPI.getInstance().isRequestCode(requestCode)) {
+            CalendarAPI.getInstance().progressRequest(requestCode, resultCode, data);
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

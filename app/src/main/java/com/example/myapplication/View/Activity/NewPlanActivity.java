@@ -22,12 +22,12 @@ import com.example.myapplication.View.Basic.BasicActivity;
 import java.util.ArrayList;
 
 // 새로운 플랜을 생성하는 액티비티
-public class NewPlanActivity extends BasicActivity {
+public class NewPlanActivity extends BasicActivity implements View.OnClickListener {
     private MainModel mainModel;
     private Contract.Presenter presenter;
     private Plan newPlan;
     Button button_search1, button_search2, button_search3, button_previous1, button_previous2, button_previous3, button_next1, button_next2, button_next3, button_list1;
-    TextView textView1, textView2, textView3,textView4;
+    TextView textView1, textView2, textView3, textView4;
     View image1;
     Spinner spinner1;
     EditText editText1;
@@ -37,22 +37,14 @@ public class NewPlanActivity extends BasicActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_itemlist);
+        setContentView(R.layout.activity_newplan);
 
         // create new Object for plan
         newPlan = new Plan();
         presenter = new MainPresenter(this);
         mainModel = new MainModel(presenter);
 
-        ArrayList<String> subjects = new ArrayList<>();
-
-        // set UUID in PLan ID
-        newPlan.setPlanID();
-        // set subject for fetchData() function
-        newPlan.setSubjects(subjects);
-        newPlan.setPlanName("새로운 플랜 생성");
-
-        mainModel.makeNewPlan(newPlan);
+//        UI 관련
         button_list1 = findViewById(R.id.button_list1);
         button_search2 = findViewById(R.id.button_search2);
         button_search3 = findViewById(R.id.button_search3);
@@ -92,18 +84,24 @@ public class NewPlanActivity extends BasicActivity {
             }
         });
 
-        spinner1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String text = spinner1.getSelectedItem().toString();
-                //전공과목 값 받기
-                ArrayList arrayList = (mainModel.getPlan());
-                }
-            });
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-        button_next1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+            }
+        });
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.button_next1:
                 textView2.setVisibility(View.VISIBLE);
                 button_next1.setVisibility(View.GONE);
                 button_next2.setVisibility(View.VISIBLE);
@@ -116,10 +114,8 @@ public class NewPlanActivity extends BasicActivity {
                 check5.setVisibility(View.VISIBLE);
                 check6.setVisibility(View.VISIBLE);
                 spinner1.setVisibility(View.GONE);
-            }
-        });
-        button_previous2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+                break;
+            case R.id.button_previous2:
                 check1.setVisibility(View.GONE);
                 check2.setVisibility(View.GONE);
                 check3.setVisibility(View.GONE);
@@ -132,10 +128,8 @@ public class NewPlanActivity extends BasicActivity {
                 button_next2.setVisibility(View.GONE);
                 spinner1.setVisibility(View.VISIBLE);
                 textView2.setVisibility(View.GONE);
-            }
-        });
-        button_next2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+                break;
+            case R.id.button_next2:
                 check1.setVisibility(View.GONE);
                 check2.setVisibility(View.GONE);
                 check3.setVisibility(View.GONE);
@@ -156,12 +150,8 @@ public class NewPlanActivity extends BasicActivity {
                 editText1.setVisibility(View.VISIBLE);
                 spinner1.setVisibility(View.GONE);
                 textView2.setVisibility(View.GONE);
-            }
-        });
-
-        button_previous3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.button_previous3:
                 check1.setVisibility(View.VISIBLE);
                 check2.setVisibility(View.VISIBLE);
                 check3.setVisibility(View.VISIBLE);
@@ -183,11 +173,8 @@ public class NewPlanActivity extends BasicActivity {
                 textView2.setVisibility(View.VISIBLE);
                 textView3.setVisibility(View.GONE);
                 editText1.setVisibility(View.GONE);
-            }
-        });
-        button_next3.findViewById(R.id.button_next3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.button_next3:
                 textView3.setVisibility(View.GONE);
                 editText1.setVisibility(View.GONE);
                 image1.setVisibility(View.VISIBLE);
@@ -228,66 +215,33 @@ public class NewPlanActivity extends BasicActivity {
                 if (check12.isChecked()) {
                     subjectList.add("MN2000198");
                 } else {
-                    MainModel mainModel = new MainModel(presenter);
-
-                    Plan newPlan = new Plan();
-                    newPlan.setSubjects(subjectList);
-                    newPlan.setPlanName(editText1.getText().toString());
                     if (editText1.getText().toString() == "") {
                         Toast.makeText(MyApplication.ApplicationContext(), "플랜 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        break;
                     }
 
                     if (subjectList.size() == 0) {
                         Toast.makeText(MyApplication.ApplicationContext(), "체크박스를 하나 이상 선택해주세요.", Toast.LENGTH_SHORT).show();
+                        break;
                     }
 
+                    MainModel mainModel = new MainModel(presenter);
+
+                    Plan newPlan = new Plan();
+
+                    newPlan.setSubjects(subjectList);
+                    newPlan.setPlanName(editText1.getText().toString());
                     newPlan.setPlanID();
 
                     mainModel.makeNewPlan(newPlan);
                 }
-            }
-        });
-        button_list1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.button_list1:
                 finish();
-            }
-        });
-        check1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MyApplication.ApplicationContext(), "해당 체크박스는 개발중에 있습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
-        check2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MyApplication.ApplicationContext(), "해당 체크박스는 개발중에 있습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
-        check3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MyApplication.ApplicationContext(), "해당 체크박스는 개발중에 있습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
-        check4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MyApplication.ApplicationContext(), "해당 체크박스는 개발중에 있습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
-        check5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MyApplication.ApplicationContext(), "해당 체크박스는 개발중에 있습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
-        check6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MyApplication.ApplicationContext(), "해당 체크박스는 개발중에 있습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
+                break;
+            default:
+                Toast.makeText(MyApplication.ApplicationContext(), "현재 개발중입니다!", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 }
