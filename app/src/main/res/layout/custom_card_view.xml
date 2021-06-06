@@ -4,6 +4,11 @@
     xmlns:card="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    card_view:cardCornerRadius="6dp"
+    card_view:cardElevation="4dp"
+    card_view:contentPadding="10dp"
+    card_view:cardBackgroundColor="#e0ffff"
     android:layout_marginBottom="10dp"
     app:ignore="NamespaceTypo">
 
@@ -16,7 +21,8 @@
             android:id="@+id/card_view_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_margin="10dp"
+            android:layout_margin="13dp"
+
             android:src="@mipmap/ic_launcher_round"
             app:layout_constraintLeft_toLeftOf="@+id/innerLayout"
             app:layout_constraintTop_toTopOf="@+id/innerLayout" />
@@ -25,7 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="10dp"
-
             app:layout_constraintLeft_toRightOf="@+id/card_view_icon"
             app:layout_constraintTop_toTopOf="@+id/innerLayout">
 
@@ -34,16 +39,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginBottom="15dp"
+                android:textSize="13dp"
                 card:layout_constraintTop_toTopOf="parent"
-                card:layout_constraintLeft_toLeftOf="parent" />
+                card:layout_constraintLeft_toLeftOf="parent"
+                />
 
             <TextView
                 android:id="@+id/card_view_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 card:layout_constraintTop_toTopOf="parent"
+                android:textSize="17dp"
+                android:textStyle="bold"
                 card:layout_constraintTop_toBottomOf="@+id/card_view_text"
                 card:layout_constraintLeft_toLeftOf="parent" />
 

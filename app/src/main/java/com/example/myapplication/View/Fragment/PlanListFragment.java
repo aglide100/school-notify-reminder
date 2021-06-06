@@ -107,7 +107,7 @@ public class PlanListFragment extends BasicFragment {
         @Override
         public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(MyApplication.ApplicationContext())
-                    .inflate(R.layout.custom_card_view, null, false);
+                    .inflate(R.layout.custom_card_view, parent , false);
 
             ViewHolder vh = new ViewHolder(v);
             return vh;
@@ -116,7 +116,7 @@ public class PlanListFragment extends BasicFragment {
         @Override
         public void onBindViewHolder(ViewHolder holder, int postion) {
             holder.titleText.setText(myDataset.get(postion).getPlanName());
-            holder.commentText.setText("서브 코멘트 작성");
+            holder.commentText.setText("서브 코멘트 예시");
 //            holder.mImageView.setImageResource(mDataset.get(postion).img);
         }
 
