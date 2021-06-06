@@ -31,19 +31,20 @@ public class ItemDetailActivity extends BasicActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_itemdetail);
 
-        Intent postIntent = getIntent();
-        String postID = postIntent.getStringExtra("postID");
-
-        presenter = new MainPresenter(findViewById(R.layout.activity_itemdetail));
-        mainModel = new MainModel(presenter);
-
-        post = mainModel.getPost(postID);
-
+        // UI Setting
         titleView = findViewById(R.id.postTitleView);
         dateView = findViewById(R.id.postDateView);
         progressLayout = findViewById(R.id.gettingData);
         postInnerLayout = findViewById(R.id.postDetailInnerLayout);
         contentView = findViewById(R.id.postContentView);
+
+        Intent postIntent = getIntent();
+        String postID = postIntent.getStringExtra("postID");
+
+        presenter = new MainPresenter();
+        mainModel = new MainModel();
+
+        post = mainModel.getPost(postID);
 
         if (post.isCustom()) {
             progressLayout.setVisibility(View.INVISIBLE);

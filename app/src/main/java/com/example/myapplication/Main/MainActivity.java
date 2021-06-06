@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        presenter = new MainPresenter(findViewById(R.layout.activity_main));
-        mainModel = new MainModel(presenter);
+        presenter = new MainPresenter();
+        mainModel = new MainModel();
 
         drawer = findViewById(R.id.drawer_layout);
         final NavigationView navigationView = findViewById(R.id.nav_view);
@@ -152,7 +153,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.start_service) {
             Intent intent = new Intent(MyApplication.ApplicationContext(), MyService.class);
-            startService(intent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(intent);
+            } else {
+                startService(intent);
+            }
         }
 
         if (id == R.id.stop_service) {

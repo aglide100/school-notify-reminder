@@ -48,8 +48,8 @@ public class PlanListFragment extends BasicFragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter = new MainPresenter(view);
-        mainModel = new MainModel(presenter);
+        presenter = new MainPresenter();
+        mainModel = new MainModel();
 
         mRecyclerView = view.findViewById(R.id.recycler_view);
 

@@ -1,28 +1,13 @@
 package com.example.myapplication.Presenter;
 
 import android.util.Log;
-import android.view.View;
 
-import com.example.myapplication.Main.MainActivity;
-import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Plan;
 import com.example.myapplication.Model.Post;
 
 import java.util.ArrayList;
 
 public class MainPresenter implements Contract.Presenter {
-    View MainView;
-    MainModel mainModel;
-
-    public MainPresenter(View view) {
-        MainView = view;
-        mainModel = new MainModel(this);
-    }
-
-    public MainPresenter(MainActivity mainActivity) {
-        mainModel = new MainModel(this);
-    }
-
     @Override
     public void startFetchPostData(Post post){
         new FetchPostData().execute(post);

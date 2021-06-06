@@ -45,8 +45,8 @@ public class ItemListActivity extends BasicActivity {
 
         mLayoutManager = new LinearLayoutManager(MyApplication.ApplicationContext(), LinearLayoutManager.VERTICAL, false);
 
-        presenter = new MainPresenter(findViewById(R.layout.activity_itemlist));
-        mainModel = new MainModel(presenter);
+        presenter = new MainPresenter();
+        mainModel = new MainModel();
 
         postList = new ArrayList<>();
         postList = mainModel.getPostList(planID);

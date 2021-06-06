@@ -60,7 +60,7 @@ public class ThirdFragment extends BasicFragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter = new MainPresenter(view);
+        presenter = new MainPresenter();
 
         checkMN2000191 = view.findViewById(R.id.MN2000191);
         checkMN2000194 = view.findViewById(R.id.MN2000194);
@@ -127,7 +127,7 @@ public class ThirdFragment extends BasicFragment {
                     Toast.makeText(mContext, "하나 이상 선택해주십시오", Toast.LENGTH_SHORT).show();
                 } else {
                     ok = false;
-                    MainModel mainModel = new MainModel(presenter);
+                    MainModel mainModel = new MainModel();
 
                     Plan newPlan = new Plan();
                     newPlan.setSubjects(subjectList);
@@ -147,7 +147,7 @@ public class ThirdFragment extends BasicFragment {
         view.findViewById(R.id.crawler_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    MainModel mainModel = new MainModel(presenter);
+                    MainModel mainModel = new MainModel();
                     Plan plan = new Plan();
                     plan = mainModel.getPlan().get(0);
 
