@@ -116,18 +116,7 @@ public class NewPlanActivity extends BasicActivity implements View.OnClickListen
                 spinner1.setVisibility(View.GONE);
                 break;
             case R.id.button_previous2:
-                check1.setVisibility(View.GONE);
-                check2.setVisibility(View.GONE);
-                check3.setVisibility(View.GONE);
-                check4.setVisibility(View.GONE);
-                check5.setVisibility(View.GONE);
-                check6.setVisibility(View.GONE);
-                button_previous1.setVisibility(View.VISIBLE);
-                button_next1.setVisibility(View.VISIBLE);
-                button_previous2.setVisibility(View.GONE);
-                button_next2.setVisibility(View.GONE);
-                spinner1.setVisibility(View.VISIBLE);
-                textView2.setVisibility(View.GONE);
+                innerlayout.setVisivility(View.~~~~);
                 break;
             case R.id.button_next2:
                 check1.setVisibility(View.GONE);
