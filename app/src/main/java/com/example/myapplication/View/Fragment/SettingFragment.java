@@ -36,7 +36,7 @@ public class SettingFragment extends BasicFragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter = new MainPresenter(view);
+        presenter = new MainPresenter();
 
     }
 }

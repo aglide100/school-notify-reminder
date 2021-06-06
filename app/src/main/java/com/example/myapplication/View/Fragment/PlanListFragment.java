@@ -1,6 +1,5 @@
 package com.example.myapplication.View.Fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,7 +18,6 @@ import com.example.myapplication.MyApplication;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
-import com.example.myapplication.View.Activity.ItemDetailActivity;
 import com.example.myapplication.View.Activity.ItemListActivity;
 import com.example.myapplication.View.Basic.BasicFragment;
 
@@ -31,13 +29,13 @@ import java.util.ArrayList;
 //  Fragment를 상속하며 Contract.View를 구현하는 BasicFragment를 상속
 public class PlanListFragment extends BasicFragment {
 
-    private Contract.Presenter presenter;
-    private MainModel mainModel;
+    Contract.Presenter presenter;
+    MainModel mainModel;
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<Plan> myDataset;
+    RecyclerView mRecyclerView;
+    RecyclerView.Adapter mAdapter;
+    RecyclerView.LayoutManager mLayoutManager;
+    ArrayList<Plan> myDataset;
 
     @Override
     public View onCreateView(
@@ -50,10 +48,10 @@ public class PlanListFragment extends BasicFragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter = new MainPresenter(view);
-        mainModel = new MainModel(presenter);
+        presenter = new MainPresenter();
+        mainModel = new MainModel();
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mRecyclerView = view.findViewById(R.id.recycler_view);
 
         mRecyclerView.setHasFixedSize(true);
 
@@ -74,28 +72,24 @@ public class PlanListFragment extends BasicFragment {
             public ImageView icon;
             public TextView titleText, commentText;
 
-
             public ViewHolder(View view) {
                 super(view);
-                icon = (ImageView) view.findViewById(R.id.card_view_icon);
-                titleText = (TextView) view.findViewById(R.id.card_view_title);
-                commentText = (TextView) view.findViewById(R.id.card_view_text);
+                icon = view.findViewById(R.id.card_view_icon);
+                titleText = view.findViewById(R.id.card_view_title);
+                commentText = view.findViewById(R.id.card_view_text);
 
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Plan plan = new Plan();
+                view.setOnClickListener(v -> {
+                    Plan plan = new Plan();
 
-                        int position = getAdapterPosition();
-                        if (position != mRecyclerView.NO_POSITION) {
-                            plan = myDataset.get(position);
-                        }
-
-                        Intent intent = new Intent(MyApplication.ApplicationContext(), ItemListActivity.class);
-                        intent.putExtra("PlanID", plan.getPlanID());
-
-                        startActivity(intent);
+                    int position = getAdapterPosition();
+                    if (position != mRecyclerView.NO_POSITION) {
+                        plan = myDataset.get(position);
                     }
+
+                    Intent intent = new Intent(MyApplication.ApplicationContext(), ItemListActivity.class);
+                    intent.putExtra("PlanID", plan.getPlanID());
+
+                    startActivity(intent);
                 });
             }
         }
@@ -104,6 +98,7 @@ public class PlanListFragment extends BasicFragment {
             this.myDataset = myDataset;
         }
 
+        @NonNull
         @Override
         public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(MyApplication.ApplicationContext())

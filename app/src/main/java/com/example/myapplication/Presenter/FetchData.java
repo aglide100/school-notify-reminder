@@ -18,7 +18,6 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.myapplication.DB.DBmanager;
 import com.example.myapplication.Model.AsyncResult;
 import com.example.myapplication.Model.ErrorModel;
-import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.MyApplication;
 import com.example.myapplication.R;
@@ -34,10 +33,10 @@ import java.util.ArrayList;
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
-    private ConnectivityManager connectivityManager;
+    ConnectivityManager connectivityManager;
 
-    private NotificationManager mNotificationManager;
-    private NotificationCompat.Builder mNotifyBuilder;
+    NotificationManager mNotificationManager;
+    NotificationCompat.Builder mNotifyBuilder;
     private int mNotifyID = 10;
 
     private boolean ok = false;
@@ -183,10 +182,9 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
                     newPost.setTitle(title);
                     newPost.setDate(date);
                     newPost.setWriter(writer);
-                    newPost.setUrl(postURL);
+                    newPost.setUrl(uri + code + "&pg=" + nowpage+postURL);
                     newPost.setID();
                     newPost.setNum(postNum);
-                    newPost.setParent(arrayLists[1].get(0));
 
                     newPostList.add(newPost);
                 }
@@ -208,6 +206,5 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
         Log.e("End", "항목 끝!!! " + postTotalNum + "의 포스트를 찾았으며 " + result.getSuccessItem() + "갯수의 포스트 생성");
 
         dbManager.addPost(result.getSuccessItem());
-        Toast.makeText(MyApplication.ApplicationContext(), String.valueOf(postTotalNum), Toast.LENGTH_SHORT).show();
     }
 }

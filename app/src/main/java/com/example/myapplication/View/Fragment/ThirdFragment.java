@@ -33,10 +33,10 @@ public class ThirdFragment extends BasicFragment {
     private Context mContext;
     private Contract.Presenter presenter;
     private CheckBox checkMN2000191, checkMN2000194, checkMN2000195, checkMN2000196, checkMN2000197, checkMN2000198;
+    private CheckBox customSet;
     private ProgressBar progressBar;
     private Boolean ok = true;
-    private EditText planNameEdit;
-
+    private EditText planNameEdit, customURl;
 
     @Override
     public void onAttach(Context context) {
@@ -60,7 +60,7 @@ public class ThirdFragment extends BasicFragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter = new MainPresenter(view);
+        presenter = new MainPresenter();
 
         checkMN2000191 = view.findViewById(R.id.MN2000191);
         checkMN2000194 = view.findViewById(R.id.MN2000194);
@@ -69,6 +69,10 @@ public class ThirdFragment extends BasicFragment {
         checkMN2000197 = view.findViewById(R.id.MN2000197);
         checkMN2000198 = view.findViewById(R.id.MN2000198);
         progressBar = view.findViewById(R.id.fetchData);
+
+        customSet = view.findViewById(R.id.setCustom);
+        customURl = view.findViewById(R.id.setCustomURL);
+
         planNameEdit = view.findViewById(R.id.editPlanName);
 
         if (ok) {
@@ -118,19 +122,24 @@ public class ThirdFragment extends BasicFragment {
                     subjectList.add("MN2000198");
                 }
 
+
                 if (subjectList.size() == 0) {
                     Toast.makeText(mContext, "하나 이상 선택해주십시오", Toast.LENGTH_SHORT).show();
                 } else {
                     ok = false;
-                    MainModel mainModel = new MainModel(presenter);
+                    MainModel mainModel = new MainModel();
 
                     Plan newPlan = new Plan();
                     newPlan.setSubjects(subjectList);
                     newPlan.setPlanName(planNameEdit.getText().toString());
                     newPlan.setPlanID();
 
-                    mainModel.makeNewPlan(newPlan);
+                    if (customSet.isChecked()) {
+                        newPlan.setCustom();
+                        newPlan.setCustomURL(customURl.getText().toString());
+                    }
 
+                    mainModel.makeNewPlan(newPlan);
                 }
             }
         });
@@ -138,17 +147,14 @@ public class ThirdFragment extends BasicFragment {
         view.findViewById(R.id.crawler_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    MainModel mainModel = new MainModel(presenter);
+                    MainModel mainModel = new MainModel();
                     Plan plan = new Plan();
                     plan = mainModel.getPlan().get(0);
 
                     progressBar.setVisibility(View.VISIBLE);
 
                     presenter.startFetchData(plan);
-
                 }
-
         });
-
     }
 }

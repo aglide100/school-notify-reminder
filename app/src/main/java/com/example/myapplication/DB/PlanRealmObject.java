@@ -59,10 +59,15 @@ public class PlanRealmObject extends RealmObject {
         for (int i = 0; i < this.subjectList.size(); i++){
             convertSubjects.add(this.subjectList.get(i));
         }
-
         return convertSubjects;
     }
-    public String getCustomURL() { return this.customURL; }
+    public String getCustomURL() {
+        if (this.customURL == null){
+            return "";
+        }
+
+        return this.customURL;
+    }
 
     public boolean isCustom() {
         if (this.custom == true) {
@@ -71,6 +76,4 @@ public class PlanRealmObject extends RealmObject {
             return false;
         }
     }
-
-
 }
