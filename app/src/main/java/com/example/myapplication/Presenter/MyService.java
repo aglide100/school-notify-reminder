@@ -31,6 +31,11 @@ public class MyService extends Service {
         @Override
         public void run() {
             while (!isStop) {
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 Log.e("!!", "!!");
             }
         }
@@ -73,12 +78,6 @@ public class MyService extends Service {
             myThread = new MyThread();
             myThread.start();
         }
-//        for (int i = 0; i < 50; i++){
-//            try {
-//                Thread.sleep(1000);
-//            } catch (Exception e){};
-//            Log.e("Service", "hello!");
-//        }
         return super.onStartCommand(intent, flags, startId);
     }
 
