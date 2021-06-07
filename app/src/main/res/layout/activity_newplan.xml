@@ -1,267 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="50dp">
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="301dp"
-        android:layout_height="58dp"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/spinner_background"
-        android:spinnerMode="dropdown" />
-
     <Button
-        android:id="@+id/button_previous1"
-        android:layout_width="60dp"
+        android:id="@+id/button_previous"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-1dp"
-        android:text="취소" />
-
-    <Button
-        android:id="@+id/button_next1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button_previous1"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="256dp"
-        android:layout_marginBottom="-1dp"
-        android:text="다음" />
-
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="확인할 공지 학과를 선택해주세요."
-        android:textColor="#000000"
-        android:textSize="30dp"
-        android:visibility="gone"/>
-
-    <Button
-        android:id="@+id/button_search2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="검색"
-        android:textSize="30dp"
-        android:visibility="gone"/>
-
-    <CheckBox
-        android:id="@+id/check1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="170dp"
-        android:text="소프트웨어학과"
-        android:textSize="22dp"
-        android:visibility="gone" />
-
-    <CheckBox
-        android:id="@+id/check2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/check1"
-        android:text="정보통신학과"
-        android:textSize="22dp"
-        android:visibility="gone"/>
-
-    <CheckBox
-        android:id="@+id/check3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/check2"
-        android:text="정보보안학과"
-        android:textSize="22dp"
-        android:visibility="gone"/>
-
-    <CheckBox
-        android:id="@+id/check4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/check3"
-        android:text="컴퓨터공학과"
-        android:textSize="22dp"
-        android:visibility="gone"/>
-
-    <CheckBox
-        android:id="@+id/check5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/check4"
-        android:text="게임학과"
-        android:textSize="22dp"
-        android:visibility="gone"/>
-
-    <CheckBox
-        android:id="@+id/check6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/check5"
-        android:text="영상애니메이션학과"
-        android:textSize="22dp"
-        android:visibility="gone"/>
-
-
-    <Button
-        android:id="@+id/button_previous2"
-        android:layout_width="58dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-1dp"
         android:text="이전"
-        android:visibility="gone"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button_next2"
-        android:layout_width="52dp"
+        android:id="@+id/button_next"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button_previous2"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="256dp"
-        android:layout_marginBottom="-1dp"
         android:text="다음"
-        android:visibility="gone"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="플랜 이름 : "
-        android:textSize="25sp"
-        android:visibility="gone"/>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/newPlan_innerLayout_first"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editText1"
-        android:layout_width="161dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
-        android:textSize="25sp"
-        android:layout_toRightOf="@+id/textView3"
-        android:visibility="gone"/>
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="301dp"
+            android:layout_height="58dp"
+            android:layout_below="@+id/textView1"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/spinner_background"
+            android:spinnerMode="dropdown" />
 
-    <Button
-        android:id="@+id/button_search3"
-        android:layout_width="83dp"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/editText1"
-        android:text="확인"
-        android:visibility="gone"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-    <CheckBox
-        android:id="@+id/check7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="172dp"
-        android:text="공지"
-        android:textSize="22dp"
-        android:visibility="gone" />
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/newPlan_innerLayout_second"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
-    <CheckBox
-        android:id="@+id/check8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/check7"
-        android:text="학사"
-        android:textSize="22dp"
-        android:visibility="gone"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <CheckBox
-        android:id="@+id/check9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/check8"
-        android:text="장학"
-        android:textSize="22dp"
-        android:visibility="gone"/>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/secondPage_linearLayout"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    <CheckBox
-        android:id="@+id/check10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/check9"
-        android:text="입찰"
-        android:textSize="22dp"
-        android:visibility="gone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="플랜 이름 : "
+                    android:textSize="25sp" />
+                <EditText
+                    android:id="@+id/edit_planName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-    <CheckBox
-        android:id="@+id/check11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/check10"
-        android:text="모집/취업"
-        android:textSize="22dp"
-        android:visibility="gone"/>
-    <CheckBox
-        android:id="@+id/check12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/check11"
-        android:text="행사"
-        android:textSize="22dp"
-        android:visibility="gone"/>
-
-    <Button
-        android:id="@+id/button_previous3"
-        android:layout_width="58dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-1dp"
-        android:text="이전"
-        android:visibility="gone"/>
-
-    <Button
-        android:id="@+id/button_next3"
-        android:layout_width="52dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button_previous3"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="256dp"
-        android:layout_marginBottom="-1dp"
-        android:text="플랜 생성"
-        android:visibility="gone"/>
-
-    <ImageView
-        android:id="@+id/image1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:paddingTop="140dp"
-        android:src="@drawable/makeplan"
-        android:visibility="gone"/>
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/image1"
-        android:layout_marginTop="37dp"
-        android:text="성공적으로 생성되었습니다."
-        android:textColor="#000000"
-        android:textSize="27dp"
-        android:visibility="gone" />
-
-    <Button
-        android:id="@+id/button_list1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView4"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp"
-        android:padding="20dp"
-        android:text="리스트로"
-        android:visibility="gone" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-</RelativeLayout>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/codeSelectGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/secondPage_linearLayout"
+                >
+
+                <CheckBox
+                    android:id="@+id/MN2000191"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/MN2000191" />
+
+                <CheckBox
+                    android:id="@+id/MN2000194"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/MN2000194" />
+
+                <CheckBox
+                    android:id="@+id/MN2000195"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/MN2000195" />
+
+                <CheckBox
+                    android:id="@+id/MN2000196"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/MN2000196" />
+
+                <CheckBox
+                    android:id="@+id/MN2000197"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/MN2000197" />
+
+                <CheckBox
+                    android:id="@+id/MN2000198"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/MN2000198" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/set_customUrl_layout"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="URL : "
+                    android:textSize="10sp" />
+                <EditText
+                    android:id="@+id/edit_customURL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/newPlan_innerLayout_third"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/success_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="140dp"
+            android:src="@drawable/makeplan"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image1"
+            android:layout_marginTop="37dp"
+            android:text="성공적으로 생성되었습니다."
+            android:textColor="#000000"
+            android:textSize="27dp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/button_list1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView4"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="54dp"
+            android:padding="20dp"
+            android:text="리스트로"
+            android:visibility="gone" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

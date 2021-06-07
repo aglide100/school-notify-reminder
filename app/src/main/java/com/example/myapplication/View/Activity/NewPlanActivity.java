@@ -7,9 +7,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.LinearLayoutCompat;
 
 import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Plan;
@@ -26,12 +29,17 @@ public class NewPlanActivity extends BasicActivity implements View.OnClickListen
     private MainModel mainModel;
     private Contract.Presenter presenter;
     private Plan newPlan;
-    Button button_search1, button_search2, button_search3, button_previous1, button_previous2, button_previous3, button_next1, button_next2, button_next3, button_list1;
+    private int currentPage;
+    private boolean isCustom;
+
+    LinearLayoutCompat firstPage, secondPage, thirdPage;
+
+    Button increasePage, decreasePage;
     TextView textView1, textView2, textView3, textView4;
-    View image1;
+    View success_icon;
     Spinner spinner1;
-    EditText editText1;
-    CheckBox check1, check2, check3, check4, check5, check6, check7, check8, check9, check10, check11, check12;
+    EditText getPlanName, getCustomURL;
+    CheckBox checkMN2000191, checkMN2000194, checkMN2000195, checkMN2000196, checkMN2000197, checkMN2000198;
 
     //
     @Override
@@ -41,48 +49,43 @@ public class NewPlanActivity extends BasicActivity implements View.OnClickListen
 
         // create new Object for plan
         newPlan = new Plan();
-        presenter = new MainPresenter(this);
-        mainModel = new MainModel(presenter);
+        presenter = new MainPresenter();
+        mainModel = new MainModel();
 
 //        UI 관련
-        button_list1 = findViewById(R.id.button_list1);
-        button_search2 = findViewById(R.id.button_search2);
-        button_search3 = findViewById(R.id.button_search3);
-        button_previous1 = findViewById(R.id.button_previous1);
-        button_previous2 = findViewById(R.id.button_previous2);
-        button_previous3 = findViewById(R.id.button_previous3);
-        button_next1 = findViewById(R.id.button_next1);
-        button_next2 = findViewById(R.id.button_next2);
-        button_next3 = findViewById(R.id.button_next3);
-        textView1 = findViewById(R.id.textView1);
-        textView2 = findViewById(R.id.textView2);
-        textView3 = findViewById(R.id.textView3);
-        textView4 = findViewById(R.id.textView4);
-        image1 = findViewById(R.id.image1);
-        editText1 = findViewById(R.id.editText1);
-        check1 = findViewById(R.id.check1);
-        check2 = findViewById(R.id.check2);
-        check3 = findViewById(R.id.check3);
-        check4 = findViewById(R.id.check4);
-        check5 = findViewById(R.id.check5);
-        check6 = findViewById(R.id.check6);
-        check7 = findViewById(R.id.check7);
-        check8 = findViewById(R.id.check8);
-        check9 = findViewById(R.id.check9);
-        check10 = findViewById(R.id.check10);
-        check11 = findViewById(R.id.check11);
-        check12 = findViewById(R.id.check12);
+        firstPage = findViewById(R.id.newPlan_innerLayout_first);
+        secondPage = findViewById(R.id.newPlan_innerLayout_second);
+        thirdPage = findViewById(R.id.newPlan_innerLayout_third);
+
+        getPlanName = findViewById(R.id.edit_planName);
+        getCustomURL = findViewById(R.id.edit_customURL);
+
+        decreasePage = findViewById(R.id.button_previous);
+        increasePage = findViewById(R.id.button_next);
+
+//      채크박스
+        checkMN2000191 = findViewById(R.id.MN2000191);
+        checkMN2000194 = findViewById(R.id.MN2000194);
+        checkMN2000195 = findViewById(R.id.MN2000195);
+        checkMN2000196 = findViewById(R.id.MN2000196);
+        checkMN2000197 = findViewById(R.id.MN2000197);
+        checkMN2000198 = findViewById(R.id.MN2000198);
+
+
+        success_icon = findViewById(R.id.success_icon);
+
+        // 기타 변수
+        currentPage = 1;
+        isCustom = false;
+
         Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
         String[] kind1 = getResources().getStringArray(R.array.전공과목);
         ArrayAdapter adapter = new ArrayAdapter(getBaseContext(), R.layout.spinner_item, kind1);
         adapter.setDropDownViewResource(R.layout.spinner_item);
         spinner1.setAdapter(adapter);
-        button_previous1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
+        decreasePage.setOnClickListener(this);
+        increasePage.setOnClickListener(this);
 
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -101,147 +104,109 @@ public class NewPlanActivity extends BasicActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.button_next1:
-                textView2.setVisibility(View.VISIBLE);
-                button_next1.setVisibility(View.GONE);
-                button_next2.setVisibility(View.VISIBLE);
-                button_previous1.setVisibility(View.GONE);
-                button_previous2.setVisibility(View.VISIBLE);
-                check1.setVisibility(View.VISIBLE);
-                check2.setVisibility(View.VISIBLE);
-                check3.setVisibility(View.VISIBLE);
-                check4.setVisibility(View.VISIBLE);
-                check5.setVisibility(View.VISIBLE);
-                check6.setVisibility(View.VISIBLE);
-                spinner1.setVisibility(View.GONE);
-                break;
-            case R.id.button_previous2:
-                check1.setVisibility(View.GONE);
-                check2.setVisibility(View.GONE);
-                check3.setVisibility(View.GONE);
-                check4.setVisibility(View.GONE);
-                check5.setVisibility(View.GONE);
-                check6.setVisibility(View.GONE);
-                button_previous1.setVisibility(View.VISIBLE);
-                button_next1.setVisibility(View.VISIBLE);
-                button_previous2.setVisibility(View.GONE);
-                button_next2.setVisibility(View.GONE);
-                spinner1.setVisibility(View.VISIBLE);
-                textView2.setVisibility(View.GONE);
-                break;
-            case R.id.button_next2:
-                check1.setVisibility(View.GONE);
-                check2.setVisibility(View.GONE);
-                check3.setVisibility(View.GONE);
-                check4.setVisibility(View.GONE);
-                check5.setVisibility(View.GONE);
-                check6.setVisibility(View.GONE);
-                check7.setVisibility(View.VISIBLE);
-                check8.setVisibility(View.VISIBLE);
-                check9.setVisibility(View.VISIBLE);
-                check10.setVisibility(View.VISIBLE);
-                check11.setVisibility(View.VISIBLE);
-                check12.setVisibility(View.VISIBLE);
-                button_next2.setVisibility(View.GONE);
-                button_next3.setVisibility(View.VISIBLE);
-                button_previous2.setVisibility(View.GONE);
-                button_previous3.setVisibility(View.VISIBLE);
-                textView3.setVisibility(View.VISIBLE);
-                editText1.setVisibility(View.VISIBLE);
-                spinner1.setVisibility(View.GONE);
-                textView2.setVisibility(View.GONE);
-                break;
-            case R.id.button_previous3:
-                check1.setVisibility(View.VISIBLE);
-                check2.setVisibility(View.VISIBLE);
-                check3.setVisibility(View.VISIBLE);
-                check4.setVisibility(View.VISIBLE);
-                check5.setVisibility(View.VISIBLE);
-                check6.setVisibility(View.VISIBLE);
-                check7.setVisibility(View.GONE);
-                check8.setVisibility(View.GONE);
-                check9.setVisibility(View.GONE);
-                check10.setVisibility(View.GONE);
-                check11.setVisibility(View.GONE);
-                check12.setVisibility(View.GONE);
-                textView3.setVisibility(View.VISIBLE);
-                editText1.setVisibility(View.VISIBLE);
-                button_next3.setVisibility(View.GONE);
-                button_previous3.setVisibility(View.GONE);
-                button_next2.setVisibility(View.VISIBLE);
-                button_previous2.setVisibility(View.VISIBLE);
-                textView2.setVisibility(View.VISIBLE);
-                textView3.setVisibility(View.GONE);
-                editText1.setVisibility(View.GONE);
-                break;
-            case R.id.button_next3:
-                textView3.setVisibility(View.GONE);
-                editText1.setVisibility(View.GONE);
-                image1.setVisibility(View.VISIBLE);
-                textView4.setVisibility(View.VISIBLE);
-                button_list1.setVisibility(View.VISIBLE);
-                check7.setVisibility(View.GONE);
-                check8.setVisibility(View.GONE);
-                check9.setVisibility(View.GONE);
-                check10.setVisibility(View.GONE);
-                check11.setVisibility(View.GONE);
-                check12.setVisibility(View.GONE);
-                button_next3.setVisibility(View.GONE);
-                button_previous3.setVisibility(View.GONE);
-                spinner1.setVisibility(View.GONE);
-
-                //체크박스에서 체크한 값 저장....
-                ArrayList<String> subjectList = new ArrayList<String>();
-
-                if (check7.isChecked()) {
-                    subjectList.add("MN2000191");
-                }
-
-                if (check8.isChecked()) {
-                    subjectList.add("MN2000194");
-                }
-
-                if (check9.isChecked()) {
-                    subjectList.add("MN2000195");
-                }
-
-                if (check10.isChecked()) {
-                    subjectList.add("MN2000196");
-                }
-
-                if (check11.isChecked()) {
-                    subjectList.add("MN2000197");
-                }
-                if (check12.isChecked()) {
-                    subjectList.add("MN2000198");
-                } else {
-                    if (editText1.getText().toString() == "") {
-                        Toast.makeText(MyApplication.ApplicationContext(), "플랜 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-
-                    if (subjectList.size() == 0) {
-                        Toast.makeText(MyApplication.ApplicationContext(), "체크박스를 하나 이상 선택해주세요.", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-
-                    MainModel mainModel = new MainModel(presenter);
-
+            case R.id.button_next:
+                if (currentPage == 2) {
+                    //체크박스에서 체크한 값 저장....
                     Plan newPlan = new Plan();
+                    ArrayList<String> subjectList = new ArrayList<String>();
 
-                    newPlan.setSubjects(subjectList);
-                    newPlan.setPlanName(editText1.getText().toString());
+                    if (getPlanName.getText().toString() == "") {
+                        Toast.makeText(MyApplication.ApplicationContext(), "한 글자 이상 입력해 주십시오.", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+
+                    if (isCustom) {
+                        newPlan.setCustom();
+                        newPlan.setCustomURL(getCustomURL.getText().toString());
+                    } else {
+                        if (checkMN2000191.isChecked()) {
+                            subjectList.add("MN2000191");
+                        }
+
+                        if (checkMN2000194.isChecked()) {
+                            subjectList.add("MN2000194");
+                        }
+
+                        if (checkMN2000195.isChecked()) {
+                            subjectList.add("MN2000195");
+                        }
+
+                        if (checkMN2000196.isChecked()) {
+                            subjectList.add("MN2000196");
+                        }
+
+                        if (checkMN2000197.isChecked()) {
+                            subjectList.add("MN2000197");
+                        }
+
+                        if (checkMN2000198.isChecked()) {
+                            subjectList.add("MN2000198");
+                        }
+
+                        if (subjectList == null) {
+                            Toast.makeText(MyApplication.ApplicationContext(), "체크박스를 하나 이상 선택해주세요.", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+
+                        if (subjectList.size() == 0) {
+                            Toast.makeText(MyApplication.ApplicationContext(), "체크박스를 하나 이상 선택해주세요.", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        newPlan.setSubjects(subjectList);
+                    }
+
+                    MainModel mainModel = new MainModel();
+
+                    newPlan.setPlanName(getPlanName.getText().toString());
                     newPlan.setPlanID();
 
                     mainModel.makeNewPlan(newPlan);
                 }
+
+                currentPage++;
                 break;
-            case R.id.button_list1:
-                finish();
+            case R.id.button_previous:
+                currentPage--;
                 break;
             default:
                 Toast.makeText(MyApplication.ApplicationContext(), "현재 개발중입니다!", Toast.LENGTH_SHORT).show();
                 break;
         }
+
+        if (currentPage <= 0) {
+            finish();
+        }
+
+        if (currentPage == 1) {
+            firstPage.setVisibility(View.VISIBLE);
+            secondPage.setVisibility(View.GONE);
+            thirdPage.setVisibility(View.GONE);
+        }
+
+        if (currentPage == 2) {
+            firstPage.setVisibility(View.GONE);
+            secondPage.setVisibility(View.VISIBLE);
+//           커스텀 선택시
+
+            if (isCustom) {
+                view.findViewById(R.id.codeSelectGroup).setVisibility(View.GONE);
+                view.findViewById(R.id.set_customUrl_layout).setVisibility(View.VISIBLE);
+            }
+            thirdPage.setVisibility(View.GONE);
+        }
+
+        if (currentPage == 3) {
+            firstPage.setVisibility(View.GONE);
+            secondPage.setVisibility(View.GONE);
+            thirdPage.setVisibility(View.VISIBLE);
+        }
+
+        if (currentPage == 4) {
+            currentPage = 3;
+        }
+
+
     }
+
+
 }
