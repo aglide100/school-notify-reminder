@@ -79,34 +79,15 @@
             android:layout_height="wrap_content"
             android:text="@string/MN2000198" />
 
-        <CheckBox
-            android:id="@+id/setCustom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="custom" />
-
 
     </LinearLayout>
-
 
     <ProgressBar
         android:id="@+id/fetchData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@+id/crawler_btn"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintTop_toBottomOf="@+id/crawler_btn"/>
 
-    <Button
-        android:id="@+id/crawler_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="376dp"
-        android:text="start"
-        app:layout_constraintStart_toStartOf="@+id/checkboxGroup"
-        app:layout_constraintTop_toBottomOf="@+id/checkboxGroup" />
 
     <EditText
         android:id="@+id/editPlanName"
@@ -115,21 +96,21 @@
         app:layout_constraintTop_toBottomOf="@+id/checkboxGroup"
         tools:layout_editor_absoluteX="0dp" />
 
-    <EditText
-        android:id="@+id/setCustomURL"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/crawler_btn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        app:layout_constraintTop_toTopOf="@+id/create_testPlan_btn"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="152dp"
+        android:text="start"
+        app:layout_constraintStart_toStartOf="@+id/checkboxGroup"
+        app:layout_constraintTop_toBottomOf="@+id/checkboxGroup" />
 
     <Button
         android:id="@+id/create_testPlan_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
         android:text="플랜 생성"
         app:layout_constraintEnd_toEndOf="@+id/crawler_btn"
         app:layout_constraintTop_toBottomOf="@+id/editPlanName"></Button>

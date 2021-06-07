@@ -127,10 +127,7 @@ or
 ## Dependency
 
 > create apk and release [ciLink]
-> permission check [permissionLink]
-
 
 [releaselink]: https://github.com/aglide100/school-notify-reminder/releases
 [figmalink]: https://www.figma.com/file/GLhBBLaehuzTEQfwNh9zG8/class-project?node-id=0%3A1
 [cilink]: https://github.com/ShaunLWM/action-release-debugapk
-[permissionLink]: https://github.com/gun0912/tedpermission

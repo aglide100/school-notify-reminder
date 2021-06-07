@@ -1,4 +1,4 @@
 package com.example.myapplication.Model;
 
-public enum SubjectCode {
+public enum  SubjectCode {
 }

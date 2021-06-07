@@ -1,28 +1,19 @@
 package com.example.myapplication.Model;
 
-import com.example.myapplication.DB.PlanRealmObject;
-
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Plan {
+public class CustomPlan {
     private String planID;
     //   uri을 저장
-    private ArrayList<String> subjects;
     private String planName;
-    public void RealmObjectToPlan(PlanRealmObject plan) {
-        this.planID = plan.getPlanID();
-        this.planName = plan.getPlanName();
-        this.subjects = plan.getSubjects();
-    }
+    private String url;
 
     public void setPlanID() {
         this.planID = UUID.randomUUID().toString();
     }
 
-    public void setSubjects(ArrayList<String> subjects) {
-        this.subjects = subjects;
-    }
+    public void setUrl(String url) {this.url = url;}
 
     public void setPlanName(String name) {
         this.planName = name;
@@ -38,7 +29,5 @@ public class Plan {
         return this.planName;
     }
 
-    public ArrayList<String> getSubjects() { return this.subjects;}
-
-
+    public String getUrl() {return this.url;}
 }

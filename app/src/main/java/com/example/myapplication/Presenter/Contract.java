@@ -7,15 +7,22 @@ import java.util.ArrayList;
 
 public interface Contract {
     // 뷰에서 쓸 함수
-    interface View {}
+    interface View {
+       void showCrawlerResult();
+
+        void showPost();
+
+    }
 
     //   함수 인터페이스 선언
     interface Presenter {
         boolean startFetchData(Plan plan);
 
-        void startFetchData(ArrayList<Plan> plans);
+        Post[] getPostList(String planID);
 
-        void startFetchPostData(Post post);
+//        void crawler();
+
+        void requestPost();
     }
 
 }
