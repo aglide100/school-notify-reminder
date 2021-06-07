@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="50dp">
-
+    //1페이지
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
         android:layout_marginBottom="-1dp"
         android:text="다음" />
 
-
+    //2페이지
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -47,13 +47,7 @@
         android:textSize="30dp"
         android:visibility="gone"/>
 
-    <Button
-        android:id="@+id/button_search2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="검색"
-        android:textSize="30dp"
-        android:visibility="gone"/>
+
 
     <CheckBox
         android:id="@+id/check1"
@@ -130,7 +124,7 @@
         android:layout_marginBottom="-1dp"
         android:text="다음"
         android:visibility="gone"/>
-
+    //3페이지
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
@@ -149,13 +143,6 @@
         android:layout_toRightOf="@+id/textView3"
         android:visibility="gone"/>
 
-    <Button
-        android:id="@+id/button_search3"
-        android:layout_width="83dp"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/editText1"
-        android:text="확인"
-        android:visibility="gone"/>
 
 
     <CheckBox
@@ -231,7 +218,7 @@
         android:layout_marginBottom="-1dp"
         android:text="플랜 생성"
         android:visibility="gone"/>
-
+    //4페이지
     <ImageView
         android:id="@+id/image1"
         android:layout_width="wrap_content"
