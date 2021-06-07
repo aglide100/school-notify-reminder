@@ -8,14 +8,17 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.myapplication.Main.MainActivity;
 import com.example.myapplication.Model.Plan;
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.MyApplication;
 import com.example.myapplication.R;
+import com.example.myapplication.View.Activity.ItemDetailActivity;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -33,7 +36,7 @@ public class DBmanager {
         Log.e("Realm", "플랜 생성완료!" + plan.getPlanName());
     }
 
-    public void addPost(com.example.myapplication.Model.Post newPost) {
+    public boolean addPost(com.example.myapplication.Model.Post newPost) {
         PostRealmObject post = new PostRealmObject();
         post.PostToRealmObject(newPost);
 
@@ -42,10 +45,19 @@ public class DBmanager {
 
             if (findSamePost.size() > 0) {
                 Log.e("Realm", "이미 같은 포스트가 존재합니다." + newPost.getCode() + "항목 " + newPost.getNum() + "번째 " + newPost.getTitle());
+                return false;
             } else {
-                createNotification(newPost);
+                createNotification(newPost, false);
 
-                realm.executeTransaction(realm -> realm.copyToRealm(post));
+                realm.executeTransaction(realm -> {
+                        final PlanRealmObject planRealmObject = realm.where(PlanRealmObject.class).equalTo("ID", post.getParent()).findFirst();
+                        planRealmObject.increaseCountUnReadPost();
+                        realm.copyToRealm(planRealmObject);
+                        realm.copyToRealm(post);
+                    }
+                );
+
+                return true;
             }
 
         } else {
@@ -53,30 +65,47 @@ public class DBmanager {
 
             if (findSamePost.size() != 0) {
                 Log.e("Realm", "이미 같은 포스트가 존재합니다." + newPost.getCode() + "항목 " + newPost.getNum() + "번째 " + newPost.getTitle());
+                return false;
             } else {
-                createNotification(newPost);
+                createNotification(newPost, false);
 
                 Log.e("Realm", "새로운 포스트를 추가했습니다." + newPost.getCode() + "항목 " + newPost.getNum() + "번째 " + newPost.getTitle());
-                realm.executeTransaction(realm -> realm.copyToRealm(post));
+                realm.executeTransaction(realm -> {
+                    final PlanRealmObject planRealmObject = realm.where(PlanRealmObject.class).equalTo("ID", post.getParent()).findFirst();
+                    planRealmObject.increaseCountUnReadPost();
+                    realm.copyToRealm(planRealmObject);
+                    realm.copyToRealm(post);
+                });
+                return true;
             }
         }
     }
 
-    public void createNotification(Post newPost) {
+    public int createNotification(Post newPost, boolean isGroupSummary) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(MyApplication.ApplicationContext(), "newPost");
 
-        Intent notificationIntent = new Intent(MyApplication.ApplicationContext(), MainActivity.class);
+        Intent notificationIntent = new Intent(MyApplication.ApplicationContext(), ItemDetailActivity.class);
+
+        if (!isGroupSummary) {
+            notificationIntent.putExtra("postID", newPost.getID());
+        }
+
         PendingIntent pIntent = PendingIntent.getActivity(MyApplication.ApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle("새로운 알림이 있습니다.");
-        builder.setContentText(newPost.getTitle());
+        if (!isGroupSummary) {
+            builder.setContentTitle("새로운 알림이 있습니다.");
+            builder.setContentText(newPost.getTitle());
+            builder.setContentIntent(pIntent);
+
+        } else {
+            builder.setContentText("알림을 확인중입니다.");
+            builder.setGroupSummary(true);
+        }
+
         builder.setShowWhen(true);
         builder.setGroup("PostNotifyGroup");
-        builder.setContentIntent(pIntent);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        builder.setGroupSummary(true);
-
         builder.setAutoCancel(true);
 
         NotificationManager notificationManager = (NotificationManager) MyApplication.ApplicationContext().getSystemService(MyApplication.ApplicationContext().NOTIFICATION_SERVICE);
@@ -84,15 +113,29 @@ public class DBmanager {
             notificationManager.createNotificationChannel(new NotificationChannel("newPost", "새로운 포스트", NotificationManager.IMPORTANCE_DEFAULT));
         }
 
-        notificationManager.notify(20, builder.build());
+        int currentDate = (int) new Date().getTime();
+
+        notificationManager.notify( currentDate , builder.build());
+
+        return currentDate;
+
     }
 
     public void addPost(ArrayList<Post> postList) {
         Log.e("Realm", "" + postList.size());
 
+        int groupNotifyID = createNotification(null, true);
+        int successCount = 0;
         for (int i = 0; i < postList.size(); i++) {
-            addPost(postList.get(i));
+            if (addPost(postList.get(i)) == true) {
+                successCount = successCount + 1;
+            }
         }
+        if (successCount == 0) {
+            NotificationManagerCompat.from(MyApplication.ApplicationContext()).cancel(groupNotifyID);
+        }
+
+
     }
 
     public Post getPost(String ID) {
@@ -156,42 +199,48 @@ public class DBmanager {
     }
 
     public void deletePlan(Plan plan) {
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                final RealmResults<PlanRealmObject> planRealmObjects = realm.where(PlanRealmObject.class).equalTo("ID", plan.getPlanID()).findAll();
+        realm.executeTransaction(realm -> {
+            final RealmResults<PlanRealmObject> planRealmObjects = realm.where(PlanRealmObject.class).equalTo("ID", plan.getPlanID()).findAll();
 
-                Log.e("Realm", planRealmObjects.toString() + "을 삭제합니다.");
-                planRealmObjects.deleteAllFromRealm();
-            }
+            Log.e("Realm", planRealmObjects.toString() + "을 삭제합니다.");
+            planRealmObjects.deleteAllFromRealm();
         });
     }
 
     public void updatePlan(Plan plan) {
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                final PlanRealmObject planRealmObject = realm.where(PlanRealmObject.class).equalTo("ID", plan.getPlanID()).findFirst();
+        realm.executeTransaction(realm -> {
+            final PlanRealmObject planRealmObject = realm.where(PlanRealmObject.class).equalTo("ID", plan.getPlanID()).findFirst();
 
-                planRealmObject.setPlanName(plan.getPlanName());
-                planRealmObject.setSubjects(plan.getSubjects());
-                Log.e("Realm", planRealmObject.toString() + "업데이트를 완료했습니다.");
-
-                realm.commitTransaction();
-            }
+            planRealmObject.setPlanName(plan.getPlanName());
+            planRealmObject.setSubjects(plan.getSubjects());
+            Log.e("Realm", planRealmObject.toString() + "업데이트를 완료했습니다.");
         });
     }
 
-    public void updateContentInPost(Post post) {
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                final PostRealmObject postRealmObject = realm.where(PostRealmObject.class).equalTo("ID", post.getID()).findFirst();
+    public void decreaseUnReadPost(Plan plan) {
+        if (plan == null) {
+            Log.e("Realm", "Plan이 없습니다!");
+            return;
+        }
 
-                postRealmObject.setContent(post.getContent());
+        realm.executeTransaction(realm -> {
+            final PlanRealmObject planRealmObject = realm.where(PlanRealmObject.class).equalTo("ID", plan.getPlanID()).findFirst();
+            planRealmObject.decreaseCountUnReadPost();
 
-                realm.commitTransaction();
-            }
+            Log.e("Realm","decreaseUnReadPost 실행 완료! 현재 읽지 않은 포스트 수: " + planRealmObject.getCountUnReadPost());
         });
+
+    }
+
+    public void updateContentInPost(Post post) {
+        if (post == null) {
+            Log.e("Realm", "Post가 없습니다!!!");
+            return;
+        }
+        realm.executeTransaction(realm -> {
+            final PostRealmObject postRealmObject = realm.where(PostRealmObject.class).equalTo("ID", post.getID()).findFirst();
+            postRealmObject.setContent(post.getContent());
+        });
+
     }
 }

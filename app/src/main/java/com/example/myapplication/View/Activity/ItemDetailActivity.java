@@ -1,9 +1,14 @@
 package com.example.myapplication.View.Activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,15 +16,25 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.myapplication.DB.DBmanager;
 import com.example.myapplication.Model.MainModel;
+import com.example.myapplication.Model.Plan;
 import com.example.myapplication.Model.Post;
+import com.example.myapplication.MyApplication;
 import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
 import com.example.myapplication.View.Basic.BasicActivity;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+
 public class ItemDetailActivity extends BasicActivity {
     Contract.Presenter presenter;
     MainModel mainModel;
+    DBmanager dbManager;
     private Post post;
     private TextView titleView, dateView, contentView;
 
@@ -43,8 +58,12 @@ public class ItemDetailActivity extends BasicActivity {
 
         presenter = new MainPresenter();
         mainModel = new MainModel();
+        dbManager = new DBmanager();
 
         post = mainModel.getPost(postID);
+        Plan plan = dbManager.getPlan(post.getParent());
+        dbManager.decreaseUnReadPost(plan);
+
 
         if (post.isCustom()) {
             progressLayout.setVisibility(View.INVISIBLE);
@@ -56,35 +75,76 @@ public class ItemDetailActivity extends BasicActivity {
         } else {
             new getPostAsyncTask().execute(post);
         }
-
     }
 
     private class getPostAsyncTask extends AsyncTask<Post, Void, Post> {
-        Post updatedPost = new Post();
-        DBmanager dBmanager = new DBmanager();
+        private ConnectivityManager connectivityManager;
+
+        private boolean ok = false;
+        private DBmanager dbManager;
+
+        private void CheckState() {
+            Context ctx = MyApplication.ApplicationContext();
+            connectivityManager = (ConnectivityManager) ctx.getSystemService(CONNECTIVITY_SERVICE);
+
+            if (connectivityManager != null) {
+                if (!(connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected())) {
+                    new AlertDialog.Builder(ctx).setMessage("인터넷에 연결되어 있지 않습니다.").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+                } else {
+                    ok = true;
+                }
+            }
+        }
 
         @Override
         protected void onPreExecute() {
-            postInnerLayout.setVisibility(View.INVISIBLE);
+            super.onPreExecute();
+            CheckState();
+            dbManager = new DBmanager();
+
+            postInnerLayout.setVisibility(View.GONE);
             progressLayout.setVisibility(View.VISIBLE);
             titleView.setText(post.getTitle());
             dateView.setText(post.getDate());
         }
 
         @Override
-        protected Post doInBackground(Post... posts) {
-            updatedPost = post;
-            presenter.startFetchPostData(post);
-            return null;
+        protected Post doInBackground(Post... asyncPost) {
+            Post updatePost = asyncPost[0];
+            String url = updatePost.getUrl();
+            Document doc = null;
+
+            try {
+                doc = Jsoup.connect(url).get();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+            Element content = doc.select("div[class=board-view-contents]").first();
+            Log.e("Detail", content.text());
+            updatePost.setContent(content.text());
+
+            return updatePost;
         }
 
         @Override
-        protected void onPostExecute(Post post) {
-            progressLayout.setVisibility(View.INVISIBLE);
+        protected void onPostExecute(Post asyncPost) {
+            progressLayout.setVisibility(View.GONE);
             postInnerLayout.setVisibility(View.VISIBLE);
-            String content = dBmanager.getPost(updatedPost.getID()).getContent();
-            contentView.setText(content);
+
+            if (asyncPost == null || asyncPost.getID() == null) {
+
+            } else {
+                Log.e("Detail", asyncPost.getContent());
+                dbManager.updateContentInPost(asyncPost);
+                contentView.setText(asyncPost.getContent());
+            }
         }
     }
-
 }

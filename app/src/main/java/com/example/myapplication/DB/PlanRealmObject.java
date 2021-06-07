@@ -20,6 +20,7 @@ public class PlanRealmObject extends RealmObject {
     private String planName;
     private Boolean custom;
     private String customURL;
+    private Integer countUnReadPost;
 
     public PlanRealmObject() {}
 
@@ -75,5 +76,32 @@ public class PlanRealmObject extends RealmObject {
         } else {
             return false;
         }
+    }
+
+    public void increaseCountUnReadPost() {
+        if (this.countUnReadPost == null ){
+            this.countUnReadPost = 1;
+        } else {
+            this.countUnReadPost++;
+        }
+    }
+
+    public void decreaseCountUnReadPost()
+    {
+        if (this.countUnReadPost == null) {
+            this.countUnReadPost = 0;
+        }else if (countUnReadPost <= 0 ) {
+            this.countUnReadPost = 0;
+        }else if (countUnReadPost >= 1) {
+            this.countUnReadPost = countUnReadPost -1;
+        }
+    }
+
+    public void setCountUnReadPost(Integer countUnReadPost) {
+        this.countUnReadPost = countUnReadPost;
+    }
+
+    public Integer getCountUnReadPost() {
+        return this.countUnReadPost;
     }
 }

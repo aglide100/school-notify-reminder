@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
+import android.widget.TextView;
 
 import com.example.myapplication.DB.DBmanager;
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.MyApplication;
+import com.example.myapplication.R;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,6 +19,8 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class FetchPostData extends AsyncTask<Post, Void, Post> {
     private ConnectivityManager connectivityManager;
@@ -78,6 +82,7 @@ public class FetchPostData extends AsyncTask<Post, Void, Post> {
     @Override
     protected void onPostExecute(Post post) {
         super.onPostExecute(post);
+
 
         dbManager.updateContentInPost(post);
     }

@@ -107,7 +107,7 @@ public class ItemListActivity extends BasicActivity {
         public PostAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             // create a new view
             View v = LayoutInflater.from(MyApplication.ApplicationContext())
-                    .inflate(R.layout.custom_post_view, null, false);
+                    .inflate(R.layout.custom_post_view, parent, false);
             // set the view's size, margins, paddings and layout parameters
             ViewHolder vh = new ViewHolder(v);
             return vh;
