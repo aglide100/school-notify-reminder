@@ -16,7 +16,9 @@ public class Post {
     private String content;
     private String writer;
     private String ID;
+    private Boolean custom;
     private int num;
+    private Boolean isRead;
 
     public void RealmObjectToPost(PostRealmObject obj) {
         this.parent = obj.getParent();
@@ -29,6 +31,8 @@ public class Post {
         this.writer = obj.getWriter();
         this.ID = obj.getID();
         this.num = obj.getNum();
+        this.custom = obj.isCustom();
+        this.isRead = obj.isRead();
     }
 
     public void setCode(String code) {
@@ -51,7 +55,9 @@ public class Post {
         this.num = num;
     }
 
-    public void setID(){this.ID = UUID.randomUUID().toString();}
+    public void setID() {
+        this.ID = UUID.randomUUID().toString();
+    }
 
     public void setDate(String date) {
         this.date = date;
@@ -65,7 +71,13 @@ public class Post {
         this.writer = writer;
     }
 
-    public void setParent(String parentID) { this.parent = parentID; }
+    public void setParent(String parentID) {
+        this.parent = parentID;
+    }
+
+    public void setUnRead() { this.isRead = false; }
+
+    public void setIsRead() { this.isRead = true; }
 
     public String getCode() {
         return this.code;
@@ -95,10 +107,32 @@ public class Post {
         return this.writer;
     }
 
-    public String getID(){ return this.ID; }
+    public String getID() {
+        return this.ID;
+    }
 
-    public int getNum() { return this.num; }
+    public int getNum() {
+        return this.num;
+    }
 
-    public String getParent() { return this.parent; }
+    public String getParent() {
+        return this.parent;
+    }
+
+    public Boolean isCustom() {
+        if (this.custom == null) {
+            return false;
+        }
+
+        return this.custom;
+    }
+
+    public Boolean isRead() {
+        if (this.isRead == null) {
+            return false;
+        }
+
+        return this.isRead;
+    }
 
 }

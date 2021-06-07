@@ -18,7 +18,6 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.myapplication.DB.DBmanager;
 import com.example.myapplication.Model.AsyncResult;
 import com.example.myapplication.Model.ErrorModel;
-import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.MyApplication;
 import com.example.myapplication.R;
@@ -33,11 +32,11 @@ import java.util.ArrayList;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
-public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
-    private ConnectivityManager connectivityManager;
+public class FetchData extends AsyncTask<ArrayList<String>, Integer, AsyncResult> {
+    ConnectivityManager connectivityManager;
 
-    private NotificationManager mNotificationManager;
-    private NotificationCompat.Builder mNotifyBuilder;
+    NotificationManager mNotificationManager;
+    NotificationCompat.Builder mNotifyBuilder;
     private int mNotifyID = 10;
 
     private boolean ok = false;
@@ -75,11 +74,12 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    protected void onProgressUpdate(Void... values) {
+    protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
-//        this.mNotifyBuilder.setContentText(currentPostNum+"만큼 찾았습니다.");
-//        this.mNotifyBuilder.setProgress(postTotalNum,currentPostNum, false );
-//        this.mNotificationManager.notify(this.mNotifyID, this.mNotifyBuilder.build());
+//        Log.e("While", "onProgressUpdate" + values[0] + values[1]);
+
+        this.mNotifyBuilder.setProgress(values[1], values[0],false );
+        this.mNotificationManager.notify(mNotifyID, mNotifyBuilder.build());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -90,10 +90,12 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
         this.mNotifyBuilder.setContentTitle("데이터를 가져오고 있습니다!");
         this.mNotifyBuilder.setContentText("잠시만 기다려주세요.");
         this.mNotifyBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        this.mNotifyBuilder.setOngoing(true);
+        this.mNotifyBuilder.setProgress(0,0,false);
 
         this.mNotificationManager = (NotificationManager) ctx.getSystemService(ctx.NOTIFICATION_SERVICE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             this.mNotificationManager.createNotificationChannel(new NotificationChannel("default", "기본 채널", NotificationManager.IMPORTANCE_DEFAULT));
         }
 
@@ -103,7 +105,6 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
     private void removeNotification() {
         NotificationManagerCompat.from(MyApplication.ApplicationContext()).cancel(this.mNotifyID);
     }
-
 
 
     @SafeVarargs
@@ -117,7 +118,6 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
         ArrayList<Post> newPostList = new ArrayList<>();
         Document doc = null;
         int num;
-        int currentPost=0;
 
         for (int i = 0; i < arrayLists[0].size(); i++) {
             num = 0;
@@ -151,50 +151,50 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
             // 없으면 처음부터
             Log.e("While", code + "중 페이지 수: " + finalPage);
 
-                int nowpage = 1;
-                do {
-                    // 페이지 갯수 (1페이지에 15개의 글이 들어감)
-                    if (nowpage != 1) {
-                        String getUri = uri + code + "&pg=" + nowpage;
-                        try {
-                            doc = Jsoup.connect(getUri).get();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Log.e("Get Items", code + "의 " + nowpage + "페이지에서 문서 못가져옴");
-                            ErrorModel model = new ErrorModel(code, nowpage);
-                            result.addFailedItem(model);
-                            continue;
-                        }
+            int nowpage = 1;
+            do {
+                publishProgress(nowpage, finalPage);
+                // 페이지 갯수 (1페이지에 15개의 글이 들어감)
+                if (nowpage != 1) {
+                    String getUri = uri + code + "&pg=" + nowpage;
+                    try {
+                        doc = Jsoup.connect(getUri).get();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.e("Get Items", code + "의 " + nowpage + "페이지에서 문서 못가져옴");
+                        ErrorModel model = new ErrorModel(code, nowpage);
+                        result.addFailedItem(model);
+                        continue;
                     }
+                }
 
-                    Elements child = doc.select("tbody").select("tr[class=child_1], tr[class=child_2]");
-                    Log.e("While", nowpage + "페이지 안에 " + child.size() + "개 게시물");
-                    for (int l = 0; l < child.size(); l++) {
-                        Element elements = child.get(l);
-                        Post newPost = new Post();
+                Elements child = doc.select("tbody").select("tr[class=child_1], tr[class=child_2]");
+                Log.e("While", nowpage + "페이지 안에 " + child.size() + "개 게시물");
+                for (int l = 0; l < child.size(); l++) {
+                    Element elements = child.get(l);
+                    Post newPost = new Post();
 
-                        Elements subjectItems = elements.select("td[class=f-tit subject]").select("p");
-                        String title = subjectItems.select("span").text();
-                        String postURL = subjectItems.select("a").attr("href");
-                        String writer = elements.select("td[class=f-nm writer]").select("p").text();
-                        String date = elements.select("td[class=f-date date]").select("p").text();
-                        int postNum = Integer.parseInt(elements.select("td[class=f-num num]").select("p").text().replaceAll("[^0-9]", ""));
-                        newPost.setParent(arrayLists[1].get(0));
-                        newPost.setCode(code);
-                        newPost.setTitle(title);
-                        newPost.setDate(date);
-                        newPost.setWriter(writer);
-                        newPost.setUrl(postURL);
-                        newPost.setID();
-                        newPost.setNum(postNum);
-                        newPost.setParent(arrayLists[1].get(0));
+                    Elements subjectItems = elements.select("td[class=f-tit subject]").select("p");
+                    String title = subjectItems.select("span").text();
+                    String postURL = subjectItems.select("a").attr("href");
+                    String writer = elements.select("td[class=f-nm writer]").select("p").text();
+                    String date = elements.select("td[class=f-date date]").select("p").text();
+                    int postNum = Integer.parseInt(elements.select("td[class=f-num num]").select("p").text().replaceAll("[^0-9]", ""));
+                    newPost.setParent(arrayLists[1].get(0));
+                    newPost.setCode(code);
+                    newPost.setTitle(title);
+                    newPost.setDate(date);
+                    newPost.setWriter(writer);
+                    newPost.setUrl("https://www.dongseo.ac.kr/" + postURL);
+                    newPost.setID();
+                    newPost.setNum(postNum);
+                    newPost.setUnRead();
 
-                        newPostList.add(newPost);
-                        currentPost++;
-                    }
+                    newPostList.add(newPost);
+                }
 
-                    nowpage++;
-                } while (nowpage <= finalPage);
+                nowpage++;
+            } while (nowpage <= finalPage);
 
         }
         result.setSuccessItem(newPostList);
@@ -207,9 +207,8 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
         super.onPostExecute(result);
 
         removeNotification();
-        Log.e("End", "항목 끝!!! "+ postTotalNum +"의 포스트를 찾았으며 " + result.getSuccessItem() + "갯수의 포스트 생성");
+        Log.e("End", "항목 끝!!! " + postTotalNum + "의 포스트를 찾았으며 " + result.getSuccessItem() + "갯수의 포스트 생성");
 
         dbManager.addPost(result.getSuccessItem());
-        Toast.makeText(MyApplication.ApplicationContext(), String.valueOf(postTotalNum), Toast.LENGTH_SHORT).show();
     }
 }

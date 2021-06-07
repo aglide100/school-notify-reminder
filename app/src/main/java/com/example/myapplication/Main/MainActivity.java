@@ -1,9 +1,11 @@
 package com.example.myapplication.Main;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,12 +32,17 @@ import com.example.myapplication.CalendarAPI.Interfaces.CalenderResultInterface;
 import com.example.myapplication.CalendarAPI.Models.CalendarInputEvent;
 import com.example.myapplication.CalendarAPI.Models.CalendarResponseData;
 import com.example.myapplication.CalendarAPI.Utils.CalendarDataUtil;
+import com.example.myapplication.Model.MainModel;
+import com.example.myapplication.Model.Plan;
 import com.example.myapplication.MyApplication;
 import com.example.myapplication.Presenter.Contract;
+import com.example.myapplication.Presenter.MainPresenter;
+import com.example.myapplication.Presenter.MyService;
 import com.example.myapplication.R;
 import com.example.myapplication.View.Activity.NewPlanActivity;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
     private Contract.Presenter mainPresenter;
     private DrawerLayout drawer;
 
+    private Contract.Presenter presenter;
+    private MainModel mainModel;
+
+
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 //        ActionBar actionBar = getSupportActionBar();
 //        toolbar.setDisplayShowTitleEnabled(false);
+
+        presenter = new MainPresenter();
+        mainModel = new MainModel();
 
         drawer = findViewById(R.id.drawer_layout);
         final NavigationView navigationView = findViewById(R.id.nav_view);
@@ -130,12 +145,28 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         if (id == R.id.nav_home) {
             drawer.openDrawer(GravityCompat.START);
+        }
+
+        if (id == R.id.start_fetch_data) {
+            ArrayList<Plan> plans = new ArrayList<>();
+            plans = mainModel.getPlan();
+            presenter.startFetchData(plans);
+        }
+
+        if (id == R.id.start_service) {
+            Intent intent = new Intent(MyApplication.ApplicationContext(), MyService.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(intent);
+            } else {
+                startService(intent);
+            }
+        }
+
+        if (id == R.id.stop_service) {
+            Intent intent = new Intent(MyApplication.ApplicationContext(), MyService.class);
+            stopService(intent);
         }
 
         return super.onOptionsItemSelected(item);
