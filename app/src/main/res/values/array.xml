@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="전공과목">
-        <item>전공과목을 선택해주세요.</item>
+    <string-array name="spinnerList">
+        <item>아이템을 선택해주세요.</item>
         <item>본교</item>
         <item>소프트웨어학과</item>
         <item>정보통신학과</item>

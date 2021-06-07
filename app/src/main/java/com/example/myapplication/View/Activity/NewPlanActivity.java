@@ -31,13 +31,13 @@ public class NewPlanActivity extends BasicActivity implements View.OnClickListen
     private Plan newPlan;
     private int currentPage;
     private boolean isCustom;
+    private String selectedSpinnerItem;
 
     LinearLayoutCompat firstPage, secondPage, thirdPage;
 
     Button increasePage, decreasePage;
-    TextView textView1, textView2, textView3, textView4;
     View success_icon;
-    Spinner spinner1;
+    Spinner spinner;
     EditText getPlanName, getCustomURL;
     CheckBox checkMN2000191, checkMN2000194, checkMN2000195, checkMN2000196, checkMN2000197, checkMN2000198;
 
@@ -78,24 +78,24 @@ public class NewPlanActivity extends BasicActivity implements View.OnClickListen
         currentPage = 1;
         isCustom = false;
 
-        Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
-        String[] kind1 = getResources().getStringArray(R.array.전공과목);
+        spinner = findViewById(R.id.spinner1);
+        String[] kind1 = getResources().getStringArray(R.array.spinnerList);
         ArrayAdapter adapter = new ArrayAdapter(getBaseContext(), R.layout.spinner_item, kind1);
         adapter.setDropDownViewResource(R.layout.spinner_item);
-        spinner1.setAdapter(adapter);
+        spinner.setAdapter(adapter);
 
         decreasePage.setOnClickListener(this);
         increasePage.setOnClickListener(this);
 
-        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String text = spinner1.getSelectedItem().toString();
+                selectedSpinnerItem = spinner.getSelectedItem().toString();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                Toast.makeText(MyApplication.ApplicationContext(), "아이템을 선택해주십시오.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -105,6 +105,16 @@ public class NewPlanActivity extends BasicActivity implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_next:
+                if (currentPage == 1) {
+                    if (selectedSpinnerItem == null) {
+                        break;
+                    }
+
+//                    if ()
+
+                }
+
+
                 if (currentPage == 2) {
                     //체크박스에서 체크한 값 저장....
                     Plan newPlan = new Plan();
