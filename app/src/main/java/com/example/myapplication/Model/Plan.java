@@ -12,6 +12,7 @@ public class Plan {
     private String planName;
     private boolean custom;
     private String customURL;
+    private Integer countUnReadPost;
 
     public void RealmObjectToPlan(PlanRealmObject plan) {
         this.planID = plan.getPlanID();
@@ -66,5 +67,13 @@ public class Plan {
         } else {
             return false;
         }
+    }
+
+    public void setCountUnReadPost(Integer countUnReadPost) {
+        this.countUnReadPost = countUnReadPost;
+    }
+
+    public Integer getCountUnReadPost() {
+        return this.countUnReadPost;
     }
 }

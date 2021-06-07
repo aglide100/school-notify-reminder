@@ -36,7 +36,6 @@ public class MyService extends Service {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Log.e("!!", "!!");
             }
         }
     }

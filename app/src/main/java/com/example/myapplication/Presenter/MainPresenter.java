@@ -28,6 +28,7 @@ public class MainPresenter implements Contract.Presenter {
         ArrayList<String> planDetail = new ArrayList<>();
         planDetail.add(plan.getPlanID());
         planDetail.add(plan.getCustomURL());
+        planDetail.add(plan.getPlanName());
 
         if (plan.isCustom()) {
             new FetchCustomData().execute(planDetail);

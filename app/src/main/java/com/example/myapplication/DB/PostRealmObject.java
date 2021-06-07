@@ -19,21 +19,23 @@ public class PostRealmObject extends RealmObject {
     private String writer;
     private Boolean custom;
     private int num;
+    private Boolean isRead;
 
     public PostRealmObject() {}
 
-    public void PostToRealmObject(Post newPost) {
-        this.code = newPost.getCode();
-        this.content = newPost.getContent();
-        this.date = newPost.getDate();
-        this.ID = newPost.getID();
-        this.num = newPost.getNum();
-        this.status = newPost.getStatus();
-        this.writer = newPost.getWriter();
-        this.title = newPost.getTitle();
-        this.url = newPost.getUrl();
-        this.parent = newPost.getParent();
-        this.custom = newPost.isCustom();
+    public void PostToRealmObject(Post obj) {
+        this.code = obj.getCode();
+        this.content = obj.getContent();
+        this.date = obj.getDate();
+        this.ID = obj.getID();
+        this.num = obj.getNum();
+        this.status = obj.getStatus();
+        this.writer = obj.getWriter();
+        this.title = obj.getTitle();
+        this.url = obj.getUrl();
+        this.parent = obj.getParent();
+        this.custom = obj.isCustom();
+        this.isRead = obj.isRead();
     }
 
     public String getCode() {
@@ -76,12 +78,24 @@ public class PostRealmObject extends RealmObject {
         return this.parent;
     }
 
+    public void setUnRead() { this.isRead = false; }
+
+    public void setIsRead() { this.isRead = true; }
+
     public Boolean isCustom() {
         if (this.custom == null) {
             return false;
         }
 
         return this.custom;
+    }
+
+    public Boolean isRead() {
+        if (this.isRead == null) {
+            return false;
+        }
+
+        return this.isRead;
     }
 
     public void setContent(String content) {

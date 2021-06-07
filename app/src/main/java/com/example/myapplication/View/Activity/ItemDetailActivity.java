@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.myapplication.DB.DBmanager;
 import com.example.myapplication.Model.MainModel;
+import com.example.myapplication.Model.Plan;
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.MyApplication;
 import com.example.myapplication.Presenter.Contract;
@@ -33,6 +34,7 @@ import java.io.IOException;
 public class ItemDetailActivity extends BasicActivity {
     Contract.Presenter presenter;
     MainModel mainModel;
+    DBmanager dbManager;
     private Post post;
     private TextView titleView, dateView, contentView;
 
@@ -56,8 +58,12 @@ public class ItemDetailActivity extends BasicActivity {
 
         presenter = new MainPresenter();
         mainModel = new MainModel();
+        dbManager = new DBmanager();
 
         post = mainModel.getPost(postID);
+        Plan plan = dbManager.getPlan(post.getParent());
+        dbManager.decreaseUnReadPost(plan);
+
 
         if (post.isCustom()) {
             progressLayout.setVisibility(View.INVISIBLE);
@@ -101,7 +107,7 @@ public class ItemDetailActivity extends BasicActivity {
             CheckState();
             dbManager = new DBmanager();
 
-            postInnerLayout.setVisibility(View.INVISIBLE);
+            postInnerLayout.setVisibility(View.GONE);
             progressLayout.setVisibility(View.VISIBLE);
             titleView.setText(post.getTitle());
             dateView.setText(post.getDate());
@@ -129,7 +135,7 @@ public class ItemDetailActivity extends BasicActivity {
 
         @Override
         protected void onPostExecute(Post asyncPost) {
-            progressLayout.setVisibility(View.INVISIBLE);
+            progressLayout.setVisibility(View.GONE);
             postInnerLayout.setVisibility(View.VISIBLE);
 
             if (asyncPost == null || asyncPost.getID() == null) {
