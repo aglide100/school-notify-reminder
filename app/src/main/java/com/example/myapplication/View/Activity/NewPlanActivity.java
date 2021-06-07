@@ -100,7 +100,7 @@ public class NewPlanActivity extends BasicActivity {
         @Override
         public void onClick (View view){
             switch (view.getId()) {
-                case R.id.button_next1:
+                case R.id.button_next1.setOnClickListener(this):
                     textView2.setVisibility(View.VISIBLE);
                     button_next1.setVisibility(View.GONE);
                     button_next2.setVisibility(View.VISIBLE);
