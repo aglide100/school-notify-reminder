@@ -59,6 +59,13 @@ public class ItemDetailActivity extends BasicActivity {
     private String calendarTime;
     private String calendarDescription;
 
+    private final String headerStr = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"+
+            "<html><head>"+
+            "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />"+
+            "<head><body>";
+
+    private final String footerStr = "</body></html>";
+
 
     private ConstraintLayout progressLayout, postInnerLayout;
 
@@ -106,8 +113,9 @@ public class ItemDetailActivity extends BasicActivity {
             titleView.setText(post.getTitle());
             dateView.setText(post.getDate());
 
-            Log.e("Detail", post.getContent());
-            contentView.loadData(post.getContent(),"text/html", "UTF-8");
+            String finalContext = headerStr + post.getContent() + footerStr;
+            Log.e("Detail", finalContext);
+            contentView.loadData(finalContext,"text/html; charset=utf-8", "UTF-8");
         } else {
             new getPostAsyncTask().execute(post);
         }
@@ -235,7 +243,7 @@ public class ItemDetailActivity extends BasicActivity {
 
             Element content = doc.select("div[class=board-view-contents]").first();
             Log.e("Detail", content.text());
-            updatePost.setContent(content.text());
+            updatePost.setContent(content.html());
 
             return updatePost;
         }
@@ -248,9 +256,10 @@ public class ItemDetailActivity extends BasicActivity {
             if (asyncPost == null || asyncPost.getID() == null) {
 
             } else {
-                Log.e("Detail", asyncPost.getContent());
+                String finalContext = headerStr + asyncPost.getContent() + footerStr;
+                Log.e("Detail", finalContext);
                 dbManager.updateContentInPost(asyncPost);
-                contentView.loadData(asyncPost.getContent(),"text/html", "UTF-8");
+                contentView.loadData(finalContext,"text/html; charset=utf-8", "UTF-8");
             }
         }
     }

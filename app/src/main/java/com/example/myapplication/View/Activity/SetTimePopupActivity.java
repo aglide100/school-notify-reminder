@@ -76,7 +76,7 @@ public class SetTimePopupActivity extends Activity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.call_datepicker:
-                DatePickerDialog dialog = new DatePickerDialog(MyApplication.ApplicationContext(), new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog dialog = new DatePickerDialog(SetTimePopupActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         setYear = year;

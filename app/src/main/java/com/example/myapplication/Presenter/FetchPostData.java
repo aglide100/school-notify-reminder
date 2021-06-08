@@ -62,7 +62,7 @@ public class FetchPostData extends AsyncTask<Post, Void, Post> {
 
         Elements content = doc.select("div[class=board-view-contents]");
 
-        updatePost.setContent(content.text());
+        updatePost.setContent(content.html());
 
         return updatePost;
     }
