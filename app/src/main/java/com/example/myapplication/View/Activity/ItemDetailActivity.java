@@ -13,7 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,7 @@ import com.example.myapplication.View.Basic.BasicActivity;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.Date;
@@ -69,7 +72,7 @@ public class ItemDetailActivity extends BasicActivity {
 
     private ConstraintLayout progressLayout, postInnerLayout;
 
-    @SuppressLint("ResourceType")
+    @SuppressLint({"ResourceType", "SetJavaScriptEnabled"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +106,9 @@ public class ItemDetailActivity extends BasicActivity {
         contentView.getSettings().setUseWideViewPort(false);
         contentView.getSettings().setAllowContentAccess(true);
         contentView.setWebChromeClient(new WebChromeClient());
+        contentView.setWebViewClient(new WebViewClient());
+        contentView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+        contentView.getSettings().setDomStorageEnabled(true);
         contentView.getSettings().setLoadWithOverviewMode(true);
         contentView.getSettings().setJavaScriptEnabled(true);
 
@@ -115,7 +121,14 @@ public class ItemDetailActivity extends BasicActivity {
 
             String finalContext = headerStr + post.getContent() + footerStr;
             Log.e("Detail", finalContext);
-            contentView.loadData(finalContext,"text/html; charset=utf-8", "UTF-8");
+
+            Document doc = Jsoup.parse(finalContext);
+            Elements img = doc.select("img");
+            for (Element e : img) {
+                String src = e.attr("src");
+                e.attr("src", "https://www.dongseo.ac.kr" + src);
+            }
+            contentView.loadData(doc.html(),"text/html; charset=utf-8", "UTF-8");
         } else {
             new getPostAsyncTask().execute(post);
         }
@@ -259,7 +272,15 @@ public class ItemDetailActivity extends BasicActivity {
                 String finalContext = headerStr + asyncPost.getContent() + footerStr;
                 Log.e("Detail", finalContext);
                 dbManager.updateContentInPost(asyncPost);
-                contentView.loadData(finalContext,"text/html; charset=utf-8", "UTF-8");
+
+                Document doc = Jsoup.parse(finalContext);
+                Elements img = doc.select("img");
+                for (Element e : img) {
+                    String src = e.attr("src");
+                    e.attr("src", "https://www.dongseo.ac.kr" + src);
+                }
+                Log.e("Detail", doc.html());
+                contentView.loadData(doc.html(),"text/html; charset=utf-8", "UTF-8");
             }
         }
     }
