@@ -106,6 +106,7 @@ class PostAdapter<a> extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.postDateView.setText(myDataset.get(position).getDate());
         holder.postGroupView.setText(myDataset.get(position).getCode());
 
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

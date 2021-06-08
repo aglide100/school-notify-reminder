@@ -72,6 +72,9 @@ public class Post {
     }
 
     public String getCode() {
+        if(code.getCode() == "MN2000197"){
+            postGroupView.setText("모집/취업");
+        }
         return this.code;
     }
 
