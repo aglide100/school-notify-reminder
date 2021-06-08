@@ -4,15 +4,18 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -27,12 +30,15 @@ import com.example.myapplication.R;
 import com.example.myapplication.View.Activity.NewPlanActivity;
 import com.google.android.material.navigation.NavigationView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
+    private NavigationView navigationView;
 
     private Contract.Presenter presenter;
     private MainModel mainModel;
@@ -50,15 +56,22 @@ public class MainActivity extends AppCompatActivity {
         mainModel = new MainModel();
 
         drawer = findViewById(R.id.drawer_layout);
-        final NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull @NotNull NavController controller, @NonNull @NotNull NavDestination destination, @Nullable @org.jetbrains.annotations.Nullable Bundle arguments) {
+                if (destination.getId() != R.id.nav_SettingFragment && destination.getId() != R.id.nav_PlanListFragment ) {
+                    navigationView.setCheckedItem(R.id.nav_PlanListFragment);
+                }
+            }
+        });
         mAppBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).setDrawerLayout(drawer).build();
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                item.setChecked(true);
                 drawer.closeDrawers();
 
                 int id = item.getItemId();
@@ -81,12 +94,17 @@ public class MainActivity extends AppCompatActivity {
                 if (id == R.id.nav_PlanListFragment) {
                     navController.navigate(R.id.PlanListFragment);
                 }
-                return false;
+                return true;
             }
         });
-
-//
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.setCheckedItem(R.id.nav_PlanListFragment);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
