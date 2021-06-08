@@ -55,6 +55,10 @@ public class ItemDetailActivity extends BasicActivity {
     private TextView titleView, dateView;
     private WebView contentView;
 
+    private String calendarDate;
+    private String calendarTime;
+    private String calendarDescription;
+
 
     private ConstraintLayout progressLayout, postInnerLayout;
 
@@ -93,6 +97,7 @@ public class ItemDetailActivity extends BasicActivity {
         contentView.getSettings().setAllowContentAccess(true);
         contentView.setWebChromeClient(new WebChromeClient());
         contentView.getSettings().setLoadWithOverviewMode(true);
+        contentView.getSettings().setJavaScriptEnabled(true);
 
         if (post.isCustom()) {
             progressLayout.setVisibility(View.INVISIBLE);
@@ -100,6 +105,8 @@ public class ItemDetailActivity extends BasicActivity {
 
             titleView.setText(post.getTitle());
             dateView.setText(post.getDate());
+
+            Log.e("Detail", post.getContent());
             contentView.loadData(post.getContent(),"text/html", "UTF-8");
         } else {
             new getPostAsyncTask().execute(post);
@@ -123,33 +130,9 @@ public class ItemDetailActivity extends BasicActivity {
         }
 
         if (id == R.id.add_calender) {
-            try {
-                long hour1 = 3600 * 1000;
-                CalendarAPI.getInstance().addEvent(this, new CalenderResultInterface() {
-                    @Override
-                    public void getResult(CalendarResponseData responseData) {
-                        Toast.makeText(MyApplication.ApplicationContext(), responseData.toString(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void failedWithActivityResult(CalendarActivityRequestCode reason) {
-                        Toast.makeText(MyApplication.ApplicationContext(), "error : "+reason.getCode(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void permissionRevoked() {
-                        Toast.makeText(MyApplication.ApplicationContext(), "권한 없음", Toast.LENGTH_SHORT).show();
-                    }
-                }, new CalendarInputEvent("제목", "집", "설명", new Date(), new Date(new Date().getTime() + hour1)), new CalendarInputEvent("제목2", "집", "설명", new Date(new Date().getTime() + (hour1 * 2)), new Date(new Date().getTime() + (hour1 * 3))));
-            } catch (CalendarNeedUpdateGoogleServiceException e) {
-                e.printStackTrace();
-            } catch (CalendarCantNotUseException e) {
-                e.printStackTrace();
-            } catch (CalendarNetworkException e) {
-                e.printStackTrace();
-            } catch (CalendarNotYetFinishBringDataException e) {
-                e.printStackTrace();
-            }
+            Intent intent = new Intent(MyApplication.ApplicationContext(), SetTimePopupActivity.class);
+            // deprecated됨 나중에 ActivityResultLauncher<Intent>를 통해 호출해야 됨
+            startActivityForResult(intent,1);
         }
 
         return super.onOptionsItemSelected(item);
@@ -161,10 +144,45 @@ public class ItemDetailActivity extends BasicActivity {
             CalendarAPI.getInstance().progressRequest(requestCode, resultCode, data);
         }
 
+        if (requestCode == 1) {
+            if (requestCode == RESULT_OK) {
+                calendarDate = data.getStringExtra("date");
+                calendarTime = data.getStringExtra("time");
+                calendarDescription = data.getStringExtra("description");
+            }
+
+            try {
+                long hour1 = 3600 * 1000;
+                CalendarAPI.getInstance().addEvent(this, new CalenderResultInterface() {
+                    @Override
+                    public void getResult(CalendarResponseData responseData) {
+                        Toast.makeText(MyApplication.ApplicationContext(), "캘린더에 일정을 추가했습니다.", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MyApplication.ApplicationContext(), responseData.toString(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void failedWithActivityResult(CalendarActivityRequestCode reason) {
+                        Toast.makeText(MyApplication.ApplicationContext(), "error : "+reason.getCode(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void permissionRevoked() {
+                        Toast.makeText(MyApplication.ApplicationContext(), "권한이 없습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                }, new CalendarInputEvent(post.getTitle(), "", "", new Date(), new Date(new Date().getTime() + hour1)));
+            } catch (CalendarNeedUpdateGoogleServiceException e) {
+                e.printStackTrace();
+            } catch (CalendarCantNotUseException e) {
+                e.printStackTrace();
+            } catch (CalendarNetworkException e) {
+                e.printStackTrace();
+            } catch (CalendarNotYetFinishBringDataException e) {
+                e.printStackTrace();
+            }
+        }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-
 
     private class getPostAsyncTask extends AsyncTask<Post, Void, Post> {
         private ConnectivityManager connectivityManager;

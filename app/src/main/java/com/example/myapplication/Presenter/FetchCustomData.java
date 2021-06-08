@@ -23,6 +23,8 @@ import com.example.myapplication.R;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -111,13 +113,14 @@ public class FetchCustomData extends AsyncTask<ArrayList<String>, Void, AsyncRes
 
         try {
             doc = Jsoup.connect(url).get();
-            String page = doc.text();
+//            Elements page = doc.select("body");
 
             Post newPost = new Post();
 
             newPost.setUrl(url);
             newPost.setID();
-            newPost.setContent(doc.toString());
+
+            newPost.setContent(doc.html());
             newPost.setParent(parent);
             newPost.setTitle(doc.title());
             newPost.setCustom();
