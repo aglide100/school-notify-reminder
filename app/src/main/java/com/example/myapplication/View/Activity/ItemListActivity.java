@@ -61,7 +61,7 @@ public class ItemListActivity extends BasicActivity {
     }
 }
 
-class PostAdapter<a> extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
+class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private ArrayList<Post> myDataset;
 
     // Provide a reference to the views for each data item
@@ -91,23 +91,51 @@ class PostAdapter<a> extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public PostAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View v = LayoutInflater.from(MyApplication.ApplicationContext())
-                .inflate(R.layout.custom_post_view,  parent, false);
+                .inflate(R.layout.custom_post_view, parent, false);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
 
     // Replace the contents of a view (invoked by the layout manager)
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+
+
         holder.postTitleView.setText(myDataset.get(position).getTitle());
         holder.postDateView.setText(myDataset.get(position).getDate());
-        holder.postGroupView.setText(myDataset.get(position).getCode());
 
+        String code = myDataset.get(position).getCode();
+
+        if (code == "MN2000191") {
+            holder.postGroupView.setText("공지");
+        }
+
+        if (code == "MN2000194") {
+            holder.postGroupView.setText("학사");
+        }
+
+        if (code == "MN2000195") {
+            holder.postGroupView.setText("장학");
+        }
+
+        if (code == "MN2000196") {
+            holder.postGroupView.setText("입찰");
+        }
+
+        if (code == "MN2000197") {
+            holder.postGroupView.setText("모집/취업");
+        }
+
+        if (code == "MN2000198") {
+            holder.postGroupView.setText("행사");
+        }
 
     }
+
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override

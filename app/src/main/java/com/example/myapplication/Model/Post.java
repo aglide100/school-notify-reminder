@@ -71,12 +71,7 @@ public class Post {
         this.parent = parentID;
     }
 
-    public String getCode() {
-        if(code.getCode() == "MN2000197"){
-            postGroupView.setText("모집/취업");
-        }
-        return this.code;
-    }
+    public String getCode() { return this.code; }
 
     public String getTitle() {
         return this.title;
