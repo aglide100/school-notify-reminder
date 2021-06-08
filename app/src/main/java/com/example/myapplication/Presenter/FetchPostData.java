@@ -28,7 +28,6 @@ public class FetchPostData extends AsyncTask<Post, Void, Post> {
     private boolean ok = false;
     private DBmanager dbManager;
 
-
     private void CheckState() {
         Context ctx = MyApplication.ApplicationContext();
         connectivityManager = (ConnectivityManager) ctx.getSystemService(CONNECTIVITY_SERVICE);

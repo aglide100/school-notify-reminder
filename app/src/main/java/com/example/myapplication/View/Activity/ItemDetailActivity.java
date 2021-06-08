@@ -139,8 +139,9 @@ public class ItemDetailActivity extends BasicActivity {
 
         if (id == R.id.add_calender) {
             Intent intent = new Intent(MyApplication.ApplicationContext(), SetTimePopupActivity.class);
-            // deprecated됨 나중에 ActivityResultLauncher<Intent>를 통해 호출해야 됨
-            startActivityForResult(intent,1);
+            intent.putExtra("postTitle", post.getTitle());
+
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -159,34 +160,6 @@ public class ItemDetailActivity extends BasicActivity {
                 calendarDescription = data.getStringExtra("description");
             }
 
-            try {
-                long hour1 = 3600 * 1000;
-                CalendarAPI.getInstance().addEvent(this, new CalenderResultInterface() {
-                    @Override
-                    public void getResult(CalendarResponseData responseData) {
-                        Toast.makeText(MyApplication.ApplicationContext(), "캘린더에 일정을 추가했습니다.", Toast.LENGTH_SHORT).show();
-//                        Toast.makeText(MyApplication.ApplicationContext(), responseData.toString(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void failedWithActivityResult(CalendarActivityRequestCode reason) {
-                        Toast.makeText(MyApplication.ApplicationContext(), "error : "+reason.getCode(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void permissionRevoked() {
-                        Toast.makeText(MyApplication.ApplicationContext(), "권한이 없습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                }, new CalendarInputEvent(post.getTitle(), "", "", new Date(), new Date(new Date().getTime() + hour1)));
-            } catch (CalendarNeedUpdateGoogleServiceException e) {
-                e.printStackTrace();
-            } catch (CalendarCantNotUseException e) {
-                e.printStackTrace();
-            } catch (CalendarNetworkException e) {
-                e.printStackTrace();
-            } catch (CalendarNotYetFinishBringDataException e) {
-                e.printStackTrace();
-            }
         }
 
         super.onActivityResult(requestCode, resultCode, data);

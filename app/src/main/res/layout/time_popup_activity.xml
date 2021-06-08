@@ -1,27 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <EditText
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/edit_description"
+        android:id="@+id/edit_calender_description"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/call_timepicker"
-        app:layout_constraintTop_toBottomOf="@+id/edit_description"
-        android:text="시간 설정"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        android:hint="설명 입력"/>
+
+    <TextView
+        android:id="@+id/show_set_day"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_calender_description"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/show_set_time"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/show_set_day"
+        android:layout_height="wrap_content"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/call_timepicker_layout"
+        app:layout_constraintTop_toBottomOf="@+id/show_set_time">
+
+        <Button
+            android:id="@+id/call_timepicker_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="시작 시간 설정"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/call_timepicker_end"
+            app:layout_constraintTop_toTopOf="@+id/call_timepicker_layout" />
+
+        <Button
+            android:id="@+id/call_timepicker_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="끝나는 시간 설정"
+            app:layout_constraintLeft_toRightOf="@+id/call_timepicker_start"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/call_timepicker_layout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     <Button
         android:id="@+id/call_datepicker"
-        app:layout_constraintTop_toBottomOf="@+id/call_timepicker"
+        app:layout_constraintTop_toBottomOf="@+id/call_timepicker_layout"
         android:text="날짜 설정"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
