@@ -118,7 +118,6 @@ public class DBmanager {
         notificationManager.notify( currentDate , builder.build());
 
         return currentDate;
-
     }
 
     public void addPost(ArrayList<Post> postList) {
@@ -134,8 +133,6 @@ public class DBmanager {
         if (successCount == 0) {
             NotificationManagerCompat.from(MyApplication.ApplicationContext()).cancel(groupNotifyID);
         }
-
-
     }
 
     public Post getPost(String ID) {

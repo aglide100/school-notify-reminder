@@ -111,32 +111,33 @@ public class FetchCustomData extends AsyncTask<ArrayList<String>, Void, AsyncRes
 
         try {
             doc = Jsoup.connect(url).get();
+            String page = doc.text();
+
+            Post newPost = new Post();
+
+            newPost.setUrl(url);
+            newPost.setID();
+            newPost.setContent(doc.toString());
+            newPost.setParent(parent);
+            newPost.setTitle(doc.title());
+            newPost.setCustom();
+
+            long now = System.currentTimeMillis();
+            Date mDate = new Date(now);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String getTime = simpleDateFormat.format(mDate);
+            newPost.setDate(getTime);
+
+            newPostList.add(newPost);
+
+            result.setSuccessItem(newPostList);
+
         } catch (Exception e) {
             e.printStackTrace();
             Log.e("Get Items", url + "페이지에서 문서 못가져옴");
             ErrorModel model = new ErrorModel(url, 0);
             result.addFailedItem(model);
         }
-        String page = doc.text();
-
-        Post newPost = new Post();
-
-        newPost.setUrl(url);
-        newPost.setID();
-        newPost.setContent(page);
-        newPost.setParent(parent);
-        newPost.setTitle(doc.title());
-
-        long now = System.currentTimeMillis();
-        Date mDate = new Date(now);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String getTime = simpleDateFormat.format(mDate);
-        newPost.setDate(getTime);
-
-        newPostList.add(newPost);
-
-        result.setSuccessItem(newPostList);
-
         return result;
     }
 
