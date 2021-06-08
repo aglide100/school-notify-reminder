@@ -28,7 +28,6 @@ public class FetchPostData extends AsyncTask<Post, Void, Post> {
     private boolean ok = false;
     private DBmanager dbManager;
 
-
     private void CheckState() {
         Context ctx = MyApplication.ApplicationContext();
         connectivityManager = (ConnectivityManager) ctx.getSystemService(CONNECTIVITY_SERVICE);
@@ -62,7 +61,7 @@ public class FetchPostData extends AsyncTask<Post, Void, Post> {
 
         Elements content = doc.select("div[class=board-view-contents]");
 
-        updatePost.setContent(content.text());
+        updatePost.setContent(content.html());
 
         return updatePost;
     }

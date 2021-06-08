@@ -14,30 +14,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.myapplication.View.Fragment.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
-
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.myapplication.View.Fragment.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-        <action
-            android:id="@+id/action_SecondFragment_to_ThirdFragment"
-            app:destination="@id/ThirdFragment" />
-    </fragment>
-
-    <fragment
         android:id="@+id/SettingFragment"
         android:name="com.example.myapplication.View.Fragment.SettingFragment"
         android:label="Setting Fragment"
@@ -45,19 +21,7 @@
 
     </fragment>
 
-    <fragment
-        android:id="@+id/ThirdFragment"
-        android:name="com.example.myapplication.View.Fragment.ThirdFragment"
-        android:label="Third Fragment"
-        tools:layout="@layout/fragment_third">
 
-        <action
-            android:id="@+id/action_ThirdFragment_to_FirstFragment"
-            app:destination="@+id/FirstFragment"></action>
-        <action
-            android:id="@+id/action_ThirdFragment_to_SecondFragment"
-            app:destination="@+id/SecondFragment"></action>
-    </fragment>
 
 
 </navigation>

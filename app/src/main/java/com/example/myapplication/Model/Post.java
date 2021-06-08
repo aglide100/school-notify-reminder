@@ -79,6 +79,8 @@ public class Post {
 
     public void setIsRead() { this.isRead = true; }
 
+    public void setCustom() { this.custom = true; }
+
     public String getCode() {
         return this.code;
     }

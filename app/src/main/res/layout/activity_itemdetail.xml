@@ -52,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
+            android:textSize="18dp"
             android:text="타이틀입니다."/>
         <TextView
             android:id="@+id/postDateView"

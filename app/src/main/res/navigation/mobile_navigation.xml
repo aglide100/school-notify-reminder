@@ -6,24 +6,6 @@
     app:startDestination="@+id/nav_home">
 
     <fragment
-        android:id="@+id/nav_FirstFragment"
-        android:name="com.example.myapplication.View.Fragment.FirstFragment"
-        android:label="FirstFragment"
-        tools:layout="@layout/fragment_first" />
-
-    <fragment
-        android:id="@+id/nav_SecondFragment"
-        android:name="com.example.myapplication.View.Fragment.SecondFragment"
-        android:label="SecondFragment"
-        tools:layout="@layout/fragment_second" />
-
-    <fragment
-        android:id="@+id/nav_ThirdFragment"
-        android:name="com.example.myapplication.View.Fragment.ThirdFragment"
-        android:label="ThirdFragment"
-        tools:layout="@layout/fragment_third" />
-
-    <fragment
         android:id="@+id/nav_PlanListFragment"
         android:name="com.example.myapplication.View.Fragment.PlanListFragment"
         android:label="PlanListFragment"

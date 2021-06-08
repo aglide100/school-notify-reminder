@@ -13,8 +13,5 @@
         <item
             android:id="@+id/nav_SettingFragment"
             android:title="설정" />
-        <item
-            android:id="@+id/nav_FirstFragment"
-            android:title="FirstFragment" />
     </group>
 </menu>

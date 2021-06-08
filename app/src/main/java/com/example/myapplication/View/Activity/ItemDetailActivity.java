@@ -13,7 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,7 @@ import com.example.myapplication.View.Basic.BasicActivity;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.Date;
@@ -55,10 +58,20 @@ public class ItemDetailActivity extends BasicActivity {
     private TextView titleView, dateView;
     private WebView contentView;
 
+    private String calendarDate;
+    private String calendarTime;
+    private String calendarDescription;
+
+    private final String headerStr = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"+
+            "<html><head>"+
+            "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />"+
+            "<head><body>";
+
+    private final String footerStr = "</body></html>";
 
     private ConstraintLayout progressLayout, postInnerLayout;
 
-    @SuppressLint("ResourceType")
+    @SuppressLint({"ResourceType", "SetJavaScriptEnabled"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +105,11 @@ public class ItemDetailActivity extends BasicActivity {
         contentView.getSettings().setUseWideViewPort(false);
         contentView.getSettings().setAllowContentAccess(true);
         contentView.setWebChromeClient(new WebChromeClient());
+        contentView.setWebViewClient(new WebViewClient());
+        contentView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+        contentView.getSettings().setDomStorageEnabled(true);
         contentView.getSettings().setLoadWithOverviewMode(true);
+        contentView.getSettings().setJavaScriptEnabled(true);
 
         if (post.isCustom()) {
             progressLayout.setVisibility(View.INVISIBLE);
@@ -100,7 +117,17 @@ public class ItemDetailActivity extends BasicActivity {
 
             titleView.setText(post.getTitle());
             dateView.setText(post.getDate());
-            contentView.loadData(post.getContent(),"text/html", "UTF-8");
+
+            String finalContext = headerStr + post.getContent() + footerStr;
+            Log.e("Detail", finalContext);
+
+            Document doc = Jsoup.parse(finalContext);
+            Elements img = doc.select("img");
+            for (Element e : img) {
+                String src = e.attr("src");
+                e.attr("src", "https://www.dongseo.ac.kr" + src);
+            }
+            contentView.loadData(doc.html(),"text/html; charset=utf-8", "UTF-8");
         } else {
             new getPostAsyncTask().execute(post);
         }
@@ -123,33 +150,10 @@ public class ItemDetailActivity extends BasicActivity {
         }
 
         if (id == R.id.add_calender) {
-            try {
-                long hour1 = 3600 * 1000;
-                CalendarAPI.getInstance().addEvent(this, new CalenderResultInterface() {
-                    @Override
-                    public void getResult(CalendarResponseData responseData) {
-                        Toast.makeText(MyApplication.ApplicationContext(), responseData.toString(), Toast.LENGTH_SHORT).show();
-                    }
+            Intent intent = new Intent(MyApplication.ApplicationContext(), SetTimePopupActivity.class);
+            intent.putExtra("postTitle", post.getTitle());
 
-                    @Override
-                    public void failedWithActivityResult(CalendarActivityRequestCode reason) {
-                        Toast.makeText(MyApplication.ApplicationContext(), "error : "+reason.getCode(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void permissionRevoked() {
-                        Toast.makeText(MyApplication.ApplicationContext(), "권한 없음", Toast.LENGTH_SHORT).show();
-                    }
-                }, new CalendarInputEvent("제목", "집", "설명", new Date(), new Date(new Date().getTime() + hour1)), new CalendarInputEvent("제목2", "집", "설명", new Date(new Date().getTime() + (hour1 * 2)), new Date(new Date().getTime() + (hour1 * 3))));
-            } catch (CalendarNeedUpdateGoogleServiceException e) {
-                e.printStackTrace();
-            } catch (CalendarCantNotUseException e) {
-                e.printStackTrace();
-            } catch (CalendarNetworkException e) {
-                e.printStackTrace();
-            } catch (CalendarNotYetFinishBringDataException e) {
-                e.printStackTrace();
-            }
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -161,10 +165,17 @@ public class ItemDetailActivity extends BasicActivity {
             CalendarAPI.getInstance().progressRequest(requestCode, resultCode, data);
         }
 
+        if (requestCode == 1) {
+            if (requestCode == RESULT_OK) {
+                calendarDate = data.getStringExtra("date");
+                calendarTime = data.getStringExtra("time");
+                calendarDescription = data.getStringExtra("description");
+            }
+
+        }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-
 
     private class getPostAsyncTask extends AsyncTask<Post, Void, Post> {
         private ConnectivityManager connectivityManager;
@@ -217,7 +228,7 @@ public class ItemDetailActivity extends BasicActivity {
 
             Element content = doc.select("div[class=board-view-contents]").first();
             Log.e("Detail", content.text());
-            updatePost.setContent(content.text());
+            updatePost.setContent(content.html());
 
             return updatePost;
         }
@@ -230,9 +241,18 @@ public class ItemDetailActivity extends BasicActivity {
             if (asyncPost == null || asyncPost.getID() == null) {
 
             } else {
-                Log.e("Detail", asyncPost.getContent());
+                String finalContext = headerStr + asyncPost.getContent() + footerStr;
+                Log.e("Detail", finalContext);
                 dbManager.updateContentInPost(asyncPost);
-                contentView.loadData(asyncPost.getContent(),"text/html", "UTF-8");
+
+                Document doc = Jsoup.parse(finalContext);
+                Elements img = doc.select("img");
+                for (Element e : img) {
+                    String src = e.attr("src");
+                    e.attr("src", "https://www.dongseo.ac.kr" + src);
+                }
+                Log.e("Detail", doc.html());
+                contentView.loadData(doc.html(),"text/html; charset=utf-8", "UTF-8");
             }
         }
     }

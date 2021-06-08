@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,6 +37,17 @@ public class PlanListFragment extends BasicFragment {
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager mLayoutManager;
     ArrayList<Plan> myDataset;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        myDataset = new ArrayList<>();
+        myDataset = mainModel.getPlan();
+
+        mAdapter = new MyAdapter(myDataset);
+        mRecyclerView.setAdapter(mAdapter);
+    }
 
     @Override
     public View onCreateView(

@@ -77,8 +77,13 @@ public class FetchData extends AsyncTask<ArrayList<String>, Integer, AsyncResult
     protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
 //        Log.e("While", "onProgressUpdate" + values[0] + values[1]);
-
-        this.mNotifyBuilder.setProgress(values[1], values[0],false );
+        double unitPercent = (double)100 / (double)values[0];
+        double pagePercent = unitPercent / (double)values[2];
+        double pastPercent = unitPercent * (double)values[1];
+        double nowPercent = pagePercent * (double)values[3];
+        Log.e("pastPercent", pastPercent + "");
+        Log.e("nowPercent", nowPercent + "");
+        this.mNotifyBuilder.setProgress(100, (int)(pastPercent + nowPercent),false );
         this.mNotificationManager.notify(mNotifyID, mNotifyBuilder.build());
     }
 
@@ -153,7 +158,7 @@ public class FetchData extends AsyncTask<ArrayList<String>, Integer, AsyncResult
 
             int nowpage = 1;
             do {
-                publishProgress(nowpage, finalPage);
+                publishProgress(arrayLists[0].size(), i, finalPage, nowpage);
                 // 페이지 갯수 (1페이지에 15개의 글이 들어감)
                 if (nowpage != 1) {
                     String getUri = uri + code + "&pg=" + nowpage;
