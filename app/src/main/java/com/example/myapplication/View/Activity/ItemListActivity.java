@@ -98,6 +98,8 @@ class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     // Replace the contents of a view (invoked by the layout manager)
+
+    // 건든 부분
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
@@ -135,6 +137,8 @@ class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
 
     }
+
+    //건든 부분
 
 
     // Return the size of your dataset (invoked by the layout manager)
