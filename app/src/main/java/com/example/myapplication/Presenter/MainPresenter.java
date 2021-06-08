@@ -1,27 +1,16 @@
 package com.example.myapplication.Presenter;
 
 import android.util.Log;
-import android.view.View;
 
-import com.example.myapplication.Main.MainActivity;
-import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Plan;
 import com.example.myapplication.Model.Post;
-import com.example.myapplication.View.Basic.BasicFragment;
 
 import java.util.ArrayList;
 
 public class MainPresenter implements Contract.Presenter {
-    View MainView;
-    MainModel mainModel;
-
-    public MainPresenter(View view) {
-        MainView = view;
-        mainModel = new MainModel(this);
-    }
-
-    public MainPresenter(MainActivity mainActivity) {
-        mainModel = new MainModel(this);
+    @Override
+    public void startFetchPostData(Post post){
+        new FetchPostData().execute(post);
     }
 
     @Override
@@ -35,21 +24,24 @@ public class MainPresenter implements Contract.Presenter {
     @Override
     public boolean startFetchData(Plan plan) {
         boolean flag = false;
+
+        ArrayList<String> planDetail = new ArrayList<>();
+        planDetail.add(plan.getPlanID());
+        planDetail.add(plan.getCustomURL());
+        planDetail.add(plan.getPlanName());
+
         if (plan.isCustom()) {
-            ArrayList<String> planDetail = new ArrayList<>();
-            planDetail.add(plan.getPlanID());
-            planDetail.add(plan.getCustomURL());
-
             new FetchCustomData().execute(planDetail);
-        } else {
-            ArrayList<String> subjectList = plan.getSubjects();
-            ArrayList<String> planDetail = new ArrayList<String>();
-            planDetail.add(plan.getPlanID());
 
-            Log.e("Start", "start fetch data" + subjectList);
-
-            new FetchData().execute(subjectList, planDetail);
+            return true;
         }
+
+        ArrayList<String> subjectList = plan.getSubjects();
+
+        Log.e("Start", "start fetch data");
+        new FetchData().execute(subjectList, planDetail);
+
+
         return flag;
     }
 

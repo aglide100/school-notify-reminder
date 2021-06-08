@@ -16,7 +16,9 @@ public class Post {
     private String content;
     private String writer;
     private String ID;
+    private Boolean custom;
     private int num;
+    private Boolean isRead;
 
     public void RealmObjectToPost(PostRealmObject obj) {
         this.parent = obj.getParent();
@@ -29,6 +31,8 @@ public class Post {
         this.writer = obj.getWriter();
         this.ID = obj.getID();
         this.num = obj.getNum();
+        this.custom = obj.isCustom();
+        this.isRead = obj.isRead();
     }
 
     public void setCode(String code) {
@@ -71,7 +75,13 @@ public class Post {
         this.parent = parentID;
     }
 
-    public String getCode() { return this.code; }
+    public void setUnRead() { this.isRead = false; }
+
+    public void setIsRead() { this.isRead = true; }
+
+    public String getCode() {
+        return this.code;
+    }
 
     public String getTitle() {
         return this.title;
@@ -107,6 +117,22 @@ public class Post {
 
     public String getParent() {
         return this.parent;
+    }
+
+    public Boolean isCustom() {
+        if (this.custom == null) {
+            return false;
+        }
+
+        return this.custom;
+    }
+
+    public Boolean isRead() {
+        if (this.isRead == null) {
+            return false;
+        }
+
+        return this.isRead;
     }
 
 }

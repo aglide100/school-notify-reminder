@@ -20,6 +20,7 @@ public class PlanRealmObject extends RealmObject {
     private String planName;
     private Boolean custom;
     private String customURL;
+    private Integer countUnReadPost;
 
     public PlanRealmObject() {}
 
@@ -28,6 +29,7 @@ public class PlanRealmObject extends RealmObject {
         this.planName = plan.getPlanName();
         this.custom = plan.isCustom();
         this.customURL = plan.getCustomURL();
+        this.countUnReadPost = plan.getCountUnReadPost();
         for (int i = 0; i < plan.getSubjects().size(); i++){
             this.subjectList.add(plan.getSubjects().get(i));
         }
@@ -59,10 +61,15 @@ public class PlanRealmObject extends RealmObject {
         for (int i = 0; i < this.subjectList.size(); i++){
             convertSubjects.add(this.subjectList.get(i));
         }
-
         return convertSubjects;
     }
-    public String getCustomURL() { return this.customURL; }
+    public String getCustomURL() {
+        if (this.customURL == null){
+            return "";
+        }
+
+        return this.customURL;
+    }
 
     public boolean isCustom() {
         if (this.custom == true) {
@@ -72,5 +79,34 @@ public class PlanRealmObject extends RealmObject {
         }
     }
 
+    public void increaseCountUnReadPost() {
+        if (this.countUnReadPost == null ){
+            this.countUnReadPost = 1;
+        } else {
+            this.countUnReadPost++;
+        }
+    }
 
+    public void decreaseCountUnReadPost()
+    {
+        if (this.countUnReadPost == null) {
+            this.countUnReadPost = 0;
+        }else if (countUnReadPost <= 0 ) {
+            this.countUnReadPost = 0;
+        }else if (countUnReadPost >= 1) {
+            this.countUnReadPost = countUnReadPost -1;
+        }
+    }
+
+    public void setCountUnReadPost(Integer countUnReadPost) {
+        this.countUnReadPost = countUnReadPost;
+    }
+
+    public Integer getCountUnReadPost() {
+        if (this.countUnReadPost == null) {
+            return 0;
+        }
+
+        return this.countUnReadPost;
+    }
 }

@@ -18,7 +18,6 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.myapplication.DB.DBmanager;
 import com.example.myapplication.Model.AsyncResult;
 import com.example.myapplication.Model.ErrorModel;
-import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.MyApplication;
 import com.example.myapplication.R;
@@ -33,11 +32,11 @@ import java.util.ArrayList;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
-public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
-    private ConnectivityManager connectivityManager;
+public class FetchData extends AsyncTask<ArrayList<String>, Integer, AsyncResult> {
+    ConnectivityManager connectivityManager;
 
-    private NotificationManager mNotificationManager;
-    private NotificationCompat.Builder mNotifyBuilder;
+    NotificationManager mNotificationManager;
+    NotificationCompat.Builder mNotifyBuilder;
     private int mNotifyID = 10;
 
     private boolean ok = false;
@@ -75,11 +74,12 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    protected void onProgressUpdate(Void... values) {
+    protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
-//        this.mNotifyBuilder.setContentText(currentPostNum+"만큼 찾았습니다.");
-//        this.mNotifyBuilder.setProgress(postTotalNum,currentPostNum, false );
-//        this.mNotificationManager.notify(this.mNotifyID, this.mNotifyBuilder.build());
+//        Log.e("While", "onProgressUpdate" + values[0] + values[1]);
+
+        this.mNotifyBuilder.setProgress(values[1], values[0],false );
+        this.mNotificationManager.notify(mNotifyID, mNotifyBuilder.build());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -91,6 +91,7 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
         this.mNotifyBuilder.setContentText("잠시만 기다려주세요.");
         this.mNotifyBuilder.setSmallIcon(R.mipmap.ic_launcher);
         this.mNotifyBuilder.setOngoing(true);
+        this.mNotifyBuilder.setProgress(0,0,false);
 
         this.mNotificationManager = (NotificationManager) ctx.getSystemService(ctx.NOTIFICATION_SERVICE);
 
@@ -152,6 +153,7 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
 
             int nowpage = 1;
             do {
+                publishProgress(nowpage, finalPage);
                 // 페이지 갯수 (1페이지에 15개의 글이 들어감)
                 if (nowpage != 1) {
                     String getUri = uri + code + "&pg=" + nowpage;
@@ -183,10 +185,10 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
                     newPost.setTitle(title);
                     newPost.setDate(date);
                     newPost.setWriter(writer);
-                    newPost.setUrl(postURL);
+                    newPost.setUrl("https://www.dongseo.ac.kr/" + postURL);
                     newPost.setID();
                     newPost.setNum(postNum);
-                    newPost.setParent(arrayLists[1].get(0));
+                    newPost.setUnRead();
 
                     newPostList.add(newPost);
                 }
@@ -208,6 +210,5 @@ public class FetchData extends AsyncTask<ArrayList<String>, Void, AsyncResult> {
         Log.e("End", "항목 끝!!! " + postTotalNum + "의 포스트를 찾았으며 " + result.getSuccessItem() + "갯수의 포스트 생성");
 
         dbManager.addPost(result.getSuccessItem());
-        Toast.makeText(MyApplication.ApplicationContext(), String.valueOf(postTotalNum), Toast.LENGTH_SHORT).show();
     }
 }
