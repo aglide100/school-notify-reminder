@@ -20,7 +20,7 @@
         app:layout_constraintRight_toRightOf="parent"/>
 
     <Button
-        android:id="@+id/call_calender"
+        android:id="@+id/call_datepicker"
         app:layout_constraintTop_toBottomOf="@+id/call_timepicker"
         android:text="날짜 설정"
         android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
 
     <Button
         android:id="@+id/end_up_time_setting"
-        app:layout_constraintTop_toBottomOf="@+id/call_calender"
+        app:layout_constraintTop_toBottomOf="@+id/call_datepicker"
         android:text="캘린더에 이벤트 추가"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
