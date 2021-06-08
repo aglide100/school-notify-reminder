@@ -69,7 +69,6 @@ public class ItemDetailActivity extends BasicActivity {
 
     private final String footerStr = "</body></html>";
 
-
     private ConstraintLayout progressLayout, postInnerLayout;
 
     @SuppressLint({"ResourceType", "SetJavaScriptEnabled"})

@@ -77,10 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 String title = item.getTitle().toString();
 
-                if (id == R.id.nav_FirstFragment) {
-                    navController.navigate(R.id.FirstFragment);
-                }
-
                 if (id == R.id.nav_newPlanActivity) {
 //                  플랜 생성 액티비티 첨부
                     Intent intent = new Intent(MyApplication.ApplicationContext(), NewPlanActivity.class);

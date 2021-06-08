@@ -86,6 +86,15 @@ public class SetTimePopupActivity extends Activity implements View.OnClickListen
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        if (CalendarAPI.getInstance().isRequestCode(requestCode)) {
+            CalendarAPI.getInstance().progressRequest(requestCode, resultCode, data);
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View v) {
