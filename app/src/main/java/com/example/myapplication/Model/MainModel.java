@@ -33,6 +33,18 @@ public class MainModel {
         return planList;
     }
 
+    public Plan getPlan(String planID) {
+        dbManager = new DBmanager();
+        Plan plan = dbManager.getPlan(planID);
+
+        if (plan == null) {
+            Log.e("MainModel", "플랜이 없습니다!");
+            return null;
+        }
+
+        return plan;
+    }
+
     public Post getPost(String ID) {
         dbManager = new DBmanager();
 
