@@ -110,12 +110,13 @@ public class ItemListActivity extends BasicActivity {
         // you provide access to all the views for a data item in a view holder
         public class ViewHolder extends RecyclerView.ViewHolder {
             // each data item is just a string in this case
-            public TextView postTitleView, postDateView;
+            public TextView postTitleView, postDateView, postGroupView;
 
             public ViewHolder(View view) {
                 super(view);
                 postTitleView = view.findViewById(R.id.post_card_view_title);
                 postDateView = view.findViewById(R.id.post_card_view_date);
+                postGroupView = (TextView) view.findViewById(R.id.post_card_view_group);
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -160,6 +161,35 @@ public class ItemListActivity extends BasicActivity {
             // - replace the contents of the view with that element
             holder.postTitleView.setText(myDataset.get(position).getTitle());
             holder.postDateView.setText(myDataset.get(position).getDate());
+            String code = myDataset.get(position).getCode();
+
+            if (code == null) {
+                holder.postGroupView.setText("custom");
+            } else {
+                if (code.equals("MN2000191")) {
+                    holder.postGroupView.setText("공지");
+                }
+
+                if (code.equals("MN2000194")) {
+                    holder.postGroupView.setText("학사");
+                }
+
+                if (code.equals("MN2000195")) {
+                    holder.postGroupView.setText("장학");
+                }
+
+                if (code.equals("MN2000196")) {
+                    holder.postGroupView.setText("입찰");
+                }
+
+                if (code.equals("MN2000197")) {
+                    holder.postGroupView.setText("모집/취업");
+                }
+
+                if (code.equals("MN2000198")) {
+                    holder.postGroupView.setText("행사");
+                }
+            }
         }
 
         // Return the size of your dataset (invoked by the layout manager)
