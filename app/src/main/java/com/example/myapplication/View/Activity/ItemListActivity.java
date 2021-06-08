@@ -61,7 +61,7 @@ public class ItemListActivity extends BasicActivity {
     }
 }
 
-class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
+class PostAdapter<a> extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private ArrayList<Post> myDataset;
 
     // Provide a reference to the views for each data item
@@ -69,18 +69,21 @@ class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView postTitleView, postDateView;
+        public TextView postTitleView, postDateView, postGroupView;
+
 
         public ViewHolder(View view) {
             super(view);
             postTitleView = (TextView) view.findViewById(R.id.post_card_view_title);
             postDateView = (TextView) view.findViewById(R.id.post_card_view_date);
+            postGroupView = (TextView) view.findViewById(R.id.post_card_view_group);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public PostAdapter(ArrayList<Post> myDataset) {
         this.myDataset = myDataset;
+
     }
 
     // Create new views (invoked by the layout manager)
@@ -101,6 +104,8 @@ class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         // - replace the contents of the view with that element
         holder.postTitleView.setText(myDataset.get(position).getTitle());
         holder.postDateView.setText(myDataset.get(position).getDate());
+        holder.postGroupView.setText(myDataset.get(position).getCode());
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)
