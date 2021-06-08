@@ -12,18 +12,18 @@
     android:topRightRadius="15dp"
     app:ignore="NamespaceTypo">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="15dp"
         app:layout_constraintLeft_toRightOf="@+id/parent"
         app:layout_constraintTop_toTopOf="@+id/postInnerLayOut">
 
         <!-- 건든 부분-->
             <TextView
                 android:id="@+id/post_card_view_group"
-                android:layout_width="15dp"
+                android:layout_width="40dp"
+                android:gravity="center"
                 android:layout_height="wrap_content"
                 card:layout_constraintTop_toTopOf="parent"
                 card:layout_constraintLeft_toLeftOf="parent"
@@ -33,6 +33,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 card:layout_constraintTop_toTopOf="parent"
                 card:layout_constraintBottom_toBottomOf="parent"
                 card:layout_constraintLeft_toRightOf="@+id/post_card_view_group">
@@ -44,7 +45,7 @@
                 android:singleLine="true"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="15dp"
-                android:textSize="14dp"
+                android:textSize="12dp"
                 card:layout_constraintTop_toTopOf="parent"
                 card:layout_constraintLeft_toLeftOf="parent" />
 

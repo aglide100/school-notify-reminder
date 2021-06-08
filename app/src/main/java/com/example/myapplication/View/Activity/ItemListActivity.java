@@ -106,34 +106,36 @@ class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-
         holder.postTitleView.setText(myDataset.get(position).getTitle());
         holder.postDateView.setText(myDataset.get(position).getDate());
 
         String code = myDataset.get(position).getCode();
+        if (code == null) {
+            holder.postGroupView.setText("custom");
+        } else {
+            if (code.equals("MN2000191")) {
+                holder.postGroupView.setText("공지");
+            }
 
-        if (code == "MN2000191") {
-            holder.postGroupView.setText("공지");
-        }
+            if (code.equals("MN2000194")) {
+                holder.postGroupView.setText("학사");
+            }
 
-        if (code == "MN2000194") {
-            holder.postGroupView.setText("학사");
-        }
+            if (code.equals("MN2000195")) {
+                holder.postGroupView.setText("장학");
+            }
 
-        if (code == "MN2000195") {
-            holder.postGroupView.setText("장학");
-        }
+            if (code.equals("MN2000196")) {
+                holder.postGroupView.setText("입찰");
+            }
 
-        if (code == "MN2000196") {
-            holder.postGroupView.setText("입찰");
-        }
+            if (code.equals("MN2000197")) {
+                holder.postGroupView.setText("모집/취업");
+            }
 
-        if (code == "MN2000197") {
-            holder.postGroupView.setText("모집/취업");
-        }
-
-        if (code == "MN2000198") {
-            holder.postGroupView.setText("행사");
+            if (code.equals("MN2000198")) {
+                holder.postGroupView.setText("행사");
+            }
         }
 
     }
