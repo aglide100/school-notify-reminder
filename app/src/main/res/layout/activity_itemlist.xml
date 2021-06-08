@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/include2"
+        layout="@layout/app_bar_custom"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/post_list_view"
-        android:scrollbars="vertical"
-        android:padding="15dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
+
+        android:padding="15dp"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toTopOf="@+id/include2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

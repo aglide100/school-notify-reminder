@@ -133,6 +133,7 @@ public class ThirdFragment extends BasicFragment {
                     newPlan.setSubjects(subjectList);
                     newPlan.setPlanName(planNameEdit.getText().toString());
                     newPlan.setPlanID();
+                    newPlan.initCountUnReadPost();
 
                     if (customSet.isChecked()) {
                         newPlan.setCustom();

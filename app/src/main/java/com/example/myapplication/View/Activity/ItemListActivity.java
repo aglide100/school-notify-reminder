@@ -5,14 +5,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 
+import com.example.myapplication.CalendarAPI.CalendarAPI;
+import com.example.myapplication.CalendarAPI.Exceptions.CalendarCantNotUseException;
+import com.example.myapplication.CalendarAPI.Exceptions.CalendarNeedUpdateGoogleServiceException;
+import com.example.myapplication.CalendarAPI.Exceptions.CalendarNetworkException;
+import com.example.myapplication.CalendarAPI.Exceptions.CalendarNotYetFinishBringDataException;
+import com.example.myapplication.CalendarAPI.Interfaces.CalenderResultInterface;
+import com.example.myapplication.CalendarAPI.Models.CalendarActivityRequestCode;
+import com.example.myapplication.CalendarAPI.Models.CalendarInputEvent;
+import com.example.myapplication.CalendarAPI.Models.CalendarResponseData;
+import com.example.myapplication.DB.DBmanager;
 import com.example.myapplication.Model.MainModel;
 import com.example.myapplication.Model.Post;
 import com.example.myapplication.MyApplication;
@@ -22,11 +36,13 @@ import com.example.myapplication.R;
 import com.example.myapplication.View.Basic.BasicActivity;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ItemListActivity extends BasicActivity {
     Contract.Presenter presenter;
     MainModel mainModel;
     ArrayList<Post> postList;
+    DBmanager dbManager;
 
     RecyclerView mPostRecyclerView;
     RecyclerView.Adapter mAdapter;
@@ -43,10 +59,16 @@ public class ItemListActivity extends BasicActivity {
         String planID = itemListIntent.getStringExtra("PlanID");
         Log.e("ItemList", planID);
 
+        Toolbar toolbar = findViewById(R.id.toolbar_custom);
+        setSupportActionBar(toolbar);
+
         mLayoutManager = new LinearLayoutManager(MyApplication.ApplicationContext(), LinearLayoutManager.VERTICAL, false);
 
         presenter = new MainPresenter();
         mainModel = new MainModel();
+        dbManager = new DBmanager();
+
+        getSupportActionBar().setTitle(dbManager.getPlan(planID).getPlanName());
 
         postList = new ArrayList<>();
         postList = mainModel.getPostList(planID);
@@ -59,6 +81,24 @@ public class ItemListActivity extends BasicActivity {
         myDataset = postList;
         mAdapter = new PostAdapter(myDataset);
         mPostRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_postlist, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.read_all_post) {
+            Toast.makeText(MyApplication.ApplicationContext(), "Hello", Toast.LENGTH_SHORT).show();
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 
 
