@@ -29,6 +29,7 @@ public class PlanRealmObject extends RealmObject {
         this.planName = plan.getPlanName();
         this.custom = plan.isCustom();
         this.customURL = plan.getCustomURL();
+        this.countUnReadPost = plan.getCountUnReadPost();
         for (int i = 0; i < plan.getSubjects().size(); i++){
             this.subjectList.add(plan.getSubjects().get(i));
         }
@@ -102,6 +103,10 @@ public class PlanRealmObject extends RealmObject {
     }
 
     public Integer getCountUnReadPost() {
+        if (this.countUnReadPost == null) {
+            return 0;
+        }
+
         return this.countUnReadPost;
     }
 }

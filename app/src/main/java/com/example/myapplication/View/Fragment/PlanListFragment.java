@@ -111,7 +111,15 @@ public class PlanListFragment extends BasicFragment {
         @Override
         public void onBindViewHolder(ViewHolder holder, int postion) {
             holder.titleText.setText(myDataset.get(postion).getPlanName());
-            holder.commentText.setText("서브 코멘트 예시");
+            String str = null;
+
+            int count = myDataset.get(postion).getCountUnReadPost();
+            if (count == 0) {
+                str = "확인할 알림이 없습니다.";
+            } else {
+                str = count + "개의 알림이 있습니다.";
+            }
+            holder.commentText.setText(str);
 //            holder.mImageView.setImageResource(mDataset.get(postion).img);
         }
 
