@@ -34,13 +34,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class SetTimePopupActivity extends Activity implements View.OnClickListener, TimePickerDialog.OnTimeSetListener {
-    private Button callDatepicker, callTimePickerStart, callTimePickerEnd, endUpSetting;
+    private Button callDatePickerStart, callDatePickerEnd, callTimePickerStart, callTimePickerEnd, endUpSetting;
 
-    int setYear, setMonth, setDayOfMonth;
+    int setYearStart, setMonthStart, setDayOfMonthStart, setYearEnd, setMonthEnd, setDayOfMonthEnd;
     int setHourStart, setMinuteEnd, setHourEnd, setMinuteStart;
     String title;
 
-    TextView showSetDate, showSetTime;
+    TextView showSetStart, showSetEnd;
     EditText setDescription;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -53,19 +53,21 @@ public class SetTimePopupActivity extends Activity implements View.OnClickListen
         Intent intent = getIntent();
         title = intent.getStringExtra("postTitle");
 
-        callDatepicker = findViewById(R.id.call_datepicker);
+        callDatePickerStart = findViewById(R.id.call_datepicker_start);
+        callDatePickerEnd = findViewById(R.id.call_datepicker_end);
         callTimePickerStart = findViewById(R.id.call_timepicker_start);
         callTimePickerEnd = findViewById(R.id.call_timepicker_end);
         endUpSetting = findViewById(R.id.end_up_time_setting);
 
-        showSetDate = findViewById(R.id.show_set_day);
-        showSetTime = findViewById(R.id.show_set_time);
+        showSetStart = findViewById(R.id.show_set_start);
+        showSetEnd = findViewById(R.id.show_set_end);
 
         setDescription = findViewById(R.id.edit_calender_description);
 
         callTimePickerStart.setOnClickListener(this);
         callTimePickerEnd.setOnClickListener(this);
-        callDatepicker.setOnClickListener(this);
+        callDatePickerStart.setOnClickListener(this);
+        callDatePickerEnd.setOnClickListener(this);
         endUpSetting.setOnClickListener(this);
 
     }
@@ -99,18 +101,31 @@ public class SetTimePopupActivity extends Activity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.call_datepicker:
-                DatePickerDialog datePickerDialog = new DatePickerDialog(SetTimePopupActivity.this, new DatePickerDialog.OnDateSetListener() {
+            case R.id.call_datepicker_start:
+                DatePickerDialog datePickerDialogStart = new DatePickerDialog(SetTimePopupActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        setYear = year;
-                        setDayOfMonth = dayOfMonth;
-                        setMonth = month;
+                        setYearStart = year;
+                        setDayOfMonthStart = dayOfMonth;
+                        setMonthStart = month;
 
-                        showSetDate.setText(Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(dayOfMonth));
+                        showSetStart.setText(Integer.toString(setYearStart) + "-" + Integer.toString(setMonthStart) + "-" + Integer.toString(setDayOfMonthStart) + "/" + Integer.toString(setHourStart) + ":" + Integer.toString(setMinuteStart));
                     }
                 }, 2021, 06, 1);
-                datePickerDialog.show();
+                datePickerDialogStart.show();
+                break;
+            case R.id.call_datepicker_end:
+                DatePickerDialog datePickerDialogEnd = new DatePickerDialog(SetTimePopupActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        setYearEnd = year;
+                        setDayOfMonthEnd = dayOfMonth;
+                        setMonthEnd = month;
+
+                        showSetEnd.setText(Integer.toString(setYearEnd) + "-" + Integer.toString(setMonthEnd) + "-" + Integer.toString(setDayOfMonthEnd) + "/" + Integer.toString(setHourEnd) + ":" + Integer.toString(setMinuteEnd));
+                    }
+                }, 2021, 06, 1);
+                datePickerDialogEnd.show();
                 break;
             case R.id.call_timepicker_start:
                 TimePickerDialog timePickerDialogStart = new TimePickerDialog(SetTimePopupActivity.this, new TimePickerDialog.OnTimeSetListener() {
@@ -119,9 +134,9 @@ public class SetTimePopupActivity extends Activity implements View.OnClickListen
                         setHourStart = hourOfDay;
                         setMinuteStart = minute;
 
-                        showSetTime.setText(Integer.toString(setHourStart) + ":" + Integer.toString(setMinuteStart) + "--"+ Integer.toString(setHourEnd) + ":" + Integer.toString(setMinuteEnd));
+                        showSetStart.setText(Integer.toString(setYearStart) + "-" + Integer.toString(setMonthStart) + "-" + Integer.toString(setDayOfMonthStart) + "/" + Integer.toString(setHourStart) + ":" + Integer.toString(setMinuteStart));
                     }
-                }, 11,11,true);
+                }, 11, 11, true);
                 timePickerDialogStart.show();
 
                 break;
@@ -132,9 +147,9 @@ public class SetTimePopupActivity extends Activity implements View.OnClickListen
                         setHourEnd = hourOfDay;
                         setMinuteEnd = minute;
 
-                        showSetTime.setText(Integer.toString(setHourStart) + ":" + Integer.toString(setMinuteStart) + "--"+ Integer.toString(setHourEnd) + ":" + Integer.toString(setMinuteEnd));
+                        showSetEnd.setText(Integer.toString(setYearEnd) + "-" + Integer.toString(setMonthEnd) + "-" + Integer.toString(setDayOfMonthEnd) + "/" + Integer.toString(setHourEnd) + ":" + Integer.toString(setMinuteEnd));
                     }
-                }, 11,11,true);
+                }, 11, 11, true);
                 timePickerDialogEnd.show();
 
                 break;
@@ -143,8 +158,8 @@ public class SetTimePopupActivity extends Activity implements View.OnClickListen
                 try {
                     Calendar startTime = Calendar.getInstance();
                     Calendar endTime = Calendar.getInstance();
-                    startTime.set(setYear, setMonth, setDayOfMonth, setHourStart, setMinuteStart);
-                    endTime.set(setYear, setMonth, setDayOfMonth, setHourStart, setMinuteEnd);
+                    startTime.set(setYearStart, setMonthStart, setDayOfMonthStart, setHourStart, setMinuteStart);
+                    endTime.set(setYearEnd, setMonthEnd, setDayOfMonthEnd, setHourEnd, setMinuteEnd);
 
                     long hour1 = 3600 * 1000;
                     CalendarAPI.getInstance().addEvent(this, new CalenderResultInterface() {
@@ -156,7 +171,7 @@ public class SetTimePopupActivity extends Activity implements View.OnClickListen
 
                         @Override
                         public void failedWithActivityResult(CalendarActivityRequestCode reason) {
-                            Toast.makeText(MyApplication.ApplicationContext(), "error : "+reason.getCode(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyApplication.ApplicationContext(), "error : " + reason.getCode(), Toast.LENGTH_SHORT).show();
                         }
 
                         @Override

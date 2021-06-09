@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +22,7 @@ import com.example.myapplication.Presenter.Contract;
 import com.example.myapplication.Presenter.MainPresenter;
 import com.example.myapplication.R;
 import com.example.myapplication.View.Activity.ItemListActivity;
+import com.example.myapplication.View.Activity.NewPlanActivity;
 import com.example.myapplication.View.Basic.BasicFragment;
 
 import java.util.ArrayList;
@@ -38,12 +41,22 @@ public class PlanListFragment extends BasicFragment {
     RecyclerView.LayoutManager mLayoutManager;
     ArrayList<Plan> myDataset;
 
+    Button moveToNewPlan;
+
+    ConstraintLayout innerLayout;
+
     @Override
     public void onResume() {
         super.onResume();
 
         myDataset = new ArrayList<>();
         myDataset = mainModel.getPlan();
+
+        if (myDataset.size() == 0) {
+            innerLayout.setVisibility(View.VISIBLE);
+        } else {
+            innerLayout.setVisibility(View.GONE);
+        }
 
         mAdapter = new MyAdapter(myDataset);
         mRecyclerView.setAdapter(mAdapter);
@@ -64,6 +77,8 @@ public class PlanListFragment extends BasicFragment {
         mainModel = new MainModel();
 
         mRecyclerView = view.findViewById(R.id.recycler_view);
+        moveToNewPlan = view.findViewById(R.id.moveToNewPlan);
+        innerLayout = view.findViewById(R.id.planListInnerLayout);
 
         mRecyclerView.setHasFixedSize(true);
 
@@ -73,8 +88,19 @@ public class PlanListFragment extends BasicFragment {
         myDataset = new ArrayList<>();
         myDataset = mainModel.getPlan();
 
+        if (myDataset.size() == 0) {
+            innerLayout.setVisibility(View.VISIBLE);
+        } else {
+            innerLayout.setVisibility(View.GONE);
+        }
+
         mAdapter = new MyAdapter(myDataset);
         mRecyclerView.setAdapter(mAdapter);
+
+        moveToNewPlan.setOnClickListener(v -> {
+            Intent intent = new Intent(MyApplication.ApplicationContext(), NewPlanActivity.class);
+            startActivity(intent);
+        });
     }
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
